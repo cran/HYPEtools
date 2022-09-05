@@ -1,0 +1,102 @@
+## ---- include = FALSE---------------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  fig.width = 7.1,
+  fig.height = 6
+)
+
+## ----setup, message=FALSE-----------------------------------------------------
+# Load Packages
+library(HYPEtools)
+library(sf)
+library(leaflet)
+library(dplyr)
+
+# Get Path to HYPEtools Model Example Files
+model_path <- system.file("demo_model", package = "HYPEtools")
+
+# Import HYPE Model Files
+gd <- ReadGeoData(file.path(model_path, "GeoData.txt"))
+gcl <- ReadGeoClass(file.path(model_path, "GeoClass.txt"))
+stats.cout <- ReadSubass(file.path(model_path,"results","subass1.txt"))
+mcrun <- ReadMapOutput(file.path(model_path,"results","mapCRUN.txt")) 
+
+## ----readGIS------------------------------------------------------------------
+# Read GIS Files
+map.subid <- st_read(file.path(model_path, "gis","Nytorp_map.gpkg"))
+
+map.Qobs <- st_read(file.path(model_path,"gis", "Nytorp_station.gpkg")) %>%
+  mutate(SUBID = 3587, .after = "long") # Add SUBID to gauge station attributes
+
+# Show the column names of imported GIS file
+names(map.Qobs)
+
+# Plot Model Subbasins
+plot(map.subid)
+
+## ----plotperformance-static---------------------------------------------------
+# Show the column names of imported subbasin performance file
+names(stats.cout)
+
+# Choose to plot NSE; Assign the selected statistics column number to stat.col.plot
+stat.col.plot <- 2 # For NSE
+stat.nm.plot <- "NSE"
+
+# Generate Plot - There is only one observation station, so only one point appears on the map
+PlotMapPoints(x = stats.cout[, c(1,stat.col.plot)], 
+              sites = map.Qobs, sites.subid.column = 3, bg = map.subid, 
+              plot.scale = FALSE, plot.arrow = FALSE)
+
+
+## ----plotperformance-leaflet, message=FALSE-----------------------------------
+# Generate Plot - There is only one observation station, so only one point appears on the map
+# PlotMapPoints(map.type = "leaflet",
+#               x = stats.cout[, c(1,stat.col.plot)],
+#               sites = map.Qobs, sites.subid.column = 3, bg = map.subid,
+#               plot.scale = FALSE, plot.arrow = FALSE, plot.label=TRUE, bg.label.column = 25, plot.bg.label="static")
+
+
+## ----plotrunoff-static--------------------------------------------------------
+# Show the column names of imported GIS file
+names(map.subid)
+
+# Generate Plot
+PlotMapOutput(mcrun, map = map.subid, map.subid.column = 21, var.name = "CRUN", legend.title = "Runoff (mm/d)",
+              col = ColQ, col.breaks = NULL, legend.pos = "right", map.adj = 0, plot.scale = FALSE, plot.arrow = FALSE)
+
+
+## ----plotrunoff-leaflet, message=FALSE----------------------------------------
+# Generate Plot
+# PlotMapOutput(mcrun, map.type = "leaflet", map = map.subid, map.subid.column = 25, var.name = "CRUN", legend.title = "Runoff (mm/d)",
+#               col = ColQ, col.breaks = NULL, legend.pos = "bottomright", map.adj = 0, plot.scale = FALSE, plot.arrow = FALSE)
+
+
+## ----bling, message=FALSE-----------------------------------------------------
+# Generate leaflet map with additional bling
+# leafmap <- PlotMapOutput(mcrun, map.type = "leaflet", map = map.subid, map.subid.column = 25, var.name = "CRUN", legend.title = "Runoff (mm/d)",
+#               col = ColQ, col.breaks = NULL, legend.pos = "bottomright", map.adj = 0, plot.scale = TRUE, plot.arrow = FALSE, plot.label = TRUE, plot.searchbar = TRUE)
+
+# Add Additional Basemap and Marker for SMHI Location
+# leafmap <- leafmap %>%
+# 
+#   # Update Layers Control to include the new Basemap and SMHI Marker
+#   addLayersControl(
+#     baseGroups=c("Map","Street","Topo","Satellite","Stamen Toner"),
+#     overlayGroups=c("Subbasins","SMHI"),
+#     options=layersControlOptions(collapsed = FALSE, autoIndex = TRUE)) %>%
+# 
+#   # Add Basemap
+#   addProviderTiles(provider = providers$Stamen.Toner, group = "Stamen Toner") %>%
+# 
+#   # Add Marker on Map for SMHI Location
+#   addMarkers(group = "SMHI",
+#              lng = 16.151890,
+#              lat = 58.578950,
+#              popup = "SMHI")
+
+# View Updated Map
+# leafmap
+
+
