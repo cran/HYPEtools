@@ -1,3 +1,16 @@
+## HYPEtools 1.1.0
+*New functions and bug fixes*
+
+#### Highlights
+* Fixed bug in PlotMapPoints() that prevented plot from displaying for default plots with geographic coordinate systems
+* Added ability to toggle on/off display of point groups in PlotMapPoints() Leaflet maps
+* Fixed TS plots in PlotBasinSummary() to use simulated discharge (cout) with reTS instead of using observed discharge (rout)
+* Added SubidAttributeSummary() and PlotPerformanceByAttribute() functions to plot model performance by subbasin attributes
+* Added WriteHarmonizedData() and WriteHarmonizedSpatialDescription() functions to help with HYPEObsMetadataTools workflow.
+
+#### Notable Shortcomings
+* See issue tracker on HYPEtools' [GitHub development page](https://github.com/rcapell/HYPEtools/issues)
+
 ## HYPEtools 1.0.0 (2022-08-22)
 *New functions and bug fixes*
 
