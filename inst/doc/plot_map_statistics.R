@@ -46,8 +46,7 @@ stat.nm.plot <- "NSE"
 
 # Generate Plot - There is only one observation station, so only one point appears on the map
 PlotMapPoints(x = stats.cout[, c(1,stat.col.plot)], 
-              sites = map.Qobs, sites.subid.column = 3, bg = map.subid, 
-              plot.scale = FALSE, plot.arrow = FALSE)
+              sites = map.Qobs, sites.subid.column = 3, bg = map.subid)
 
 
 ## ----plotperformance-leaflet, message=FALSE-----------------------------------
@@ -55,6 +54,7 @@ PlotMapPoints(x = stats.cout[, c(1,stat.col.plot)],
 # PlotMapPoints(map.type = "leaflet",
 #               x = stats.cout[, c(1,stat.col.plot)],
 #               sites = map.Qobs, sites.subid.column = 3, bg = map.subid,
+#               legend.pos = "bottomright",
 #               plot.scale = FALSE, plot.arrow = FALSE, plot.label=TRUE, bg.label.column = 25, plot.bg.label="static")
 
 
@@ -63,8 +63,8 @@ PlotMapPoints(x = stats.cout[, c(1,stat.col.plot)],
 names(map.subid)
 
 # Generate Plot
-PlotMapOutput(mcrun, map = map.subid, map.subid.column = 21, var.name = "CRUN", legend.title = "Runoff (mm/d)",
-              col = ColQ, col.breaks = NULL, legend.pos = "right", map.adj = 0, plot.scale = FALSE, plot.arrow = FALSE)
+PlotMapOutput(mcrun, map = map.subid, map.subid.column = 25, var.name = "CRUN", legend.title = "Runoff (mm/d)",
+              col = ColQ, col.breaks = NULL, legend.pos = "right")
 
 
 ## ----plotrunoff-leaflet, message=FALSE----------------------------------------

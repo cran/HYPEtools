@@ -1,7 +1,7 @@
 #'
 #' Plot function for HYPE map results.
 #'
-#' Draw HYPE map results, with pretty scale discretisations and color ramp defaults for select HYPE variables.
+#' Draw HYPE map results, with pretty scale discretizations and color ramp defaults for select HYPE variables.
 #'
 #' @param x HYPE model results, typically 'map output' results. Data frame object with two columns, first column containing SUBIDs and
 #' second column containing model results to plot. See details.
@@ -11,17 +11,13 @@
 #' @param map.subid.column Integer, column index in the \code{map} 'data' \code{\link{slot}} holding SUBIDs (sub-catchment IDs).
 #' @param var.name Character string. HYPE variable name to be plotted. Mandatory for automatic color ramp selection of pre-defined
 #' HYPE variables (\code{col = "auto"}). Not case-sensitive. See details.
-#' @param map.type Map type keyword string. Choose either \code{"default"} for the default static plots or \code{"leaflet"} for interactive Leaflet maps.
-#' @param map.adj Numeric, map adjustment in direction where it is smaller than the plot window. A value of \code{0} means left-justified
-#' or bottom-justified, \code{0.5} (the default) means centered, and \code{1} means right-justified or top-justified. Only used for default maps.
-#' @param plot.legend Logical, plot a legend along with the map. Uses function \code{\link{legend}} for default maps.
-#' @param legend.pos Legend, scale, and north arrow position, keyword string. For static plots, one of: \code{"left"}, \code{"topleft"}, \code{"topright"},
-#' \code{"right"}, \code{"bottomright"}, \code{"bottomleft"}. For interactive Leaflet maps, one of: \code{"topleft"}, \code{"topright"}, \code{"bottomright"}, \code{"bottomleft"}.
+#' @param map.type Map type keyword string. Choose either \code{"default"} for the default static plots or \code{"leaflet"} for interactive Leaflet maps. Use \code{"legacy"} for deprecated static plots.
+#' @param plot.legend Logical, plot a legend along with the map.
+#' @param legend.pos Keyword string for legend position. For static plots, one of: \code{"none"}, \code{"left"}, \code{"right"},
+#' \code{"bottom"}, \code{"top"}, or a two-element numeric vector. For interactive Leaflet maps, one of: \code{"topleft"}, \code{"topright"}, \code{"bottomright"}, \code{"bottomleft"}. For legacy static plots, one of: \code{"left"}, \code{"topleft"}, \code{"topright"},
+#' \code{"right"}, \code{"bottomright"}, \code{"bottomleft"}. 
 #' @param legend.title Character string or mathematical expression. An optional title for the legend. If none is provided here, \code{var.name}
 #' is used as legend title string. For select HYPE variables, pretty legend titles are in-built.
-#' @param legend.outer Logical. If \code{TRUE}, outer break point values will be plotted in legend.
-#' @param legend.inset Numeric, inset distance(s) from the margins as a fraction of the plot region for legend, scale and north arrow.
-#' See \code{\link{legend}} and details below.
 #' @param legend.signif Integer, number of significant digits to display in legend labels.
 #' @param col Colors to use on the map. One of the following: \itemize{
 #' \item \code{"auto"} to allow for automatic selection from tailored color ramp palettes and break points based on argument \code{var.name},
@@ -36,34 +32,45 @@
 #' \code{\link{rgb}}, or an integer vector of current \code{\link{palette}} indices.
 #' }
 #' @param col.ramp.fun DEPRECATED, for backwards compatibility only.
-#' @param col.breaks A numeric vector, specifying break points for discretisation of model result values into classes. Used if a color palette is specified with \code{col} argument.
+#' @param col.breaks A numeric vector, specifying break points for discretization of model result values into classes. Used if a color palette is specified with \code{col} argument.
 #' Class boundaries will be interpreted as right-closed, i.e upper boundaries included in class. Lowest class boundary included in lowest class as well.
 #' Meaningful results require the lowest and uppermost breaks to bracket all model result values, otherwise there will be
 #' unclassified white spots on the map plot. Not mandatory, can optionally
 #' be combined with one of the pre-defined palettes, including \code{"auto"} selection. Per default, a generic
 #' classification will be applied (see details).
 #' @param col.rev Logical, If \code{TRUE}, then color palette will be reversed.
-#' @param plot.scale Logical, plot a scale bar below legend (i.e. position defined by legend position). NOTE: works only with
-#' projected maps based on meter units, not geographical projections
-#' @param plot.arrow Logical, plot a North arrow below legend for default maps (i.e. position defined by legend position).
-#' @param par.cex Numeric, character expansion factor. See description of \code{cex} in \code{\link{par}}. Only used for default maps.
-#' @param par.mar Plot margins as in \code{\link{par}} argument \code{mar}. Defaults to a nearly margin-less plot.
-#' In standard use cases of this function, plot margins do not need to be changed. Only used for default maps.
-#' @param add Logical, default \code{FALSE}. If \code{TRUE}, add to existing plot. In that case \code{map.adj} has no effect. Only used for default maps.
-#' @param graphics.off Logical, default \code{TRUE}. If \code{TRUE}, HYPEtools will turn off any existing plotting devices before generating a map. Set this to \code{FALSE} when 
-#' adding default maps to a plotting device. See \code{\link{graphics.off}}.
-#' @param weight Numeric, weight of subbasin boundary lines in Leaflet maps. See [leaflet::addPolygons()].
+#' @param plot.scale Logical, plot a scale bar on map. NOTE: Scale bar may be inaccurate for geographic coordinate systems (Consider switching to projected coordinate system).
+#' @param scale.pos Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_scale}}.
+#' @param plot.arrow Logical, plot a North arrow in static maps.
+#' @param arrow.pos Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_north_arrow}}.
+#' @param weight Numeric, weight of subbasin boundary lines. See \code{\link{geom_sf}} for static maps and [leaflet::addPolygons()] for Leaflet maps.
 #' @param opacity Numeric, opacity of subbasin boundary lines in Leaflet maps. See [leaflet::addPolygons()].
 #' @param fillOpacity Numeric, opacity of subbasin polygons in Leaflet maps. See [leaflet::addPolygons()].
-#' @param na.color Character string of color to use to symbolize subbasin polygons in Leaflet maps which correspond to \code{NA} values.
+#' @param na.color Character string of color to use to symbolize subbasin polygons in maps which correspond to \code{NA} values.
 #' @param plot.searchbar Logical, if \code{TRUE}, then a search bar will be included within Leaflet maps. See [leaflet.extras::addSearchFeatures()].
-#' @param plot.label Logical, if \code{TRUE}, then labels will be displayed in Leaflet maps when the cursor hovers over subbasins. See [leaflet::addPolygons()].
-#' @param file Save Leaflet map to an image file by specifying the path to the desired output file using this argument. File extension must be specified. See [mapview::mapshot()].
-#' You may need to run [webshot::install_phantomjs()] the first time you save a Leaflet map to an image file. See [webshot::install_phantomjs()].
+#' @param plot.label Logical, if \code{TRUE}, then labels will be displayed on default static maps and in Leaflet maps when the cursor hovers over subbasins.
+#' See \code{\link{geom_sf_text}} for default maps and [leaflet::addPolygons()] for Leaflet maps.
+#' @param plot.label.size Numeric, size of text for labels on default static plots. See \code{\link{geom_sf_text}}.
+#' @param plot.label.geometry Keyword string to select where plot labels should be displayed on the default static plots. Either \code{centroid} to use \code{sf::st_centroid} or \code{surface} to use \code{sf::st_point_on_surface}.
+#' @param file Save map to an image file by specifying the path to the desired output file using this argument. File extension must be specified. See \code{\link{ggsave}} for static maps and
+#' [mapview::mapshot()] for Leaflet maps. You may need to run \code{webshot::install_phantomjs()} the first time you save a Leaflet map to an image file. See [webshot::install_phantomjs()].
+#' @param width Numeric, width of output plot for static maps in units of \code{units}. See \code{\link{ggsave}}.
+#' @param height Numeric, height of output plot for static maps in units of \code{units}. See \code{\link{ggsave}}.
+#' @param units Keyword string for units to save static map. One of \code{"in"}, \code{"cm"}, \code{"mm"}, \code{"px"}. See \code{\link{ggsave}}.
+#' @param dpi Integer, resolution to save static map. See \code{\link{ggsave}}.
 #' @param vwidth Numeric, width of the exported Leaflet map image in pixels. See [mapview::mapshot()].
 #' @param vheight Numeric, height of the exported Leaflet map image in pixels. See [mapview::mapshot()].
 #' @param html.name Save Leaflet map to an interactive HTML file by specifying the path to the desired output file using this argument. 
 #' File extension must be specified. See [htmlwidgets::saveWidget()].
+#' @param map.adj Numeric, map adjustment in direction where it is smaller than the plot window. A value of \code{0} means left-justified
+#' or bottom-justified, \code{0.5} (the default) means centered, and \code{1} means right-justified or top-justified. Only used for default maps.
+#' @param legend.outer Logical. If \code{TRUE}, outer break point values will be plotted in legend.
+#' @param legend.inset Numeric, inset distance(s) from the margins as a fraction of the plot region for legend, scale and north arrow.
+#' See \code{\link{legend}} and details below.
+#' @param par.cex Numeric, character expansion factor. See description of \code{cex} in \code{\link{par}}. Only used for default maps.
+#' @param par.mar Plot margins as in \code{\link{par}} argument \code{mar}. Defaults to a nearly margin-less plot.
+#' In standard use cases of this function, plot margins do not need to be changed. Only used for default maps.
+#' @param add Logical, default \code{FALSE}. If \code{TRUE}, add to existing plot. In that case \code{map.adj} has no effect. Only used for default maps.
 #'
 #' @details
 #' \code{PlotMapOutput} plots HYPE results from 'map\[variable name\].txt' files, typically imported using \code{\link{ReadMapOutput}}.
@@ -71,8 +78,12 @@
 #' several time periods, pass index selections to \code{x}, e.g. \code{mymapresult[, c(1, 3)]}.
 #'
 #' \code{PlotMapOutput} can return static plots or interactive Leaflet maps depending on value provided for the argument \code{map.type}.
+#' For backwards compatibility, legacy static plots can still be generated by setting \code{map.type} to \code{legacy}. For legacy plots, \code{legend.pos} and
+#' \code{map.adj} should be chosen so that legend and map do not overlap, and the legend position can be fine-tuned using
+#' argument \code{legend.inset}. This is particularly useful for legend titles with more than one line. In order to move map and legend closer to each other, change the plot device width.
+#' For details on inset specification for the default maps, see \code{inset} in \code{\link{legend}}.
 #'
-#' Mapped variables are visualised using color-coded data intervals. \code{HYPEtools} provides a number of color ramps functions for HYPE variables,
+#' Mapped variables are visualized using color-coded data intervals. \code{HYPEtools} provides a number of color ramps functions for HYPE variables,
 #' see \code{\link{CustomColors}}. These are either single-color ramps with less saturated colors for smaller values
 #' and more saturated values for higher values, suitable for e.g. concentration or volume ranges, or multi-color ramps suitable for calculated
 #' differences, e.g. between two model runs.
@@ -84,22 +95,15 @@
 #' \code{x} ranges, centered around zero. For internal color ramp \code{ColDiffTemp}, they are breaks in an interval from -7.5 to 7.5 K.
 #'
 #' For select common HYPE variables, given in argument \code{var.name}, an automatic color ramp selection including pretty breaks and legend titles
-#' is built into \code{PlotMapOutput}. These are 'CCTN', 'CCTP', 'COUT', and 'TEMP'. Automatic selection is activated by chosing keyword
+#' is built into \code{PlotMapOutput}. These are 'CCTN', 'CCTP', 'COUT', and 'TEMP'. Automatic selection is activated by choosing keyword
 #' \code{"auto"} in \code{col}. All other HYPE variables will be plotted using a generic color ramp palette and generic break points with
 #' \code{"auto"} color selection.
 #'
-#' \code{PlotMapOutput} per default works with a margin-less figure and positions map and legend items close to the plot boundaries.
-#' In order to move map and legend closer to each other, change the plot device width.
-#'
-#' Legends are positioned by keyword through argument \code{legend.pos}, defaulting to the bottom right side of the map. For static plots, \code{legend.pos} and
-#' \code{map.adj} should be chosen so that legend and map do not overlap, and the legend position can be fine-tuned using
-#' argument \code{legend.inset}. This is particularly useful for legend titles with more than one line. For details on inset
-#' specification see \code{inset} in \code{\link{legend}}.
-#'
 #' @return
-#' For static plots \code{PlotMapOutput} returns a plot to the currently active plot device, and invisibly an object of class \code{SpatialPolygonsDataFrame}
-#' as provided in argument \code{map}, with plotted values and color codes added as columns in the data slot. For interactive Leaflet maps, \code{PlotMapOutput} returns
-#' an object of class \code{leaflet}.
+#' For default static maps, \code{PlotMapOutput} returns an object of class \code{ggplot}. This plot can also be assigned to a variable in the environment.
+#' For interactive Leaflet maps, \code{PlotMapOutput} returns an object of class \code{leaflet}. For legacy static plots, \code{PlotMapOutput} returns a plot to the
+#' currently active plot device, and invisibly an object of class \code{SpatialPolygonsDataFrame} as provided in argument \code{map}, with plotted values and color codes added as columns
+#' in the data slot. 
 #'
 #' @seealso
 #' \code{\link{ReadMapOutput}} for HYPE result import; \code{\link{PlotMapPoints}} for plotting HYPE results at points, e.g. sub-basin outlets.
@@ -119,6 +123,8 @@
 #' 
 #'
 #' @importFrom dplyr right_join %>% mutate filter across
+#' @importFrom ggplot2 aes_string geom_sf ggplot ggsave scale_fill_manual theme element_text element_blank
+#' @importFrom ggspatial annotation_north_arrow annotation_scale
 #' @importFrom grDevices dev.list
 #' @importFrom graphics par frame legend strwidth text
 #' @importFrom stats quantile setNames
@@ -126,13 +132,15 @@
 #' @export
 
 
-PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default", map.adj = 0, plot.legend = TRUE,
-                          legend.pos = "bottomright", legend.title = NULL, legend.outer = FALSE, legend.inset = c(0, 0), legend.signif = 2,
-                          col = "auto", col.ramp.fun, col.breaks = NULL, col.rev = FALSE, plot.scale = TRUE, plot.arrow = TRUE,
-                          par.cex = 1, par.mar = rep(0, 4) + .1, add = FALSE, graphics.off = TRUE,
+PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default",
+                          plot.legend = TRUE, legend.pos = "bottomright", legend.title = NULL,
+                          legend.signif = 2, col = "auto", col.ramp.fun, col.breaks = NULL, col.rev = FALSE,
+                          plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
                           weight = 0.15, opacity = 0.75, fillOpacity = 0.5, na.color = "#808080",
-                          plot.searchbar = FALSE, plot.label = FALSE, file = "", vwidth = 1424,
-                          vheight = 1000, html.name = "") {
+                          plot.searchbar = FALSE, plot.label = FALSE, plot.label.size = 2.5, plot.label.geometry = c("centroid", "surface"),
+                          file = "", width = NA, height = NA, units = c("in", "cm", "mm", "px"), dpi = 300,
+                          vwidth = 1424, vheight = 1000, html.name = "",
+                          map.adj = 0, legend.outer = FALSE, legend.inset = c(0, 0), par.cex = 1, par.mar = rep(0, 4) + .1, add = FALSE) {
   
   # Backup par and restore on function exit
   userpar <- par(no.readonly = TRUE) # Backup par
@@ -151,16 +159,44 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     
     # Perform function
   } else {
-    # Clear plotting devices if graphics.off argument is true - prevents R fatal errors caused if PlotMapPoints tries to add default plot to existing Leaflet map
-    if (graphics.off == TRUE & !is.null(dev.list())) graphics.off()
+    # # Clear plotting devices if graphics.off argument is true - prevents R fatal errors caused if PlotMapOutput tries to add default plot to existing Leaflet map
+    # if (graphics.off == TRUE & !is.null(dev.list())) graphics.off()
+    
+    # Argument Verification
+    units <- match.arg(units)
+    plot.label.geometry <- match.arg(plot.label.geometry)
+    
+    # Get plot label geometry
+    if(plot.label.geometry == "centroid"){
+      plot.label.geometry <- sf::st_centroid
+    } else if(plot.label.geometry == "surface"){
+      plot.label.geometry <- sf::st_point_on_surface
+    }
+    
+    # Adjust legend position for leaflet
+    if(map.type == "leaflet"){
+      if(legend.pos == "top"){
+        warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "topright".'), call. = FALSE)
+        legend.pos <- "topright"
+      } else if(legend.pos == "left"){
+        warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "bottomleft".'), call. = FALSE)
+        legend.pos <- "bottomleft"
+      } else if(legend.pos == "right"){
+        warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "bottomright".'), call. = FALSE)
+        legend.pos <- "bottomright"
+      } else if(legend.pos == "bottom"){
+        warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "bottomright".'), call. = FALSE)
+        legend.pos <- "bottomright"
+      }
+    }
     
     # input argument checks
     stopifnot(is.data.frame(x), dim(x)[2] == 2, is.null(col.breaks) || is.numeric(col.breaks), ("sf" %in% class(map) | "SpatialPolygonsDataFrame" %in% class(map)))
-    if (map.type == "default") {
+    if (map.type == "legacy") {
       if ("sf" %in% class(map)) {
         map <- sf::as_Spatial(map)
       }
-    } else if (map.type == "leaflet") {
+    } else if (map.type %in% c("default", "leaflet")) {
       if ("SpatialPolygonsDataFrame" %in% class(map)) {
         map <- sf::st_as_sf(map)
       }
@@ -310,7 +346,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     
     # replace the factor levels with color codes using the color ramp function assigned above or user-defined colors
     if (is.null(crfun)) {
-      if (map.type == "leaflet" & any(is.na(x[[2]]))) {
+      if (map.type %in% c("default", "leaflet") & any(is.na(x[[2]]))) {
         if (col.rev == FALSE) {
           levels(x[, 3]) <- c(col, na.color) # Add extra color for NA in leaflet maps
         } else if (col.rev == TRUE) {
@@ -324,7 +360,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         }
       }
     } else {
-      if (map.type == "leaflet" & any(is.na(x[[2]]))) {
+      if (map.type %in% c("default", "leaflet") & any(is.na(x[[2]]))) {
         if (col.rev == FALSE) {
           levels(x[, 3]) <- crfun(length(cbrks)) # Add extra legend break for NA in leaflet maps
         } else if (col.rev == TRUE) {
@@ -345,10 +381,10 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     # give it a name
     names(x)[3] <- "color"
     
-    if (map.type == "default") {
+    if (map.type == "legacy") {
       # add x to subid map table (in data slot, indicated by @), merge by SUBID
       map@data <- data.frame(map@data, x[match(map@data[, map.subid.column], x[, 1]), ])
-    } else if (map.type == "leaflet") {
+    } else if (map.type %in% c("default", "leaflet")) {
       message(paste0('Joining "', colnames(map)[map.subid.column], '" from GIS Data (map) To "', colnames(x)[1], '" from MapOutput (x)'))
       
       # Check for duplicate SUBIDS
@@ -363,7 +399,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
       legend.title <- toupper(var.name)
     }
     
-    if (map.type == "default") {
+    if (map.type == "legacy") {
       # par settings: lend set to square line endings because the legend below works with very thick lines
       # instead of boxes (a box size limitation work-around); xpd set to allow for plotting a legend on the margins
       if (!add) {
@@ -388,7 +424,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     # legend position (fraction if 'add' is FALSE, otherwise already in map coordinates)
     # legend colors
     if (is.null(crfun)) {
-      if (map.type == "leaflet" & any(is.na(x[[2]]))) {
+      if (map.type %in% c("default", "leaflet") & any(is.na(x[[2]]))) {
         if (col.rev == FALSE) {
           lcol <- c(col, na.color) # Add extra legend color for NA for leaflet maps
         } else if (col.rev == TRUE) {
@@ -402,7 +438,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         }
       }
     } else {
-      if (map.type == "leaflet" & any(is.na(x[[2]]))) {
+      if (map.type %in% c("default", "leaflet") & any(is.na(x[[2]]))) {
         if (col.rev == FALSE) {
           lcol <- crfun(length(cbrks)) # Add extra legend color for NA for leaflet maps
         } else if (col.rev == TRUE) {
@@ -419,7 +455,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     }
     
     # Generate default plot
-    if (map.type == "default") {
+    if (map.type == "legacy") {
       leg.fr.pos <- legend(legend.pos,
                            legend = rep(NA, length(cbrks) - 1),
                            col = lcol, lty = 1, lwd = 14, bty = "n", title = legend.title, plot = FALSE
@@ -661,10 +697,10 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
       
       # invisible unless assigned: return map with added data and color codes
       invisible(map)
-    } else if (map.type == "leaflet") {
+    } else if (map.type %in% c("default", "leaflet")) {
       
       # Reproject if not a lat/long CRS
-      if(sf::st_is_longlat(x)==FALSE){
+      if(map.type == "leaflet" & sf::st_is_longlat(x)==FALSE){
         x <- x %>% sf::st_transform(sf::st_crs("+proj=longlat +datum=WGS84"))
       }
       
@@ -685,100 +721,151 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         }))
       }
       
+      # Create ggplot static map
+      if(map.type == "default"){
+        
+        # Create plot and add polygons
+        plot <- ggplot() +
+          geom_sf(data = x, aes_string(fill = "color"), color = "black", size = weight, show.legend = plot.legend) +
+          scale_fill_manual(name = legend.title, breaks = lcol, values = lcol, labels = l.label) +
+          theme(axis.title = element_blank())
+        
+        # Add labels
+        if(plot.label == TRUE){
+          
+          # Create labels
+          x <- x %>%
+            mutate(label = paste0("SUBID: ", .[[1]], "\n ", ifelse(var.name == "", "Value", var.name), ": ", .[[2]]))
+          
+          # Add labels to plot
+          plot <- plot +
+            .geom_sf_text_repel(data = x, aes_string(label = "label"), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
+          
+        }
+
+        # Add legend
+        if(plot.legend == TRUE){
+          plot <- plot +
+            theme(legend.position = legend.pos,
+                  legend.title = element_text(face = "bold"))
+        }
+        
+        # Add scale bar
+        if(plot.scale == TRUE){
+          plot <- plot +
+            annotation_scale(location = scale.pos)
+        }
+        
+        # Add north arrow
+        if(plot.arrow == TRUE){
+          plot <- plot +
+            annotation_north_arrow(location = arrow.pos)
+        }
+        
+        # Save image
+        if(!file == ""){
+          ggsave(filename = file, plot = plot, width = width, height = height, units = units, dpi = dpi)
+        }
+        
+        return(plot)
+      
       # Create Leaflet Map
-      message("Generating Map")
-      leafmap <- leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE)) %>%
-        leaflet::addTiles() %>%
-        leaflet::addLayersControl(
-          baseGroups = c("Map", "Street", "Topo", "Satellite"),
-          overlayGroups = c("Subbasins"),
-          options = leaflet::layersControlOptions(collapsed = FALSE, autoIndex = TRUE)
-        ) %>%
-        leaflet.extras::addResetMapButton()
-      
-      if (plot.label == TRUE) { # Create polygons with labels
+      } else if(map.type == "leaflet"){
         
-        # Create labels
-        x <- x %>%
-          mutate(label = paste0("SUBID: ", .[[1]], " --- ", ifelse(var.name == "", "Value", var.name), ": ", .[[2]]))
+        message("Generating Map")
+        leafmap <- leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE)) %>%
+          leaflet::addTiles() %>%
+          leaflet::addLayersControl(
+            baseGroups = c("Map", "Street", "Topo", "Satellite"),
+            overlayGroups = c("Subbasins"),
+            options = leaflet::layersControlOptions(collapsed = FALSE, autoIndex = TRUE)
+          ) %>%
+          leaflet.extras::addResetMapButton()
         
+        if (plot.label == TRUE) { # Create polygons with labels
+          
+          # Create labels
+          x <- x %>%
+            mutate(label = paste0("SUBID: ", .[[1]], " --- ", ifelse(var.name == "", "Value", var.name), ": ", .[[2]]))
+          
+          leafmap <- leafmap %>%
+            leaflet::addPolygons(
+              group = "Subbasins",
+              data = x,
+              color = "black",
+              weight = weight,
+              opacity = opacity,
+              fillColor = ~color,
+              fillOpacity = fillOpacity,
+              label = ~label
+            )
+        }
+        else { # Create polygons without labels
+          leafmap <- leafmap %>%
+            leaflet::addPolygons(
+              group = "Subbasins",
+              data = x,
+              color = "black",
+              weight = weight,
+              opacity = opacity,
+              fillColor = x$color,
+              fillOpacity = fillOpacity
+            )
+        }
+        
+        # Add searchbar to map
+        if (plot.searchbar == TRUE) {
+          leafmap <- leafmap %>%
+            leaflet.extras::addSearchFeatures(
+              targetGroups = "Subbasins",
+              options = leaflet.extras::searchFeaturesOptions(zoom = 10, hideMarkerOnCollapse = TRUE)
+            )
+        }
+        
+        # Add scalebar to map
+        if (plot.scale == TRUE) {
+          leafmap <- leafmap %>%
+            leaflet::addScaleBar(position = "bottomright")
+        }
+        
+        # Add legend to map
+        if (plot.legend == TRUE) {
+          leafmap <- leafmap %>%
+            leaflet::addLegend(
+              group = "Subbasins",
+              position = legend.pos,
+              title = ifelse(legend.title == "", "Legend", legend.title),
+              colors = lcol,
+              labels = l.label,
+              values = x[[2]],
+              opacity = 1
+            )
+        }
+        
+        # Add various basemaps
         leafmap <- leafmap %>%
-          leaflet::addPolygons(
-            group = "Subbasins",
-            data = x,
-            color = "black",
-            weight = weight,
-            opacity = opacity,
-            fillColor = ~color,
-            fillOpacity = fillOpacity,
-            label = ~label
-          )
+          leaflet::addProviderTiles("CartoDB.Positron", group = "Map") %>%
+          leaflet::addTiles(group = "Street") %>%
+          leaflet::addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+          leaflet::addProviderTiles("Esri.WorldImagery", group = "Satellite") %>%
+          leaflet::addProviderTiles("CartoDB.PositronOnlyLabels", group = "Satellite")
+        
+        # Save Image
+        if (!file == "") {
+          message("Saving Image")
+          mapview::mapshot(leafmap, file = file, vwidth = vwidth, vheight = vheight, remove_controls = c("zoomControl", "layersControl", "homeButton", "drawToolbar", "easyButton"), selfcontained = FALSE)
+        }
+        
+        # Save HTML
+        if (!html.name == "") {
+          message("Saving HTML")
+          temp <- file.path(tempdir(), basename(html.name))
+          htmlwidgets::saveWidget(leafmap, file = temp, title = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(html.name)), selfcontained = TRUE) # Save HTML file to temp directory so selfcontained=T works
+          file.rename(temp, html.name) # Rename/Move HTML file to desired file
+        }
+        
+        return(leafmap)
       }
-      else { # Create polygons without labels
-        leafmap <- leafmap %>%
-          leaflet::addPolygons(
-            group = "Subbasins",
-            data = x,
-            color = "black",
-            weight = weight,
-            opacity = opacity,
-            fillColor = x$color,
-            fillOpacity = fillOpacity
-          )
-      }
-      
-      # Add searchbar to map
-      if (plot.searchbar == TRUE) {
-        leafmap <- leafmap %>%
-          leaflet.extras::addSearchFeatures(
-            targetGroups = "Subbasins",
-            options = leaflet.extras::searchFeaturesOptions(zoom = 10, hideMarkerOnCollapse = TRUE)
-          )
-      }
-      
-      # Add scalebar to map
-      if (plot.scale == TRUE) {
-        leafmap <- leafmap %>%
-          leaflet::addScaleBar(position = "bottomright")
-      }
-      
-      # Add legend to map
-      if (plot.legend == TRUE) {
-        leafmap <- leafmap %>%
-          leaflet::addLegend(
-            group = "Subbasins",
-            position = legend.pos,
-            title = ifelse(legend.title == "", "Legend", legend.title),
-            colors = lcol,
-            labels = l.label,
-            values = x[[2]],
-            opacity = 1
-          )
-      }
-      
-      # Add various basemaps
-      leafmap <- leafmap %>%
-        leaflet::addProviderTiles("CartoDB.Positron", group = "Map") %>%
-        leaflet::addTiles(group = "Street") %>%
-        leaflet::addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
-        leaflet::addProviderTiles("Esri.WorldImagery", group = "Satellite") %>%
-        leaflet::addProviderTiles("CartoDB.PositronOnlyLabels", group = "Satellite")
-      
-      # Save Image
-      if (!file == "") {
-        message("Saving Image")
-        mapview::mapshot(leafmap, file = file, vwidth = vwidth, vheight = vheight, remove_controls = c("zoomControl", "layersControl", "homeButton", "drawToolbar", "easyButton"), selfcontained = FALSE)
-      }
-      
-      # Save HTML
-      if (!html.name == "") {
-        message("Saving HTML")
-        temp <- file.path(tempdir(), basename(html.name))
-        htmlwidgets::saveWidget(leafmap, file = temp, title = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(html.name)), selfcontained = TRUE) # Save HTML file to temp directory so selfcontained=T works
-        file.rename(temp, html.name) # Rename/Move HTML file to desired file
-      }
-      
-      return(leafmap)
     }
   }
   

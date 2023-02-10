@@ -1,4 +1,22 @@
-## HYPEtools 1.1.0
+## HYPEtools 1.2.0 (2023-02-09)
+*New functions and bug fixes*
+
+#### Highlights
+* Added "exact" mode to ReadInfo() to read info.txt files with exact info.txt file structure
+* Added AddInfoLine(), RemoveInfoLine(), and WriteInfo() functions to help with info.txt file manipulation
+* Added AllSimToPar() and BestSimsToPar() functions to update a par.txt file with parameter values from an allsim.txt or bestsims.txt file
+* Updated CompareFiles() to include options for Simass and Subass files and to use ReadObs() instead of ReadPTQobs()
+* Add error message to CompareFiles() to handle if compare.order = FALSE and by = NULL.
+* Update ReadSubass() to be able to read Subass files with zero rows and add na.strings argument.
+* Updated PlotMapOutput() and PlotMapPoints() to generate ggplot maps by default
+* Updated WriteXobs() to include !! at beginning of comment line
+* Added CITATION.cff file
+* Updated WriteObs() to allow for appending data to existing file
+* Fix bugs in ignore.cols for WriteHarmonizedData() and WriteHarmonizedSpatialDescription() to allow for lower case values and to format dates with times correctly
+* Update GroupSLCClasses() to allow for multiple values for type argument
+* Added WriteGlacierData()
+
+## HYPEtools 1.1.0 (2022-10-26)
 *New functions and bug fixes*
 
 #### Highlights
@@ -125,7 +143,7 @@
 #### New Functions
 * BarplotUpstreamClasses: Plot upstream-averaged landscape property classes of one or several sub-basins as bar plots, e.g. land use or soils
 * PlotSimObsRegime: Combined plot for annual regimes with box plot elements for observed variables and ribbon elements for simulated variables
-* PlotBasinSummary: Plot a standard suite of plots summarising properties of a sub-basin including upstream area and model performance for discharge and concentrations of nutrients, sediment, and tracers
+* PlotBasinSummary: Plot a standard suite of plots summarizing properties of a sub-basin including upstream area and model performance for discharge and concentrations of nutrients, sediment, and tracers
 * CustomColors: Custom color ramp functions
 
 ## HYPEtools 0.4.0 (2016-06-12)

@@ -27,7 +27,7 @@
 #' @param strip.punctuation Logical, if \code{TRUE}, then punctuation characters (e.g. "-", ".", ".") will be removed from all strings.
 #' If \code{FALSE}, then strings will be left unmodified.
 #' @param ignore.cols Vector of columns in \code{df} that should be ignored when \code{replace.accents} or \code{strip.punctuation} are set to \code{TRUE}.
-#' @param nThread Integer, set number of thereads to be used when writing file. See \code{\link{getDTthreads}}
+#' @param nThread Integer, set number of threads to be used when writing file. See \code{\link{getDTthreads}}
 #'
 #' @details
 #' \code{WriteHarmonizedData} is a convenience wrapper function of \code{\link[data.table]{fread}} to export harmonized data in the HYPEObsMetadataTools Harmonized Data Format.
@@ -91,7 +91,7 @@ WriteHarmonizedData <- function(df, filename = "", replace.accents = FALSE, stri
     character_cols <- names(sapply(df, typeof)[which(sapply(df, typeof) == "character")])
     character_cols <- character_cols[which(!grepl("DATE", character_cols))] # Don't format dates
     if(!is.null(ignore.cols)){
-      character_cols <- character_cols[which(!character_cols %in% ignore.cols)] # Don't format ignore columns
+      character_cols <- character_cols[which(!character_cols %in% toupper(ignore.cols))] # Don't format ignore columns
     }
 
     # Remove accented characters (e.g. ä, ö, å)
@@ -112,7 +112,7 @@ WriteHarmonizedData <- function(df, filename = "", replace.accents = FALSE, stri
     relocate(all_of(required_cols), .before = 1)
 
   # Write file
-  fwrite(x = df, file = filename, sep = ",", dec = ".", dateTimeAs = "ISO", nThread = nThread)
+  fwrite(x = df, file = filename, sep = ",", dec = ".", dateTimeAs = "write.csv", nThread = nThread, quote = TRUE)
 }
 
 #--------------------------------------------------------------------------------------------------------------------------------------
@@ -132,10 +132,10 @@ WriteHarmonizedData <- function(df, filename = "", replace.accents = FALSE, stri
 #' @param strip.punctuation Logical, if \code{TRUE}, then punctuation characters (e.g. "-", ".", ".") will be removed from all strings.
 #' If \code{FALSE}, then strings will be left unmodified.
 #' @param ignore.cols Vector of columns in \code{df} that should be ignored when \code{replace.accents} or \code{strip.punctuation} are set to \code{TRUE}.
-#' @param nThread Integer, set number of thereads to be used when writing file. See \code{\link{getDTthreads}}
+#' @param nThread Integer, set number of threads to be used when writing file. See \code{\link{getDTthreads}}
 #'
 #' @details
-#' \code{WriteHarmonizedSpatialDescrption} is a convenience wrapper function of \code{\link[data.table]{fread}} to export harmonized spatial description data in the HYPEObsMetadataTools Harmonized Spatial Descrption Format.
+#' \code{WriteHarmonizedSpatialDescription} is a convenience wrapper function of \code{\link[data.table]{fread}} to export harmonized spatial description data in the HYPEObsMetadataTools Harmonized Spatial Description Format.
 #' The function checks that all required columns are present, includes options to format strings, and exports data to output CSV files with the correct encoding and formatting.
 #'
 #' @return
@@ -147,7 +147,7 @@ WriteHarmonizedData <- function(df, filename = "", replace.accents = FALSE, stri
 #'   "SRC_NAME" = "Example",
 #'   "DOWNLOAD_DATE" = "2022-10-19",
 #'   "SRC_STATNAME" = "Station",
-#'   "SRC_RIVNAME" = "River",
+#'   "SRC_WBNAME" = "River",
 #'   "SRC_UAREA" = NA,
 #'   "SRC_XCOORD" = 28.11831,
 #'   "SRC_YCOORD" = -25.83053,
@@ -166,7 +166,7 @@ WriteHarmonizedData <- function(df, filename = "", replace.accents = FALSE, stri
 WriteHarmonizedSpatialDescription <- function(df, filename = "", replace.accents = FALSE, strip.punctuation = FALSE, ignore.cols = NULL, nThread = getDTthreads()) {
 
   # Required Column Names
-  required_cols <- c("STATION_ID", "SRC_NAME", "DOWNLOAD_DATE", "SRC_STATNAME", "SRC_RIVNAME", "SRC_UAREA", "SRC_XCOORD", "SRC_YCOORD", "SRC_EPSG", "ADJ_XCOORD", "ADJ_YCOORD", "ADJ_EPSG")
+  required_cols <- c("STATION_ID", "SRC_NAME", "DOWNLOAD_DATE", "SRC_STATNAME", "SRC_WBNAME", "SRC_UAREA", "SRC_XCOORD", "SRC_YCOORD", "SRC_EPSG", "ADJ_XCOORD", "ADJ_YCOORD", "ADJ_EPSG")
 
   # Check filename
   if (!filename == "") {
@@ -202,7 +202,7 @@ WriteHarmonizedSpatialDescription <- function(df, filename = "", replace.accents
     character_cols <- names(sapply(df, typeof)[which(sapply(df, typeof) == "character")])
     character_cols <- character_cols[which(!grepl("DATE", character_cols))] # Don't format dates
     if(!is.null(ignore.cols)){
-      character_cols <- character_cols[which(!character_cols %in% ignore.cols)] # Don't format ignore columns
+      character_cols <- character_cols[which(!character_cols %in% toupper(ignore.cols))] # Don't format ignore columns
     }
 
     # Remove accented characters (e.g. ä, ö, å)
@@ -223,5 +223,5 @@ WriteHarmonizedSpatialDescription <- function(df, filename = "", replace.accents
     relocate(all_of(required_cols), .before = 1)
 
   # Write file
-  fwrite(x = df, file = filename, sep = ",", dec = ".", dateTimeAs = "ISO", nThread = nThread)
+  fwrite(x = df, file = filename, sep = ",", dec = ".", dateTimeAs = "write.csv", nThread = nThread, quote = TRUE)
 }

@@ -13,9 +13,9 @@
 #     - WriteObs()
 #     - HypeDataExport:
 #         WriteAquiferData(), WriteBranchData(), WriteCropData(), WriteDamData(), WriteLakeData(), WriteMgmtData(), 
-#         WritePointSourceData()
+#         WritePointSourceData(), WriteForcKey(), WriteGlacierData()
 #     - WriteOptpar()
-#     - 
+#     - WriteInfo()
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -41,11 +41,11 @@
 #' @return 
 #' No return value, called for export to text files.
 #' 
-#' @seealso \code{\link{ReadOptpar}} with a description of the expected content of \code{x}.
+#' @seealso \code{\link{ReadPar}} with a description of the expected content of \code{x}.
 #' 
 #' @examples
 #' te <- ReadPar(filename = system.file("demo_model", "par.txt", package = "HYPEtools"))
-#' # Note that par files loose all comment rows on import
+#' # Note that par files lose all comment rows on import
 #' WritePar(x = te, filename = tempfile())
 #' 
 #' 
@@ -226,7 +226,7 @@ WriteGeoClass <- function(x, filename, use.comment = FALSE) {
 #' variables as \code{x}. If omitted or \code{NULL}, an attribute \code{variable} in \code{x} is mandatory.
 #' Will take precedence over a \code{variable} attribute of \code{x}. If \code{append} is \code{TRUE} the values are 
 #' used to test for consistency between export object and the existing file.
-#' @param subid Third row in Xobs, containing SUBIDs (integer). Behaviour otherwise as argument \code{variable}.
+#' @param subid Third row in Xobs, containing SUBIDs (integer). Behavior otherwise as argument \code{variable}.
 #' @param last.date Optional date-time of last observation in existing Xobs file as text string. Only relevant with \code{append = TRUE}. 
 #' Formatting depending on time step, e.g. \code{'2000-01-01'} (day) or \code{'2000-01-01 00:00'} (hour). Will be automatically read 
 #' from file per default, but can be provided to reduce execution time when appending to large files.
@@ -284,14 +284,18 @@ WriteXobs <- function(x, filename, append = FALSE, comment = NULL, variable = NU
       # comment argument is empty
       if(!is.null(attr(x, which = "comment"))) {
         # comment attribute exists, export
-        writeLines(paste(attr(x, which = "comment"), collapse = "\t"), con = fcon)
+        comment <- paste(attr(x, which = "comment"), collapse = "\t") # Format comment attribute
+        if(!grepl("^\\!!.*", comment)){comment = paste("!!", comment)} # Add comment characters if they don't exist
+        writeLines(comment, con = fcon)
       } else {
         # comment attribute does not exist, export the following string
-        writeLines("Exported from R", con = fcon)
+        writeLines("!! Exported from R", con = fcon)
       }
     } else {
       # export comment argument
-      writeLines(paste(comment, collapse = "\t"), con = fcon)
+      comment <- paste(comment, collapse = "\t") # Format comment
+      if(!grepl("^\\!!.*", comment)){comment = paste("!!", comment)} # Add comment characters if they don't exist
+      writeLines(comment, con = fcon)
     }
     
     ## export variable line
@@ -739,6 +743,7 @@ WritePmsf <- function(x, filename) {
 #' in \code{x} is mandatory. An existing \code{obsid} argument takes precedence over a \code{obsid} attribute.
 #' @param round,signif Integer, number of decimal places and number of significant digits to export. See \code{\link{round}}. Applied in 
 #' sequence. If \code{NULL} (default), the data to export is not touched.
+#' @param append Logical, if \code{TRUE}, then table will be joined to the data in existing file and the output will be sorted by DATE (Rows will be added for any missing dates). 
 #'  
 #' @details
 #' \code{WriteObs} is a convenience wrapper function of \code{\link[data.table]{fwrite}} to export a HYPE-compliant observation file. 
@@ -764,10 +769,12 @@ WritePmsf <- function(x, filename) {
 #' WriteObs(x = te, filename = tempfile())
 #' 
 #' @importFrom data.table fwrite .SD
+#' @importFrom dplyr full_join arrange %>% everything rename_with
+#' @importFrom rlang .data
 #' @export
 
 
-WriteObs <- function (x, filename, dt.format = "%Y-%m-%d", round = NULL, signif = NULL, obsid = NULL) {
+WriteObs <- function (x, filename, dt.format = "%Y-%m-%d", round = NULL, signif = NULL, obsid = NULL, append = FALSE) {
   
   ## check if consistent header information is available, obsid arguments take precedence before attribute
   ## construct HYPE-conform header for export (violates R header rules)
@@ -785,6 +792,21 @@ WriteObs <- function (x, filename, dt.format = "%Y-%m-%d", round = NULL, signif 
       }
   } else {
     stop("No information available from 'obsid' argument or 'obsid' attribute to construct export header.")
+  }
+  
+  # append to existing data
+  if(append == TRUE & file.exists(filename)){
+    
+    # Join Data
+    x <- ReadObs(filename) %>% # Read original file
+      rename_with(.cols = everything(), .fn = ~gsub("X", "", .x)) %>% # Rename columns to remove "X"
+      full_join(x) # Join to new data
+    
+    # Fill Gaps in Dates and arrange by DATE
+    x <- x %>%
+      full_join(data.frame(DATE = seq(min(x$DATE), max(x$DATE), by = '1 day')), by = "DATE") %>% # Fill gaps in dates
+      arrange(.data$DATE) # Sort by date
+    
   }
   
   # date conversion, conditional on that the date column is a posix class
@@ -811,8 +833,7 @@ WriteObs <- function (x, filename, dt.format = "%Y-%m-%d", round = NULL, signif 
   }
   
   # export
- fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
-
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE)
 }
 
 # alias, for backwards compatibility
@@ -852,7 +873,7 @@ WritePTQobs <- WriteObs
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:mgmtdata.txt}{MgmtData.txt}
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:aquiferdata.txt}{AquiferData.txt}
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:pointsourcedata.txt}{PointSourceData.txt}
-# NOT YET IMPLEMENTED #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:glacierdata.txt}{GlacierData.txt}
+#'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:glacierdata.txt}{GlacierData.txt}
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:cropdata.txt}{CropData.txt}
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:branchdata.txt}{BranchData.txt}
 #'   \item \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:forckey.txt}{forckey.txt}
@@ -1025,6 +1046,20 @@ WriteForcKey <- function(x, filename) {
   fwrite(x, file = filename, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
 }
 
+#' @rdname HypeDataExport
+#' @importFrom data.table fwrite
+#' @export
+WriteGlacierData <- function(x, filename, verbose = TRUE) {
+  # test length of string columns elements, throws warning if any element longer than 100, since HYPE does not read them
+  if (verbose) {
+    .CheckCharLengthDf(x, maxChar = 100)
+  }
+  # warn if NAs in data, since HYPE does not allow empty values in 
+  te <- apply(x, 2, function(x) {any(is.na(x))})
+  if (any(te) && verbose) warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
+  # export
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+}
 
 
 
@@ -1037,7 +1072,7 @@ WriteForcKey <- function(x, filename) {
 
 #' Write an 'optpar.txt' File
 #'
-#' \code{WriteOptpar} prints a HYPE parameter optimisation list to a file.
+#' \code{WriteOptpar} prints a HYPE parameter optimization list to a file.
 #' 
 #' @param x The object to be written, a list with named elements, as an object returned from \code{\link{ReadOptpar}}.
 #' @param filename A character string naming a file to write to. Windows users: Note that 
@@ -1087,3 +1122,42 @@ WriteOptpar <- function (x, filename, digits = 10, nsmall = 1) {
   
 }
 
+#--------------------------------------------------------------------------------------------------------------------------------------
+# WriteInfo
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+#' Write a 'info.txt' File
+#'
+#' \code{WriteInfo} writes its required argument \code{x} to a file.
+#' 
+#' @param x The object to be written, a list with named vector elements, as an object returned from \code{\link{ReadInfo}} using the \code{exact} mode.
+#' @param filename A character string naming a file to write to. Windows users: Note that 
+#' Paths are separated by '/', not '\\'. 
+#' 
+#' @details
+#' \code{WriteInfo} writes an 'info.txt' file, typically originating from an imported and modified 'info.txt'.
+#' 
+#' @return 
+#' No return value, called for export to text files.
+#' 
+#' @seealso
+#' \code{\link{ReadInfo}} with a description of the expected content of \code{x}.
+#' \code{\link{AddInfoLine}}
+#' \code{\link{RemoveInfoLine}}
+#' 
+#' @examples
+#' te <- ReadInfo(filename = system.file("demo_model",
+#' "info.txt", package = "HYPEtools"), mode = "exact")
+#' WriteInfo(x = te, filename = tempfile())
+#' 
+#' 
+#' @export
+
+WriteInfo <- function (x, filename) {
+  
+  # format list contents to avoid scientific format in output
+  fx <- lapply(x, format, scientific = FALSE, trim = TRUE, justify = "none")
+  
+  # write formatted list elements to file, first converts all list elements (vectors) and their names to concatenated strings.
+  write(sapply(seq_along(x), function(x, y) paste(c(names(y)[x], y[[x]]), collapse="\t"), y = fx), filename)
+}
