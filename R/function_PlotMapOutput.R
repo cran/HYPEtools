@@ -12,6 +12,7 @@
 #' @param var.name Character string. HYPE variable name to be plotted. Mandatory for automatic color ramp selection of pre-defined
 #' HYPE variables (\code{col = "auto"}). Not case-sensitive. See details.
 #' @param map.type Map type keyword string. Choose either \code{"default"} for the default static plots or \code{"leaflet"} for interactive Leaflet maps. Use \code{"legacy"} for deprecated static plots.
+#' @param shiny.data Logical, if \code{map.type} is \code{"leaflet"}, then should the output be a list containing the basemap, formatted data, legend colors, and legend labels? Typically set to \code{FALSE} unless using \code{PlotMapOutput} to create Shiny apps or custom Leaflet maps. 
 #' @param plot.legend Logical, plot a legend along with the map.
 #' @param legend.pos Keyword string for legend position. For static plots, one of: \code{"none"}, \code{"left"}, \code{"right"},
 #' \code{"bottom"}, \code{"top"}, or a two-element numeric vector. For interactive Leaflet maps, one of: \code{"topleft"}, \code{"topright"}, \code{"bottomright"}, \code{"bottomleft"}. For legacy static plots, one of: \code{"left"}, \code{"topleft"}, \code{"topright"},
@@ -132,7 +133,7 @@
 #' @export
 
 
-PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default",
+PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
                           plot.legend = TRUE, legend.pos = "bottomright", legend.title = NULL,
                           legend.signif = 2, col = "auto", col.ramp.fun, col.breaks = NULL, col.rev = FALSE,
                           plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
@@ -155,7 +156,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     requireNamespace("htmlwidgets", quietly = TRUE)
   )) {
     # Warn that a dependency is not installed
-    stop("To use the interactive mapping features, please ensure that the following packages are installed: sf, leaflet, leaflet.extras, mapview, htmlwidgets", call.=FALSE)
+    stop('To use the interactive mapping features, please ensure that the following packages are installed: c("sf", "leaflet", "leaflet.extras", "mapview," "htmlwidgets")', call.=FALSE)
     
     # Perform function
   } else {
@@ -192,6 +193,9 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     
     # input argument checks
     stopifnot(is.data.frame(x), dim(x)[2] == 2, is.null(col.breaks) || is.numeric(col.breaks), ("sf" %in% class(map) | "SpatialPolygonsDataFrame" %in% class(map)))
+    
+    x <- as.data.frame(x) # Force x to data.frame format from e.g. tibble or data.table
+    
     if (map.type == "legacy") {
       if ("sf" %in% class(map)) {
         map <- sf::as_Spatial(map)
@@ -772,46 +776,74 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
       # Create Leaflet Map
       } else if(map.type == "leaflet"){
         
+        # Create labels
+        x <- x %>%
+          mutate(label = paste0("SUBID: ", .[[1]], " --- ", ifelse(var.name == "", "Value", var.name), ": ", .[[2]]))
+        
         message("Generating Map")
+        
+        # Setup map
         leafmap <- leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE)) %>%
           leaflet::addTiles() %>%
           leaflet::addLayersControl(
             baseGroups = c("Map", "Street", "Topo", "Satellite"),
-            overlayGroups = c("Subbasins"),
+            overlayGroups = c("Legend", "Subbasins"),
             options = leaflet::layersControlOptions(collapsed = FALSE, autoIndex = TRUE)
-          ) %>%
-          leaflet.extras::addResetMapButton()
+          )
         
-        if (plot.label == TRUE) { # Create polygons with labels
+        # Create basemap only
+        if(shiny.data == TRUE){
           
-          # Create labels
-          x <- x %>%
-            mutate(label = paste0("SUBID: ", .[[1]], " --- ", ifelse(var.name == "", "Value", var.name), ": ", .[[2]]))
+          # Get Bounds of Data
+          bounds <- x %>%
+            sf::st_bbox() %>%
+            as.character()
           
-          leafmap <- leafmap %>%
-            leaflet::addPolygons(
-              group = "Subbasins",
-              data = x,
-              color = "black",
-              weight = weight,
-              opacity = opacity,
-              fillColor = ~color,
-              fillOpacity = fillOpacity,
-              label = ~label
-            )
+          # Check if only one point (probably shouldn't happen with polygon data)
+          if(bounds[1] == bounds[3] & bounds[2] == bounds[4]){
+            leafmap <- leafmap %>%
+              leaflet::setView(bounds[1], bounds[2], zoom = 14)
+            
+            # Zoom to layer
+          } else{
+            leafmap <- leafmap %>%
+              leaflet::fitBounds(bounds[1], bounds[2], bounds[3], bounds[4])
+          }
+
+        # Add polygons to map
+        } else{
+          
+          if (plot.label == TRUE) { # Create polygons with labels
+            
+            leafmap <- leafmap %>%
+              leaflet::addPolygons(
+                group = "Subbasins",
+                data = x,
+                color = "black",
+                weight = weight,
+                opacity = opacity,
+                fillColor = ~color,
+                fillOpacity = fillOpacity,
+                label = ~label
+              )
+          }
+          else { # Create polygons without labels
+            leafmap <- leafmap %>%
+              leaflet::addPolygons(
+                group = "Subbasins",
+                data = x,
+                color = "black",
+                weight = weight,
+                opacity = opacity,
+                fillColor = ~color,
+                fillOpacity = fillOpacity
+              )
+          }
         }
-        else { # Create polygons without labels
-          leafmap <- leafmap %>%
-            leaflet::addPolygons(
-              group = "Subbasins",
-              data = x,
-              color = "black",
-              weight = weight,
-              opacity = opacity,
-              fillColor = x$color,
-              fillOpacity = fillOpacity
-            )
-        }
+        
+        # Add map reset button
+        leafmap <- leafmap %>%
+          leaflet.extras::addResetMapButton()
         
         # Add searchbar to map
         if (plot.searchbar == TRUE) {
@@ -822,17 +854,11 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
             )
         }
         
-        # Add scalebar to map
-        if (plot.scale == TRUE) {
-          leafmap <- leafmap %>%
-            leaflet::addScaleBar(position = "bottomright")
-        }
-        
         # Add legend to map
         if (plot.legend == TRUE) {
           leafmap <- leafmap %>%
             leaflet::addLegend(
-              group = "Subbasins",
+              group = "Legend",
               position = legend.pos,
               title = ifelse(legend.title == "", "Legend", legend.title),
               colors = lcol,
@@ -840,6 +866,12 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
               values = x[[2]],
               opacity = 1
             )
+        }
+        
+        # Add scalebar to map
+        if (plot.scale == TRUE) {
+          leafmap <- leafmap %>%
+            leaflet::addScaleBar(position = "bottomright")
         }
         
         # Add various basemaps
@@ -864,7 +896,12 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
           file.rename(temp, html.name) # Rename/Move HTML file to desired file
         }
         
-        return(leafmap)
+        # Return values
+        if(shiny.data == TRUE){
+          return(list("basemap" = leafmap, "x" = x, "cbrks" = cbrks, "lcol" = lcol, "l.label" = l.label))
+        } else{
+          return(leafmap)
+        }
       }
     }
   }

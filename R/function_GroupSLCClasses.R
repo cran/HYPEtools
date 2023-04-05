@@ -14,9 +14,9 @@
 #' 
 #' @param group Integer vector, of same length as number of SLC classes in \code{gd}. Alternative grouping index specification to \code{gcl} + \code{type}.
 #' 
-#' @param abs.area Logical, if \code{TRUE}, absolute areas will be calculated for each group, rather than area fractions.
+#' @param abs.area Logical, if \code{TRUE}, then absolute areas will be calculated for each group, rather than area fractions.
 #' 
-#' @param verbose Logical, if \code{TRUE} information and progress bar will be printed.
+#' @param verbose Logical, if \code{TRUE} then information and progress bar will be printed.
 #' 
 #' @details
 #' If absolute areas are calculated, area units will correspond to areas provided in \code{gd}.
@@ -40,7 +40,7 @@
 GroupSLCClasses <- function(gd, gcl = NULL, type = c("landuse", "soil", "crop"), group = NULL, abs.area = FALSE, verbose = TRUE) {
   
   # input argument checks
-  types <- match.arg(type, several.ok = TRUE)
+  type <- match.arg(type, several.ok = TRUE)
   
   if (is.null(gcl) && is.null(group)) {
     stop("Neither GeoClass table nor user-defined grouping index provided.")
@@ -49,22 +49,28 @@ GroupSLCClasses <- function(gd, gcl = NULL, type = c("landuse", "soil", "crop"),
     stop("Both GeoClass table and user-defined grouping index provided. Please provide just one of them.")
   }
   
+  # if group is used, replace 'type' default with single string, to not cycle through calculation 
+  # several times in for loop below (not very elegant, I know...)
+  if (!is.null(group)) {
+    type <- "group"
+  }
+  
   # Create vector to store results
   results <- vector("list")
   
   # Loop through type
-  for(type in types){
+  for(tp in type){
     # local grouping index object, depending on input arguments
     if (!is.null(gcl)) {
-      if (type == "landuse") {
+      if (tp == "landuse") {
         lgroup <- gcl[, 2]
         grname <- "landuse"
       }
-      if (type == "soil") {
+      if (tp == "soil") {
         lgroup <- gcl[, 3]
         grname <- "soil"
       }
-      if (type == "crop") {
+      if (tp == "crop") {
         lgroup <- gcl[, 4]
         grname <- "crop"
       }
@@ -125,7 +131,7 @@ GroupSLCClasses <- function(gd, gcl = NULL, type = c("landuse", "soil", "crop"),
     names(res) <- c("SUBID", "AREA", paste(grname, names(res)[-c(1:2)], sep = "_"))
     
     # save results to vector
-    results[[type]] <- res
+    results[[tp]] <- res
   }
   
   # Merge results

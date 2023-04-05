@@ -11,7 +11,9 @@ PlotMapPoints(
   sites.groups = NULL,
   bg = NULL,
   bg.label.column = 1,
+  var.name = "",
   map.type = "default",
+  shiny.data = FALSE,
   plot.legend = TRUE,
   legend.pos = "right",
   legend.title = NULL,
@@ -75,7 +77,12 @@ For default maps with several background layers, use \code{add = TRUE} and plot 
 
 \item{bg.label.column}{Integer, column index in the \code{bg} 'data' \code{\link{slot}} holding labels (e.g. SUBIDs) to use for plotting.}
 
+\item{var.name}{Character string. HYPE variable name to be plotted. Mandatory for automatic color ramp selection of pre-defined
+HYPE variables (\code{col = "auto"}). Not case-sensitive.}
+
 \item{map.type}{Map type keyword string. Choose either \code{"default"} for the default static plots or \code{"leaflet"} for interactive Leaflet maps. Use \code{"legacy"} for deprecated static plots.}
+
+\item{shiny.data}{Logical, if \code{map.type} is \code{"leaflet"}, then should the output be a list containing the basemap, formatted data, legend colors, and legend labels? Typically set to \code{FALSE} unless using \code{PlotMapOutput} to create Shiny apps or custom Leaflet maps.}
 
 \item{plot.legend}{Logical, plot a legend along with the map.}
 
