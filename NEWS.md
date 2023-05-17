@@ -1,6 +1,20 @@
 # HYPEtools NEWS
 
-## HYPEtools 1.3.0
+## HYPEtools 1.4.0
+*New functions and bug fixes*
+
+#### Highlights
+* Fix bug in checking of PlotMapPoints() and PlotMapOutput() legend positions
+* Fix bug in PlotMapPoints() where custom color breaks were ignored
+* Add option to reverse color palette in PlotMapPoints()
+* Add pseudo-log scale to PlotPerformanceByAttribute() if any zero or negative values exist
+* Add options for boxplot density plots and common y-axis in PlotPerformanceByAttribute()
+* Allow for specifying only number of rows or columns in PlotPerformanceByAttribute()
+* Add "-9999" as NA string in ReadSubass()
+* Fix bug in PlotBasinOutput() where line plots would not get generated if NA values were present
+* Update plotting functions to replace usage of deprecated ggplot2 aes_string() function
+
+## HYPEtools 1.3.0 (2023-04-05)
 *New functions and bug fixes*
 
 #### Highlights

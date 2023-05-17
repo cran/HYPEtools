@@ -183,7 +183,7 @@ shinyAppServer <- function(input, output, session) {
   gis.subid <- shiny::reactive({which(colnames(gis()) == input$column)})
   
   # Output table for GIS
-  output$gis <- DT::renderDataTable(gis() %>% sf::st_drop_geometry(), rownames = FALSE, filter = "top", options = list(scrollX = TRUE))
+  output$gis <- DT::renderDataTable(gis() %>% sf::st_drop_geometry(), rownames = FALSE, filter = "top", options = list(scrollX = TRUE, lengthMenu = c(5, 10, 25, 50, 100)))
   # output$gis <- DT::renderDataTable(datatable(gis() %>% sf::st_drop_geometry(), rownames = FALSE, options = list(scrollX = TRUE)) %>% formatRound(unlist(lapply(gis() %>% sf::st_drop_geometry, is.numeric), use.names = FALSE), 3)) # Use this to round numeric columns, but then this affects columns like SUBID
   
   # GIS Data filtered by data table
@@ -311,7 +311,7 @@ shinyAppServer <- function(input, output, session) {
   })
   
   # Render Data Table
-  output$table <- DT::renderDataTable(data_out() %>% rename_with(~gsub("^X", "", .), .cols = 2), rownames = FALSE, filter = "top", options = list(scrollX = TRUE))
+  output$table <- DT::renderDataTable(data_out() %>% rename_with(~gsub("^X", "", .), .cols = 2), rownames = FALSE, filter = "top", options = list(scrollX = TRUE, lengthMenu = c(5, 10, 25, 50, 100)))
   
   # _____________________________________________________________________________________________________________________________________
   # Create Plotly BoxPlot #####
@@ -428,9 +428,19 @@ shinyAppServer <- function(input, output, session) {
   # Reactive values to store stuff for legend
   lcol <- reactiveVal()
   cbrks <- reactiveVal()
+  
+  # Update legend if slider changes for subass file
+  slider_legend_update <- reactiveVal(0)
+  observeEvent(input$slider,{
+    req(result_type())
+    val = slider_legend_update()
+    if(result_type() == "Subass"){
+      slider_legend_update(val + 1)
+    }
+  })
 
   # Create basemap
-  leaf <- shiny::eventReactive(c(gis_filtered(), gis_bg(), gis.subid(), result_file(), slider_loaded(), result_type()),{
+  leaf <- shiny::eventReactive(c(gis_filtered(), gis_bg(), gis.subid(), result_file(), slider_loaded(), result_type(), slider_legend_update()),{
 
     # Require valid data
     shiny::req(leaf_check() == TRUE, slider_loaded() == TRUE)
@@ -445,10 +455,12 @@ shinyAppServer <- function(input, output, session) {
     
     # Get variable name
     if(result_type() == "Subass"){
-      var.name <- ""
+      var.name <- input$slider
     } else{
       var.name <- gsub("map", "", tools::file_path_sans_ext(input$result))
     }
+    
+    tester<<-result_type()
 
     # Create basemap and get data
     data <- PlotMapPoints(
@@ -492,13 +504,14 @@ shinyAppServer <- function(input, output, session) {
 
     # Call background to trigger update if new basemap created
     gis_bg()
+    slider_legend_update()
 
     # Require valid data
     shiny::req(leaf_check() == TRUE, lcol(), cbrks())
     
     # Get variable name
     if(result_type() == "Subass"){
-      var.name <- ""
+      var.name <- input$slider
     } else{
       var.name <- gsub("map", "", tools::file_path_sans_ext(input$result))
     }
@@ -547,7 +560,7 @@ shinyAppServer <- function(input, output, session) {
     
     # Get variable name
     if(result_type() == "Subass"){
-      var.name <- ""
+      var.name <- input$slider
     } else{
       var.name <- gsub("map", "", tools::file_path_sans_ext(input$result))
     }

@@ -36,6 +36,7 @@
 #' Meaningful results require the lowest and uppermost breaks to bracket all model result values, otherwise there will be
 #' unclassified white spots on the map plot. If \code{NULL} (the default), \code{col.breaks} covers a range from 0 to 1
 #' with 9 intervals, and an additional interval for negative values. This is suitable for e.g. NSE performances.
+#' @param col.rev Logical, If \code{TRUE}, then color palette will be reversed.
 #' @param plot.scale Logical, plot a scale bar on map. NOTE: Scale bar may be inaccurate for geographic coordinate systems (Consider switching to projected coordinate system).
 #' @param scale.pos Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_scale}}.
 #' @param plot.arrow Logical, plot a North arrow in static maps.
@@ -117,7 +118,7 @@
 #' }
 #' 
 #' @importFrom dplyr right_join %>% mutate filter across
-#' @importFrom ggplot2 aes_string geom_sf ggplot ggsave scale_color_manual scale_fill_manual theme element_text element_blank
+#' @importFrom ggplot2 aes geom_sf ggplot ggsave scale_color_manual scale_fill_manual theme element_text element_blank
 #' @importFrom ggspatial annotation_north_arrow annotation_scale
 #' @importFrom grDevices dev.list colorRampPalette
 #' @importFrom graphics par frame legend strwidth text plot.new
@@ -129,7 +130,7 @@
 
 PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL, bg = NULL, bg.label.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
                           plot.legend = TRUE, legend.pos = "right", legend.title = NULL, 
-                          legend.signif = 2, col = NULL, col.breaks = NULL,
+                          legend.signif = 2, col = NULL, col.breaks = NULL, col.rev = FALSE,
                           plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
                           radius = 5, weight = 0.15, opacity = 0.75, fillOpacity = 0.5, na.color = "#808080",
                           bg.weight = 0.15, bg.opacity = 0.75, bg.fillColor = "#e5e5e5", bg.fillOpacity = 0.75,
@@ -171,7 +172,7 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
     }
     
     # Adjust legend position for leaflet
-    if(map.type == "leaflet"){
+    if(map.type == "leaflet" & plot.legend == TRUE){
       if(legend.pos == "top"){
         warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "topright".'), call. = FALSE)
         legend.pos <- "topright"
@@ -213,11 +214,12 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
       }
     }
     stopifnot(map.adj %in% c(0, .5, 1))
+    
     if (map.type == "legacy") {
       stopifnot(legend.pos %in% c("bottomright", "right", "topright", "topleft", "left", "bottomleft"))
-    } else if (map.type == "default"){
+    } else if (map.type == "default" & plot.legend == TRUE){
       stopifnot(legend.pos %in% c("none", "left", "right", "bottom", "top"))
-    } else if (map.type == "leaflet") {
+    } else if (map.type == "leaflet" & plot.legend == TRUE) {
       stopifnot(legend.pos %in% c("bottomright", "topright", "topleft", "bottomleft"))
     }
     # if (length(col.breaks) == 1) {
@@ -313,10 +315,45 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
               legend.title <- paste("Air Temp. (C)")
             }
           }
+        } else if(toupper(var.name) == "NSE") {
+          crfun <- colorRampPalette(c("#e81515", "#EEEE00", "#2892c7"))
+          cbrks <- c(-Inf, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+          col.class <- c("purple", crfun(length(cbrks) - 2))
+          legend.title <- "NSE"
+        } else if(toupper(var.name) == "CC") {
+          crfun <- ColDiffGeneric
+          cbrks <- c(-1, -0.50, -0.25, -0.1, 0.1, 0.25, 0.50, 1)
+          col.class <- crfun(length(cbrks) - 1)
+          if(map.type == "default"){
+            legend.title <- "Pearsons\nCorrelation\nCoefficient"
+          } else if(map.type == "leaflet"){
+            legend.title <- "Pearsons<br>Correlation<br>Coefficient"
+          }
+        } else if(toupper(var.name) == "RE") {
+          crfun <- ColDiffGeneric
+          cbrks <- c(-Inf, -100, -50, -25, -10, 10, 25, 50, 100, Inf)
+          col.class <- crfun(length(cbrks) - 1)
+          legend.title <- "Relative Error (%)"
+        } else if(toupper(var.name) == "RSDE") {
+          crfun <- ColDiffGeneric
+          cbrks <- c(-Inf, -100, -50, -25, -10, 10, 25, 50, 100, Inf)
+          col.class <- crfun(length(cbrks) - 1)
+          if (map.type == "default") {
+            legend.title <- "Relative Error in\nStandard Deviation (%)"
+          } else if (map.type == "leaflet"){
+            legend.title <- "Relative Error in<br>Standard Deviation (%)"
+          }
+        } else if(toupper(var.name) == "KGE") {
+          crfun <- colorRampPalette(c("#e81515", "#EEEE00", "#2892c7"))
+          cbrks <- c(-Inf, -0.41, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+          col.class <- c("purple", crfun(length(cbrks) - 2))
+          legend.title <- "KGE"
         } else if(!toupper(var.name) == ""){
           crfun <- ColDiffGeneric
-          cbrks <- quantile(x[, 2], probs = seq(0, 1, .1), na.rm = TRUE)
-          
+          if(is.null(col.breaks)){
+            cbrks <- quantile(x[, 2], probs = seq(0, 1, .1), na.rm = TRUE)
+          }
+
           # in variables with large numbers of "0" values, the lower 10%-percentiles can be repeatedly "0", which leads to an error with cut,
           # so cbrks is shortened to unique values (this affects only the automatic quantile-based breaks)
           # if just one value remains (or was requested by user), replace crbks by minmax-based range (this also resolves unexpected behaviour
@@ -364,9 +401,17 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
     
     # replace the factor levels with color codes using the color ramp function assigned above
     if (map.type %in% c("default", "leaflet") & any(is.na(x[[2]]))) {
-      levels(x[, 3]) <- c(col.class, na.color) # Add extra color for NA in leaflet maps
+      if(col.rev == FALSE){
+        levels(x[, 3]) <- c(col.class, na.color) # Add extra color for NA in leaflet maps
+      } else{
+        levels(x[, 3]) <- c(rev(col.class), na.color) # Reorder colors so that NA color is still last
+      }
     } else {
-      levels(x[, 3]) <- col.class
+      if(col.rev == FALSE){
+        levels(x[, 3]) <- col.class
+      } else{
+        levels(x[, 3]) <- rev(col.class)
+      }
     }
     
     # Leaflet Legend Colors
@@ -734,7 +779,7 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
 
         # Add points
         plot <- plot +
-          geom_sf(data = x, aes_string(color = "color", fill = "color"), size = radius, show.legend = plot.legend) +
+          geom_sf(data = x, aes(color = .data[["color"]], fill = .data[["color"]]), size = radius, show.legend = plot.legend) +
           scale_color_manual(name = legend.title, breaks = lcol, values = lcol, labels = l.label) +
           scale_fill_manual(name = legend.title, breaks = lcol, values = lcol, labels = l.label) +
           theme(axis.title = element_blank())
@@ -743,10 +788,10 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
         if(!is.null(plot.bg.label)){
           if(plot.label == FALSE){ # Add labels for all points
             plot <- plot +
-              .geom_sf_text_repel(data = bg, aes_string(label = colnames(bg)[bg.label.column]), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
+              .geom_sf_text_repel(data = bg, aes(label = .data[[colnames(bg)[bg.label.column]]]), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
           } else{ # Add labels for point that aren't already getting labeled
             plot <- plot +
-              .geom_sf_text_repel(data = bg %>% filter(!.data[[colnames(bg)[bg.label.column]]] %in% x[[1]]), aes_string(label = colnames(bg)[bg.label.column]), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
+              .geom_sf_text_repel(data = bg %>% filter(!.data[[colnames(bg)[bg.label.column]]] %in% x[[1]]), aes(label = .data[[colnames(bg)[bg.label.column]]]), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
           }
         }
         
@@ -759,7 +804,7 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
           
           # Add labels to plot
           plot <- plot +
-            .geom_sf_text_repel(data = x, aes_string(label = "label"), size = plot.label.size, fontface = "bold", fun.geometry = sf::st_centroid)
+            .geom_sf_text_repel(data = x, aes(label = .data[["label"]]), size = plot.label.size, fontface = "bold", fun.geometry = sf::st_centroid)
           
         }
         

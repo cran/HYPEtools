@@ -124,7 +124,7 @@
 #' 
 #'
 #' @importFrom dplyr right_join %>% mutate filter across
-#' @importFrom ggplot2 aes_string geom_sf ggplot ggsave scale_fill_manual theme element_text element_blank
+#' @importFrom ggplot2 aes geom_sf ggplot ggsave scale_fill_manual theme element_text element_blank
 #' @importFrom ggspatial annotation_north_arrow annotation_scale
 #' @importFrom grDevices dev.list
 #' @importFrom graphics par frame legend strwidth text
@@ -134,7 +134,7 @@
 
 
 PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
-                          plot.legend = TRUE, legend.pos = "bottomright", legend.title = NULL,
+                          plot.legend = TRUE, legend.pos = "right", legend.title = NULL,
                           legend.signif = 2, col = "auto", col.ramp.fun, col.breaks = NULL, col.rev = FALSE,
                           plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
                           weight = 0.15, opacity = 0.75, fillOpacity = 0.5, na.color = "#808080",
@@ -175,7 +175,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     }
     
     # Adjust legend position for leaflet
-    if(map.type == "leaflet"){
+    if(map.type == "leaflet" & plot.legend == TRUE){
       if(legend.pos == "top"){
         warning(paste0('For Leaflet maps legend.pos must be one of "bottomright", "topright", "topleft", or "bottomleft", not "', legend.pos, '". Switching to "topright".'), call. = FALSE)
         legend.pos <- "topright"
@@ -207,11 +207,13 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
     }
     
     stopifnot(map.adj %in% c(0, .5, 1))
-    if (map.type == "default") {
-      stopifnot(legend.pos %in% c("bottomright", "right", "topright", "topleft", "left", "bottomleft"))
-    } else if (map.type == "leaflet") {
+    
+    if (map.type == "default" & plot.legend == TRUE) {
+      stopifnot(legend.pos %in% c("none", "left", "right", "bottom", "top"))
+    } else if (map.type == "leaflet" & plot.legend == TRUE) {
       stopifnot(legend.pos %in% c("bottomright", "topright", "topleft", "bottomleft"))
     }
+    
     if (length(col.breaks) == 1) {
       col.breaks <- range(x[, 2], na.rm = TRUE)
       warning("Just one value in user-provided argument 'col.breaks', set to range of 'x[, 2]'.")
@@ -730,7 +732,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         
         # Create plot and add polygons
         plot <- ggplot() +
-          geom_sf(data = x, aes_string(fill = "color"), color = "black", size = weight, show.legend = plot.legend) +
+          geom_sf(data = x, aes(fill = .data[["color"]]), color = "black", size = weight, show.legend = plot.legend) +
           scale_fill_manual(name = legend.title, breaks = lcol, values = lcol, labels = l.label) +
           theme(axis.title = element_blank())
         
@@ -743,7 +745,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
           
           # Add labels to plot
           plot <- plot +
-            .geom_sf_text_repel(data = x, aes_string(label = "label"), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
+            .geom_sf_text_repel(data = x, aes(label = .data[["label"]]), size = plot.label.size, fontface = "bold", fun.geometry = plot.label.geometry)
           
         }
 

@@ -20,8 +20,11 @@ PlotPerformanceByAttribute(
   trendline.alpha = 0.5,
   trendline.darken = 15,
   density.plot = FALSE,
+  density.plot.type = c("density", "boxplot"),
   scale.x.log = FALSE,
   scale.y.log = FALSE,
+  xsigma = 1,
+  ysigma = 1,
   xlimits = c(NA, NA),
   ylimits = c(NA, NA),
   xbreaks = waiver(),
@@ -35,6 +38,8 @@ PlotPerformanceByAttribute(
   align = "hv",
   common.legend = TRUE,
   legend.position = "bottom",
+  group.legend.title = "Group",
+  common.y.axis = FALSE,
   summary.table = FALSE,
   filename = NULL,
   width = NA,
@@ -58,8 +63,11 @@ PlotJohan(
   trendline.alpha = 0.5,
   trendline.darken = 15,
   density.plot = FALSE,
+  density.plot.type = c("density", "boxplot"),
   scale.x.log = FALSE,
   scale.y.log = FALSE,
+  xsigma = 1,
+  ysigma = 1,
   xlimits = c(NA, NA),
   ylimits = c(NA, NA),
   xbreaks = waiver(),
@@ -73,6 +81,8 @@ PlotJohan(
   align = "hv",
   common.legend = TRUE,
   legend.position = "bottom",
+  group.legend.title = "Group",
+  common.y.axis = FALSE,
   summary.table = FALSE,
   filename = NULL,
   width = NA,
@@ -111,11 +121,17 @@ grouping variable (e.g. month).}
 
 \item{trendline.darken}{Numeric value to make the trendlines darker color shades of their corresponding scatterplot points. Should be in the range 1-100.}
 
-\item{density.plot}{Logical, if \code{TRUE}, then density plots will be added to the output plots. Set to \code{FALSE} to hide density plots. See \code{\link{geom_density}}.}
+\item{density.plot}{Logical, if \code{TRUE}, then density plots will be added to the output plots. Set to \code{FALSE} to hide density plots.}
 
-\item{scale.x.log}{Vector describing if output plots should use a log scale on the x-axis. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_x_log10}}.}
+\item{density.plot.type}{String, type of plot geometry to use for density plots: \code{"density"} for \code{\link{geom_density}} or \code{"boxplot"} for \code{\link{geom_boxplot}}. Outliers are hidden from the boxplots.}
 
-\item{scale.y.log}{Vector describing if output plots should use a log scale on the y-axis. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_y_log10}}.}
+\item{scale.x.log}{Vector describing if output plots should use a log scale on the x-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_x_log10}}.}
+
+\item{scale.y.log}{Vector describing if output plots should use a log scale on the y-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_y_log10}}.}
+
+\item{xsigma}{Numeric, scaling factor for the linear part of psuedo-long transformation of x axis. Used if \code{scale.x.log} is \code{TRUE} and zero or negative values are present. See \code{\link{pseudo_log_trans}}.}
+
+\item{ysigma}{Numeric, scaling factor for the linear part of psuedo-long transformation of y axis. Used if \code{scale.y.log} is \code{TRUE} and zero or negative values are present. See \code{\link{pseudo_log_trans}}.}
 
 \item{xlimits}{Vector containing minimum and maximum values for the x-axis of the output plots. See \code{\link{scale_x_continuous}}.}
 
@@ -141,7 +157,11 @@ grouping variable (e.g. month).}
 
 \item{common.legend}{Specify if arranged plot should use a common legend. See \code{\link{ggarrange}}.}
 
-\item{legend.position}{Specify position of common legend for arranged plot. See \code{\link{ggarrange}}.}
+\item{legend.position}{Specify position of common legend for arranged plot. See \code{\link{ggarrange}}. Use \code{"none"} to hide legend.}
+
+\item{group.legend.title}{String, title for plot legend when generating plots with \code{groups}.}
+
+\item{common.y.axis}{Logical, if \code{TRUE}, then only one y-axis label and marginal density plot will be provided. If \code{FALSE}, then separate y-axis labels and marginal density plots will be included for each subplot.}
 
 \item{summary.table}{Logical, if \code{TRUE}, then a table providing summary statistics will be included at the bottom of the output plot.}
 
