@@ -1,6 +1,6 @@
-6d11a87fce97ba2d7cf65f32d7969d47 *DESCRIPTION
-650a94caafcf00826d0433583c48721e *NAMESPACE
-6fcdb12fc9ff2ea4209610b6af2f87e4 *NEWS.md
+c8d44b36540f3c072c3e1a3f715c683e *DESCRIPTION
+e6b0f5421a468e4e67a90d62a39edae1 *NAMESPACE
+66f1185720b537b1f4187d836c7757d2 *NEWS.md
 cd06e63208d6ba86d89a96323c5df3df *R/HYPEtools.R
 fdb1b52915a5fe617b40643d7b046d93 *R/class_HypeGeoData.R
 2cc9d9249121d4d096f3c7fd72744101 *R/class_HypeMultiVar.R
@@ -29,6 +29,7 @@ d4929f8971b42b6732a3c65f70257b3b *R/function_OptimisedClasses.R
 38096fe6e0d78379737dda42a40e1bb0 *R/function_OutletIds.R
 de46be975dab26084b1383610d234f74 *R/function_OutletNearObs.R
 a202c7297a827a09fb3389d60da963d4 *R/function_OutletSubids.R
+69915f4de0ee81e198b2e49a6b85a66b *R/function_PartyParrot.R
 82c4f12c82b000581a921963274c1611 *R/function_PlotAnnualRegime.R
 1a96af38fdb0833e7188cf9ad9334a1d *R/function_PlotBasinOutput.R
 6715ba20f909bb77567956201f0cd526 *R/function_PlotBasinSummary.R
@@ -37,13 +38,13 @@ a202c7297a827a09fb3389d60da963d4 *R/function_OutletSubids.R
 285c8f41eba707f04727d96aea698e8c *R/function_PlotMapPoints.R
 88b641fdd6194c90e807ab9f1de88c3b *R/function_PlotPerformanceByAttribute.R
 8c1b7b97f7bac04f3e0d9f6bc5e31712 *R/function_PlotSimObsRegime.R
-006d80a44cc05c28f18ec2319f70ff77 *R/function_PlotSubbasinRouting.R
+119937b74516fd43ce9872701767cc4d *R/function_PlotSubbasinRouting.R
 02181dc64a1d271fdacce3724908c515 *R/function_ReadWsOutput.R
 86052967837b3a0de13a36e856a3d1ce *R/function_RescaleSLCClasses.R
 d8758e5f2cd6193fe82a8bfae1be9d07 *R/function_ScalePar.R
 3353faa143973e43d46db32b99b88c3c *R/function_SimToPar.R
 2e3aac2b871ff25eb770d76e300f7fa9 *R/function_SortGeoData.R
-39d99657eb083c750a0c226f1c2bdbff *R/function_SubidAttributeSummary.R
+0f2f4d1552be6effd16cf7433b178ea3 *R/function_SubidAttributeSummary.R
 4b3929cad31bdfc0042aadb9c1488a5c *R/function_SumSLCClasses.R
 80b807702fcbf134850d2ad5dcc7b1e1 *R/function_SumUpstreamArea.R
 d729bd48b9349ecb57f3248b67f71ac7 *R/function_UpstreamGeoData.R
@@ -106,7 +107,7 @@ e6b2aae29fcb9d48e944652b1ba0ac18 *inst/doc/basin_characteristics.R
 18fa6f3610f20036e5aa561cd1713fe8 *inst/doc/basin_characteristics.html
 80e43b7f6959f0f271eea1fc40b1d67b *inst/doc/basin_network.R
 c61e18309ee4457a5dd2a3058d2eb53a *inst/doc/basin_network.Rmd
-e98caa8ab12e87c7293e8c94f0dfa37f *inst/doc/basin_network.html
+872c080593892a4c746a68b971d11ca8 *inst/doc/basin_network.html
 b9ef79175b18d37f95db91a95f81d950 *inst/doc/import_files.R
 9b30d9b555b51c4cfa3b8b39e9f50fb9 *inst/doc/import_files.Rmd
 a82401a4af8d706610a26749d6332247 *inst/doc/import_files.html
@@ -115,7 +116,7 @@ a82401a4af8d706610a26749d6332247 *inst/doc/import_files.html
 ff0e065d2a750b0ece0f20502d67b006 *inst/doc/modify_par.html
 ab8b6094a7ef563eb3502b495ad6bfbc *inst/doc/plot_map_statistics.R
 4d0d596ba84eaec4c6642c8dd5dbad18 *inst/doc/plot_map_statistics.Rmd
-bee43da530a0a9671017476fec9a2e8f *inst/doc/plot_map_statistics.html
+fa0be6644e84708dbe046662cc58e08c *inst/doc/plot_map_statistics.html
 52ca00c1213798f73932e25d2057b720 *inst/visualize_map_output/server.R
 8eb50a40a3441bff435fa99b091f4be1 *inst/visualize_map_output/ui.R
 dad483dba5651286097345634e3e30a2 *inst/visualize_map_points/server.R
@@ -154,6 +155,7 @@ eef10737450c356789411bce55c2f045 *man/OptimisedClasses.Rd
 403b28a7164155b79f3c67ef55408d52 *man/OutletIds.Rd
 746cce15af8fa96ef9afe2646d4e0620 *man/OutletNearObs.Rd
 8b46165dddb3c636f35b4dc20e25dd93 *man/OutletSubids.Rd
+04c5b8f80ad9af08dba2f5500ef964ef *man/PartyParrot.Rd
 b027f99e9caf6d571a913ccbdbbaf0c2 *man/PlotAnnualRegime.Rd
 680ea3b1c4cb88fc4971df388e27e4dd *man/PlotBasinOutput.Rd
 170b0643dada2b220065291ed8e82661 *man/PlotBasinSummary.Rd
@@ -162,7 +164,7 @@ b027f99e9caf6d571a913ccbdbbaf0c2 *man/PlotAnnualRegime.Rd
 566812a274025b9dd46285aec1dbc8b0 *man/PlotMapPoints.Rd
 1bb151a2715db6d45f8449e9a202c225 *man/PlotPerformanceByAttribute.Rd
 322d6b5c9fcb78ad5feea9df77840035 *man/PlotSimObsRegime.Rd
-362d49a620ccf137c79a9b9461f26410 *man/PlotSubbasinRouting.Rd
+df0a35fa8bf783fc1c60d96a70d055bb *man/PlotSubbasinRouting.Rd
 7b0003ec8c6d2f32219951cb0271d474 *man/ReadBasinOutput.Rd
 fcf9299247af29da890323f71edd4900 *man/ReadDescription.Rd
 a9b9ff3cf0f2d9a394dd090b7e4daef2 *man/ReadGeoClass.Rd
@@ -182,7 +184,7 @@ ba8c0ad82d89c562ded9a87449bf01c8 *man/ReadSubass.Rd
 53a7922d2e15d6b34e7563fe5926a791 *man/ScalePar.Rd
 cb5bdfb5b39c7051318d89f11814ceb0 *man/SimToPar.Rd
 81eb216ff68d002953c2bcf9f9eb455b *man/SortGeoData.Rd
-09746ced34846fefb6cbed80d8563558 *man/SubidAttributeSummary.Rd
+604dfc7ca7a10680881f0789f411eeb7 *man/SubidAttributeSummary.Rd
 6614eddbfbe01254fe045ac5704da6de *man/SumSLCClasses.Rd
 80a481172c14e8fa1820fe4381150905 *man/SumUpstreamArea.Rd
 4fa4be7ce0c76b6eec378504de28149b *man/UpstreamGeoData.Rd
