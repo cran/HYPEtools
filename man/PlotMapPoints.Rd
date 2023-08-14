@@ -20,6 +20,7 @@ PlotMapPoints(
   legend.signif = 2,
   col = NULL,
   col.breaks = NULL,
+  col.labels = NULL,
   col.rev = FALSE,
   plot.scale = TRUE,
   scale.pos = "br",
@@ -109,15 +110,17 @@ Meaningful results require the lowest and uppermost breaks to bracket all model 
 unclassified white spots on the map plot. If \code{NULL} (the default), \code{col.breaks} covers a range from 0 to 1
 with 9 intervals, and an additional interval for negative values. This is suitable for e.g. NSE performances.}
 
+\item{col.labels}{A character vector, specifying custom labels to be used for each legend item. Works with \code{map.type} set to \code{default} or \code{leaflet}.}
+
 \item{col.rev}{Logical, If \code{TRUE}, then color palette will be reversed.}
 
 \item{plot.scale}{Logical, plot a scale bar on map. NOTE: Scale bar may be inaccurate for geographic coordinate systems (Consider switching to projected coordinate system).}
 
-\item{scale.pos}{Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_scale}}.}
+\item{scale.pos}{Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.}
 
 \item{plot.arrow}{Logical, plot a North arrow in static maps.}
 
-\item{arrow.pos}{Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_north_arrow}}.}
+\item{arrow.pos}{Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.}
 
 \item{radius}{Numeric, radius of markers maps. See \code{\link{geom_sf}} for static maps and \code{\link[leaflet:map-layers]{leaflet::addCircleMarkers()}} for Leaflet maps.}
 

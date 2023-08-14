@@ -39,14 +39,16 @@
 #' unclassified white spots on the map plot. Not mandatory, can optionally
 #' be combined with one of the pre-defined palettes, including \code{"auto"} selection. Per default, a generic
 #' classification will be applied (see details).
+#' @param col.labels A character vector, specifying custom labels to be used for each legend item. Works with \code{map.type} set to \code{default} or \code{leaflet}.
 #' @param col.rev Logical, If \code{TRUE}, then color palette will be reversed.
 #' @param plot.scale Logical, plot a scale bar on map. NOTE: Scale bar may be inaccurate for geographic coordinate systems (Consider switching to projected coordinate system).
-#' @param scale.pos Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_scale}}.
+#' @param scale.pos Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.
 #' @param plot.arrow Logical, plot a North arrow in static maps.
-#' @param arrow.pos Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_north_arrow}}.
+#' @param arrow.pos Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.
 #' @param weight Numeric, weight of subbasin boundary lines. See \code{\link{geom_sf}} for static maps and [leaflet::addPolygons()] for Leaflet maps.
 #' @param opacity Numeric, opacity of subbasin boundary lines in Leaflet maps. See [leaflet::addPolygons()].
 #' @param fillOpacity Numeric, opacity of subbasin polygons in Leaflet maps. See [leaflet::addPolygons()].
+#' @param outline.color Character string of color to use to for subbasin polygon outlines. Use \code{NA} to hide the outlines.
 #' @param na.color Character string of color to use to symbolize subbasin polygons in maps which correspond to \code{NA} values.
 #' @param plot.searchbar Logical, if \code{TRUE}, then a search bar will be included within Leaflet maps. See [leaflet.extras::addSearchFeatures()].
 #' @param plot.label Logical, if \code{TRUE}, then labels will be displayed on default static maps and in Leaflet maps when the cursor hovers over subbasins.
@@ -125,7 +127,6 @@
 #'
 #' @importFrom dplyr right_join %>% mutate filter across
 #' @importFrom ggplot2 aes geom_sf ggplot ggsave scale_fill_manual theme element_text element_blank
-#' @importFrom ggspatial annotation_north_arrow annotation_scale
 #' @importFrom grDevices dev.list
 #' @importFrom graphics par frame legend strwidth text
 #' @importFrom stats quantile setNames
@@ -135,9 +136,9 @@
 
 PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
                           plot.legend = TRUE, legend.pos = "right", legend.title = NULL,
-                          legend.signif = 2, col = "auto", col.ramp.fun, col.breaks = NULL, col.rev = FALSE,
+                          legend.signif = 2, col = "auto", col.ramp.fun, col.breaks = NULL, col.labels = NULL, col.rev = FALSE,
                           plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
-                          weight = 0.15, opacity = 0.75, fillOpacity = 0.5, na.color = "#808080",
+                          weight = 0.15, opacity = 0.75, fillOpacity = 0.5, outline.color = "black", na.color = "#808080",
                           plot.searchbar = FALSE, plot.label = FALSE, plot.label.size = 2.5, plot.label.geometry = c("centroid", "surface"),
                           file = "", width = NA, height = NA, units = c("in", "cm", "mm", "px"), dpi = 300,
                           vwidth = 1424, vheight = 1000, html.name = "",
@@ -307,6 +308,12 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         crfun <- ColDiffGeneric
         cbrks <- quantile(x[, 2], probs = seq(0, 1, .1), na.rm = TRUE)
       }
+      
+      # Override cbrks if custom breakpoints provided
+      if(!is.null(col.breaks)){
+        cbrks <- col.breaks
+      }
+      
     } else if (is.vector(col)) {
       # Case 3: a vector of colors
       crfun <- NULL
@@ -727,12 +734,17 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         }))
       }
       
+      # Override legend labels if custom labels were provided
+      if(!is.null(col.labels)){
+        l.label <- col.labels
+      }
+      
       # Create ggplot static map
       if(map.type == "default"){
         
         # Create plot and add polygons
         plot <- ggplot() +
-          geom_sf(data = x, aes(fill = .data[["color"]]), color = "black", size = weight, show.legend = plot.legend) +
+          geom_sf(data = x, aes(fill = .data[["color"]]), color = outline.color, size = weight, show.legend = plot.legend) +
           scale_fill_manual(name = legend.title, breaks = lcol, values = lcol, labels = l.label) +
           theme(axis.title = element_blank())
         
@@ -759,13 +771,13 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
         # Add scale bar
         if(plot.scale == TRUE){
           plot <- plot +
-            annotation_scale(location = scale.pos)
+            .annotation_scale(location = scale.pos)
         }
         
         # Add north arrow
         if(plot.arrow == TRUE){
           plot <- plot +
-            annotation_north_arrow(location = arrow.pos)
+            .annotation_north_arrow(location = arrow.pos)
         }
         
         # Save image
@@ -821,7 +833,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
               leaflet::addPolygons(
                 group = "Subbasins",
                 data = x,
-                color = "black",
+                color = outline.color,
                 weight = weight,
                 opacity = opacity,
                 fillColor = ~color,
@@ -834,7 +846,7 @@ PlotMapOutput <- function(x, map, map.subid.column = 1, var.name = "", map.type 
               leaflet::addPolygons(
                 group = "Subbasins",
                 data = x,
-                color = "black",
+                color = outline.color,
                 weight = weight,
                 opacity = opacity,
                 fillColor = ~color,

@@ -18,6 +18,7 @@ PlotMapOutput(
   col = "auto",
   col.ramp.fun,
   col.breaks = NULL,
+  col.labels = NULL,
   col.rev = FALSE,
   plot.scale = TRUE,
   scale.pos = "br",
@@ -26,6 +27,7 @@ PlotMapOutput(
   weight = 0.15,
   opacity = 0.75,
   fillOpacity = 0.5,
+  outline.color = "black",
   na.color = "#808080",
   plot.searchbar = FALSE,
   plot.label = FALSE,
@@ -93,21 +95,25 @@ unclassified white spots on the map plot. Not mandatory, can optionally
 be combined with one of the pre-defined palettes, including \code{"auto"} selection. Per default, a generic
 classification will be applied (see details).}
 
+\item{col.labels}{A character vector, specifying custom labels to be used for each legend item. Works with \code{map.type} set to \code{default} or \code{leaflet}.}
+
 \item{col.rev}{Logical, If \code{TRUE}, then color palette will be reversed.}
 
 \item{plot.scale}{Logical, plot a scale bar on map. NOTE: Scale bar may be inaccurate for geographic coordinate systems (Consider switching to projected coordinate system).}
 
-\item{scale.pos}{Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_scale}}.}
+\item{scale.pos}{Keyword string for scalebar position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.}
 
 \item{plot.arrow}{Logical, plot a North arrow in static maps.}
 
-\item{arrow.pos}{Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}. See \code{\link{annotation_north_arrow}}.}
+\item{arrow.pos}{Keyword string for north arrow position for static maps. One of \code{bl}, \code{br}, \code{tr}, or \code{tl}.}
 
 \item{weight}{Numeric, weight of subbasin boundary lines. See \code{\link{geom_sf}} for static maps and \code{\link[leaflet:map-layers]{leaflet::addPolygons()}} for Leaflet maps.}
 
 \item{opacity}{Numeric, opacity of subbasin boundary lines in Leaflet maps. See \code{\link[leaflet:map-layers]{leaflet::addPolygons()}}.}
 
 \item{fillOpacity}{Numeric, opacity of subbasin polygons in Leaflet maps. See \code{\link[leaflet:map-layers]{leaflet::addPolygons()}}.}
+
+\item{outline.color}{Character string of color to use to for subbasin polygon outlines. Use \code{NA} to hide the outlines.}
 
 \item{na.color}{Character string of color to use to symbolize subbasin polygons in maps which correspond to \code{NA} values.}
 
