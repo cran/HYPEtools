@@ -1,7 +1,7 @@
-bbe9a835d7f4212431ef3aca19844e98 *DESCRIPTION
+9139682fb9bb4c25fe2c1dc227fbde34 *DESCRIPTION
 0ddf644702fa98290350982d93e34c2b *NAMESPACE
-6601e6ea23b0a90040c13d257d7dae1a *NEWS.md
-cd06e63208d6ba86d89a96323c5df3df *R/HYPEtools.R
+de99ef8264434c13b8240523c17675ae *NEWS.md
+0a72dfe30d298673a2c1177d70d2e2ba *R/HYPEtools-package.R
 fdb1b52915a5fe617b40643d7b046d93 *R/class_HypeGeoData.R
 2cc9d9249121d4d096f3c7fd72744101 *R/class_HypeMultiVar.R
 c3463bf529c0d10c9fecf328ca93836c *R/class_HypeSingleVar.R
@@ -35,8 +35,8 @@ a202c7297a827a09fb3389d60da963d4 *R/function_OutletSubids.R
 1a96af38fdb0833e7188cf9ad9334a1d *R/function_PlotBasinOutput.R
 6715ba20f909bb77567956201f0cd526 *R/function_PlotBasinSummary.R
 99d30d9974a358d66008e6f889760e5f *R/function_PlotDurationCurve.R
-5e9843de50427f9940c32f50c3a4ba39 *R/function_PlotMapOutput.R
-df7075da8d875379b9acce04644cdcdf *R/function_PlotMapPoints.R
+58ca1e088f6cf4961e93ab8d7abd543c *R/function_PlotMapOutput.R
+6e59887f1c19cf69141306ff3bb72962 *R/function_PlotMapPoints.R
 88b641fdd6194c90e807ab9f1de88c3b *R/function_PlotPerformanceByAttribute.R
 8c1b7b97f7bac04f3e0d9f6bc5e31712 *R/function_PlotSimObsRegime.R
 119937b74516fd43ce9872701767cc4d *R/function_PlotSubbasinRouting.R
@@ -64,7 +64,7 @@ ed843f0ca03ce9dd07f9d9f51c35aa7a *R/functioncollection_export.R
 df78ec2b671ae7219ca1a8ee58b87faf *R/functioncollection_import.R
 d010b95a19a1e6f46fad41c993d79283 *R/functioncollection_internal.R
 18126cbed9c1ca096d4eb99461d31ae1 *R/methods_hydroGOF.R
-994243e904c3f2ce7cf9b1cb07fc6c45 *R/sysdata.rda
+b99b62607946db2a516cebf5e15fae2d *R/sysdata.rda
 1ff0e43c87eef001d732364e335de085 *R/zzz.R
 3fdf7cf86392d9cc894e6b70bd61a388 *README.md
 d076e29f14a13bfc25eec01a7c984ae1 *build/vignette.rds
@@ -108,7 +108,7 @@ e6b2aae29fcb9d48e944652b1ba0ac18 *inst/doc/basin_characteristics.R
 18fa6f3610f20036e5aa561cd1713fe8 *inst/doc/basin_characteristics.html
 80e43b7f6959f0f271eea1fc40b1d67b *inst/doc/basin_network.R
 c61e18309ee4457a5dd2a3058d2eb53a *inst/doc/basin_network.Rmd
-57c4938ace0d9d2ffd692a970cd34716 *inst/doc/basin_network.html
+76dfa070025b90a33991f47795923157 *inst/doc/basin_network.html
 b9ef79175b18d37f95db91a95f81d950 *inst/doc/import_files.R
 9b30d9b555b51c4cfa3b8b39e9f50fb9 *inst/doc/import_files.Rmd
 a82401a4af8d706610a26749d6332247 *inst/doc/import_files.html
@@ -117,7 +117,7 @@ a82401a4af8d706610a26749d6332247 *inst/doc/import_files.html
 ff0e065d2a750b0ece0f20502d67b006 *inst/doc/modify_par.html
 ab8b6094a7ef563eb3502b495ad6bfbc *inst/doc/plot_map_statistics.R
 4d0d596ba84eaec4c6642c8dd5dbad18 *inst/doc/plot_map_statistics.Rmd
-0bae572b1b12cf7aabdf5f507b62cf93 *inst/doc/plot_map_statistics.html
+512aa6088a944ea057ce10e6b99a9a26 *inst/doc/plot_map_statistics.html
 52ca00c1213798f73932e25d2057b720 *inst/visualize_map_output/server.R
 8eb50a40a3441bff435fa99b091f4be1 *inst/visualize_map_output/ui.R
 dad483dba5651286097345634e3e30a2 *inst/visualize_map_points/server.R
@@ -138,7 +138,7 @@ c4b3e03982ef76efd1c55a03e65af73c *man/ExtractFreq.Rd
 acb2e57fa7cc4acad5d88fc38b89121e *man/ExtractStats.Rd
 b908815b4fb2bbed3d4a89a61007d4ec *man/GroupSLCClasses.Rd
 474d60b467e5b3f4cf276b75beb7efbd *man/GwRetention.Rd
-c3124972e6af68d5386ff73a6166244f *man/HYPEtools.Rd
+cab474b7a9edc13382abc77b16ba3111 *man/HYPEtools-package.Rd
 3e49d66686ff77e156a7c691bb307399 *man/HeadwaterSubids.Rd
 78d5bdabc0d2ae9c9bf94d8ec9b78834 *man/HypeAttrAccess.Rd
 3bbd4bb74933da9ffa5e439faecf1b11 *man/HypeDataExport.Rd
@@ -162,8 +162,8 @@ eef10737450c356789411bce55c2f045 *man/OptimisedClasses.Rd
 680ea3b1c4cb88fc4971df388e27e4dd *man/PlotBasinOutput.Rd
 170b0643dada2b220065291ed8e82661 *man/PlotBasinSummary.Rd
 2908c6c352535338b93d7df63f54ae6a *man/PlotDurationCurve.Rd
-20d5edb6aed4b95a54170f0797329627 *man/PlotMapOutput.Rd
-04d87495854c089450c1533281ffb053 *man/PlotMapPoints.Rd
+0c82128ef8aee2934997a74bf9f75d10 *man/PlotMapOutput.Rd
+5d39b7ac395f1f4d4a61db0a07568dfb *man/PlotMapPoints.Rd
 1bb151a2715db6d45f8449e9a202c225 *man/PlotPerformanceByAttribute.Rd
 322d6b5c9fcb78ad5feea9df77840035 *man/PlotSimObsRegime.Rd
 df0a35fa8bf783fc1c60d96a70d055bb *man/PlotSubbasinRouting.Rd

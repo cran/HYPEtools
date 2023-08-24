@@ -5,9 +5,9 @@
 #'
 #' @param x Information to plot, typically model performances from imported HYPE 'subassX.txt' files. Data frame object
 #' with two columns, first column containing SUBIDs and second column containing model results to plot. See details.
-#' @param sites A \code{SpatialPointsDataFrame} or \code{sf} object. Typically an imported outlet point vector point file. Import of vector points
+#' @param sites,map A \code{SpatialPointsDataFrame} or \code{sf} object. Typically an imported outlet point vector point file. Import of vector points
 #' requires additional packages, e.g. [sf::st_read()].
-#' @param sites.subid.column Integer, column index in the \code{sites} 'data' \code{\link{slot}} holding SUBIDs (sub-catchment IDs).
+#' @param sites.subid.column,map.subid.column Integer, column index in the \code{sites} 'data' \code{\link{slot}} holding SUBIDs (sub-catchment IDs).
 #' @param sites.groups Named list providing groups of SUBIDs to allow toggling of point groups in Leaflet maps. Default \code{NULL} will produce maps without
 #' point groups. List names represent the names of the groups to plot, and list values represent the SUBIDs within the group.
 #' Example: \code{sites.groups = list("GROUP 1" = c(1, 2, 3), "GROUP 2" = c(4, 5, 6))}.
@@ -105,7 +105,7 @@
 
 #' @examples
 #' \donttest{
-#' # Import plot data and subbasin polygons
+#' # Import plot data and subbasin points
 #' require(sf)
 #' te1 <- ReadSubass(filename = system.file("demo_model",
 #' "results", "subass1.txt", package = "HYPEtools"))
@@ -128,7 +128,7 @@
 #' 
 
 
-PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL, bg = NULL, bg.label.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
+PlotMapPoints <- function(x, sites = NULL, sites.subid.column = 1, sites.groups = NULL, bg = NULL, bg.label.column = 1, var.name = "", map.type = "default", shiny.data = FALSE,
                           plot.legend = TRUE, legend.pos = "right", legend.title = NULL, 
                           legend.signif = 2, col = NULL, col.breaks = NULL, col.labels = NULL, col.rev = FALSE,
                           plot.scale = TRUE, scale.pos = "br", plot.arrow = TRUE, arrow.pos = "tr",
@@ -138,7 +138,8 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
                           plot.label = FALSE, plot.label.size = 2.5, plot.label.geometry = c("centroid", "surface"), noHide = FALSE, textOnly = FALSE, font.size = 10, plot.bg.label = NULL,
                           file = "", width = NA, height = NA, units = c("in", "cm", "mm", "px"), dpi = 300,
                           vwidth = 1424, vheight = 1000, html.name = "",
-                          map.adj = 0, legend.outer = FALSE, legend.inset = c(0, 0), pt.cex = 1, par.cex = 1, par.mar = rep(0, 4) + .1, pch = 21, lwd = .8, add = FALSE) {
+                          map.adj = 0, legend.outer = FALSE, legend.inset = c(0, 0), pt.cex = 1, par.cex = 1, par.mar = rep(0, 4) + .1, pch = 21, lwd = .8, add = FALSE,
+                          map = NULL, map.subid.column = NULL) {
   
   # Backup par and restore on function exit
   userpar <- par(no.readonly = TRUE) # Backup par
@@ -188,6 +189,22 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
       }
     }
     
+    # Check that sites/map are specified
+    stopifnot(!is.null(sites) | !is.null(map))
+    
+    # Handle if both sites/map are specified or if only sites specified
+    if(!is.null(sites) & !is.null(map)){
+      warning('Both "sites" and "map" arguments specified. Ignoring "map".', call. = FALSE)
+    } else if(!is.null(map)){
+      sites <- map
+    }
+    
+    # Handle if map.subid.column is specified
+    if(!is.null(map.subid.column)){
+      warning('"map.subid.column" argument specified. Ignoring "sites.subid.column".', call. = FALSE)
+      sites.subid.column <- map.subid.column
+    }
+    
     # input argument checks
     stopifnot(
       is.data.frame(x), dim(x)[2] == 2,
@@ -196,8 +213,24 @@ PlotMapPoints <- function(x, sites, sites.subid.column = 1, sites.groups = NULL,
       is.null(col.breaks) || is.numeric(col.breaks)
     )
     
-    x <- as.data.frame(x) # Force x to data.frame format from e.g. tibble or data.table
+    # Force x to data.frame format from e.g. tibble or data.table
+    x <- as.data.frame(x)
     
+    # Check if GIS data exists for all mapoutput SUBIDs
+    if(!all(as.character(x[[1]]) %in% as.character(sites[[sites.subid.column]]))){
+      warning("Some MapOutput (x) SUBIDs not present in GIS data (sites)", call. = FALSE)
+    }
+    
+    # Check if mapoutput data exists for all GIS SUBIDs
+    if(!all(as.character(sites[[sites.subid.column]]) %in% as.character(x[[1]]))){
+      warning("Some GIS (sites) SUBIDs not present in MapOutput (x)", call. = FALSE)
+    }
+    
+    # Only get subbasins in the gis data
+    x <- x %>%
+      filter(as.character(!!sym(colnames(x)[1])) %in% as.character(sites[[sites.subid.column]]))
+    
+    # Convert GIS types
     if (map.type == "legacy") {
       if ("sf" %in% class(sites)) {
         sites <- sf::as_Spatial(sites)
