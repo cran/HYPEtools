@@ -1,7 +1,16 @@
 # HYPEtools NEWS
 
-## HYPEtools 1.5.1
-*Development Version*
+## HYPEtools 1.5.2
+*Enhancements and bug fixes*
+
+#### Highlights
+* Fix ReadObs() so date/time format works when importing as a data.table object
+* Prevent scientific notation when writing files
+* Add ReadClassData() function
+* Add argument to control date/time format for x-axis in PlotBasinOutput()
+
+## HYPEtools 1.5.1 (2023-08-24)
+*Enhancements and bug fixes*
 
 #### Highlights
 * Fix broken @docTYPE package documentation (package?pkgname) as described here: https://github.com/r-lib/roxygen2/issues/1491

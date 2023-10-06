@@ -2,6 +2,7 @@
 #--------------------------------------------------------------------------------------------------------------------------------------
 #   Collection of HYPE file import functions, herein:
 #
+#     - ReadClassData()
 #     - ReadGeoClass()
 #     - ReadBasinOutput()
 #     - ReadXobs()
@@ -21,6 +22,93 @@
 #     - ReadSimass()
 #     - ReadInfo()
 #--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+# ReadClassData
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+#' Read a 'ClassData.txt' File
+#'
+#' This is a convenience wrapper function to import a ClassData file as data frame into R. ClassData files contain definitions
+#' of SLC (\bold{S}oil and \bold{L}and use \bold{C}rop) classes in five to 15 predefined columns, see 
+#' \href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:classdata.txt}{ClassData.txt documentation}.
+#' 
+#' @param filename Path to and file name of the ClassData file to import. Windows users: Note that 
+#' Paths are separated by '/', not '\\'. 
+#' @param encoding Character string, encoding of non-ascii characters in imported text file. Particularly relevant when 
+#' importing files created under Windows (default encoding "Latin-1") in Linux (default encoding "UTF-8") and vice versa. See 
+#' also argument description in \code{\link[data.table]{fread}}.
+#' @param verbose Print information on number of data columns in imported file.
+#' 
+#' @details
+#' \code{ReadClassData} is a convenience wrapper function of \code{\link[data.table]{fread}}, with treatment of leading 
+#' comment rows. Column names are created on import, optional comment rows are imported as strings in \code{attribute} 'comment'. 
+#' Optional inline comments (additional non-numeric columns) are automatically identified and imported along with data columns. 
+#' 
+#' @return
+#' \code{ReadClassData} returns a data frame with added attribute 'comment'.
+#' 
+#' @seealso
+#' \code{\link{ReadGeoClass}}
+#' 
+#' @examples
+#' te <- ReadClassData(filename = system.file("demo_model", "ClassData.txt", package = "HYPEtools"))
+#' te
+#' 
+#' @importFrom data.table fread
+#' @importFrom dplyr rename_with
+#' @export
+
+ReadClassData <- function(filename = "ClassData.txt", encoding = c("unknown", "UTF-8", "Latin-1"), verbose = TRUE) { 
+  
+  # argument checks
+  encoding <- match.arg(encoding)
+  
+  # identify comment rows, lines starting with '!' at the top of the file
+  gf <- file(description = filename, open = "r")
+  cm <- TRUE
+  skip <- 0
+  while (cm) {
+    te <- substr(readLines(gf, n = 1), 1, 1)
+    if (te == "!") {
+      skip <- skip + 1
+    } else {
+      cm <- FALSE
+    }
+  }
+  close(gf)
+  
+  # read in the data in the file, skipping the comments and header
+  x <- fread(filename, header = TRUE, skip = skip, fill = TRUE, data.table = FALSE, encoding = encoding) %>%
+    rename_with(toupper)
+  
+  # Specify mandatory columns
+  mandatory_cols <- c("CLASS", "LANDUSE", "SOILTYPE", "STREAMDEPTH", "DEPTHSL1")
+  
+  # Check that all mandatory columns are included
+  if(any(!mandatory_cols %in% colnames(x))){
+    warning(paste("Missing mandatory columns:", mandatory_cols[which(!mandatory_cols %in% colnames(x))]))
+  }
+  
+  # update with new attributes to hold comment rows
+  attr(x, which = "comment") <- readLines(filename, n = skip, encoding = ifelse(encoding == "Latin-1", "latin1", encoding))
+  
+  # check if all data columns are numeric, with a useful warning
+  if (!all(apply(x[, 1:ncol(x)], 2, is.numeric))) {
+    warning("Non-numeric contents in data columns of imported file.")
+  }
+  
+  if (verbose) {
+    message(paste(ncol(x), "data columns in imported file."))
+  }
+  
+  return(x)
+}
+
 
 
 
@@ -50,6 +138,9 @@
 #' 
 #' @return
 #' \code{ReadGeoClass} returns a data frame with added attribute 'comment'.
+#' 
+#' @seealso
+#' \code{\link{ReadClassData}}
 #' 
 #' @examples
 #' te <- ReadGeoClass(filename = system.file("demo_model", "GeoClass.txt", package = "HYPEtools"))
@@ -1370,7 +1461,8 @@ ReadTimeOutput <- function(filename, dt.format = "%Y-%m-%d", hype.var = NULL, ou
 #' 
 #' @param filename Path to and file name of the file to import. Windows users: Note that 
 #' Paths are separated by '/', not '\\'. 
-#' @param dt.format Date-time \code{format} string as in \code{\link{strptime}}. 
+#' @param dt.format Optional date-time \code{format} string as in \code{\link{strptime}}. If \code{NULL}, then HYPEtools will try to identify
+#' the format automatically. 
 #' @param variable Character string, HYPE variable ID of file contents. If \code{""} (default), the ID is extracted 
 #' from \code{filename}, which only works with HYPE input data file names or file names including those names 
 #' (e.g. 'Pobs_old.txt', 'testSFobs.txt'). Some of the observation data files have no corresponding HYPE variable ID. 
@@ -1426,15 +1518,12 @@ ReadTimeOutput <- function(filename, dt.format = "%Y-%m-%d", hype.var = NULL, ou
 #' 
 #' @importFrom data.table fread
 #' @importFrom stats na.fail
-# #' @importFrom lubridate force_tz
+#' @importFrom lubridate as_datetime
 #' @export
 
 
 ReadObs <- function(filename, variable = "", 
-                    dt.format = c("%F", "%F %R", "%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y%m%d", "%Y%m%d%H%M"), nrows = -1, type = c("df", "dt"), select = NULL, obsid = NULL) {
-  
-  # input check: date format
-  dt.format <- match.arg(dt.format)
+                    dt.format = NULL, nrows = -1, type = c("df", "dt"), select = NULL, obsid = NULL) {
   
   # input check: variable
   if (!is.character(variable)) {
@@ -1527,8 +1616,11 @@ ReadObs <- function(filename, variable = "",
              na.strings = c("-9999", "****************", "-1.0E+04", "-1.00E+04", "-9.999E+03", "-9.9990E+03", "-9.99900E+03", "-9.999000E+03", "-9.9990000E+03", "-9.99900000E+03", "-9.999000000E+03"), 
              sep = "\t", header = TRUE, data.table = d.t, nrows = nrows, select = select, colClasses = cC, check.names = TRUE)
   
+  
+  
+  
   # date(time) conversion
-  xd <- as.POSIXct(strptime(x[, 1], format = dt.format), tz = "UTC")
+  xd <- as_datetime(x$DATE, format = dt.format)
   x[, 1] <- tryCatch(na.fail(xd), error = function(e) {
     print("Date/time conversion attempt led to introduction of NAs, date/times returned as strings"); return(x[, 1])
   })
@@ -1541,7 +1633,11 @@ ReadObs <- function(filename, variable = "",
   obsid(x) <- sbd
   
   # conditional: timestep attribute identified by difference between first two rows
-  tdff <- as.numeric(difftime(x[2,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)], x[1,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)], units = "hours"))
+  if(type == "df"){
+    tdff <- as.numeric(difftime(x[2,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)], x[1,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)], units = "hours"))
+  } else if(type == "dt"){
+    tdff <- as.numeric(difftime(x[[2,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)]], x[[1,grep("DATE",colnames(x),ignore.case = TRUE,value=TRUE)]], units = "hours"))
+  }
 
   if (!is.na(tdff)) {
     if (tdff == 24) {

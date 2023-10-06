@@ -38,3 +38,6 @@ te <- ReadGeoClass(filename = system.file("demo_model", "GeoClass.txt", package 
 te
 
 }
+\seealso{
+\code{\link{ReadClassData}}
+}

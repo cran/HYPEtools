@@ -80,7 +80,6 @@ WritePar <- function (x, filename, digits = 10, nsmall = 1) {
 #' @param filename A character string naming a file to write to. Windows users: Note that 
 #' Paths are separated by '/', not '\\'.
 #' @param digits Integer, number of significant digits \strong{in SLC class columns} to export. See \code{\link{signif}}.
-#' @param scipen Integer, scientific notification bias, see documentation in \code{\link[data.table]{fwrite}}.
 #'  
 #' @details
 #' \code{WriteGeoData} exports a GeoData dataframe using \code{\link[data.table]{fwrite}}. \code{SUBID} and \code{MAINDOWN} 
@@ -102,7 +101,7 @@ WritePar <- function (x, filename, digits = 10, nsmall = 1) {
 #' @export
 
 
-WriteGeoData <- function(x, filename, digits = 6, scipen = getOption('scipen', 0L)) {
+WriteGeoData <- function(x, filename, digits = 6) {
   
   # warn if there are NAs, which should not occur in GeoData files for HYPE
   if (!is.null(na.action(na.omit(x)))) {
@@ -134,7 +133,7 @@ WriteGeoData <- function(x, filename, digits = 6, scipen = getOption('scipen', 0
   # 
   # do.call(table, call) # exectue table() with the custom settings
   
-  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE, scipen = scipen)
+  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 
@@ -182,20 +181,20 @@ WriteGeoClass <- function(x, filename, use.comment = FALSE) {
     if (!is.null(attr(x, "comment"))) {
       
       writeLines(attr(x, which = "comment"), con = filename)
-      fwrite(file = filename, x = x, append = TRUE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
+      fwrite(file = filename, x = x, append = TRUE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, scipen = 999)
       
     } else {
       
       warning("Attribute 'comment' not found in 'x'. Column names exported instead.")
       writeLines(paste0("!", paste(names(x), collapse = "\t")), con = filename)
-      fwrite(file = filename, x = x, append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
+      fwrite(file = filename, x = x, append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, scipen = 999)
       
     }
     
   } else {
     
     writeLines(paste0("!", paste(names(x), collapse = "\t")), con = filename)
-    fwrite(file = filename, x = x, append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
+    fwrite(file = filename, x = x, append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, scipen = 999)
     
   }
 }
@@ -336,7 +335,7 @@ WriteXobs <- function(x, filename, append = FALSE, comment = NULL, variable = NU
         # attribute subid exists
         if (length(attr(x, which = "subid")) == ncol(x) - 1) {
           # attribute and export dataframe match in length, export attribute with padded 0 and newline
-          tmp <- paste(as.character(c(0, attr(x, which = "subid"))), collapse = "\t")
+          tmp <- paste(c("0", as.character(attr(x, which = "subid"))), collapse = "\t")
           writeLines(tmp, con = fcon)
         } else {
           # mismatch in length, stop with error
@@ -434,7 +433,7 @@ WriteXobs <- function(x, filename, append = FALSE, comment = NULL, variable = NU
       pad <- cbind(format(dpad, format = "%Y-%m-%d %H:%M"), as.data.frame(matrix(data = -9999, nrow = length(dpad), 
                                                                                  ncol = ncol(x) - 1)))
       # export
-      fwrite(pad, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999")
+      fwrite(pad, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999", scipen = 999)
     }
     
     if (timestep == "d" | timestep == "day") {
@@ -461,7 +460,7 @@ WriteXobs <- function(x, filename, append = FALSE, comment = NULL, variable = NU
       pad <- cbind(format(dpad, format = "%Y-%m-%d"), as.data.frame(matrix(data = -9999, nrow = length(dpad), 
                                                                            ncol = ncol(x) - 1)))
       # export
-      fwrite(pad, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999")
+      fwrite(pad, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999", scipen = 999)
     }
   }
   
@@ -473,7 +472,7 @@ WriteXobs <- function(x, filename, append = FALSE, comment = NULL, variable = NU
     x[,1] <- format(x[,1], format = "%Y-%m-%d %H:%M")
   }
   # export
-  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999")
+  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999", scipen = 999)
   # old version, delete after while
   #write.table(x, file = filename, col.names = FALSE, sep = "\t", append = TRUE, na = "-9999", row.names = FALSE, quote = FALSE)
 
@@ -535,7 +534,7 @@ WriteBasinOutput <- function(x, filename, dt.format = "%Y-%m-%d") {
   }
   
   # export object, omitting header
-  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999")
+  fwrite(x, file = filename, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE, append = TRUE, na = "-9999", scipen = 999)
   # old version, delete after while
   #write.table(x, file = filename, append = TRUE, sep = "\t", row.names = FALSE, col.names = FALSE, na = "-9999", quote = FALSE)
   
@@ -608,7 +607,7 @@ WriteTimeOutput <- function(x, filename, dt.format = "%Y-%m-%d") {
   }
   
   # export the object, omitting header
-  fwrite(x, file = filename, append = TRUE, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE)
+  fwrite(x, file = filename, append = TRUE, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, scipen = 999)
   # old version, cann be deleted after a while
   # write.table(x, file = filename, append = TRUE, sep = "\t", row.names = FALSE, col.names = FALSE, na = "-9999", quote = FALSE)
   
@@ -674,7 +673,7 @@ WriteMapOutput <- function(x, filename, dt.format = "%Y-%m-%d") {
   close(conn)
   
   # export the object, omitting header
-  fwrite(x, file = filename, append = TRUE, sep = ",", quote = FALSE, na = "-9999", row.names = FALSE, col.names = FALSE)
+  fwrite(x, file = filename, append = TRUE, sep = ",", quote = FALSE, na = "-9999", row.names = FALSE, col.names = FALSE, scipen = 999)
 
 }
 
@@ -715,7 +714,7 @@ WriteMapOutput <- function(x, filename, dt.format = "%Y-%m-%d") {
 
 WritePmsf <- function(x, filename) {
   # concatenate number of subids and vector of subids and export
-  fwrite(data.frame(c(length(x), x)), file = filename, append = FALSE, quote = FALSE, row.names = FALSE, col.names = FALSE)
+  fwrite(data.frame(c(length(x), x)), file = filename, append = FALSE, quote = FALSE, row.names = FALSE, col.names = FALSE, scipen = 999)
   # old version, can be deleted after a while
   # write.table(c(length(x), x), filename, col.names = FALSE, row.names = FALSE)
 }
@@ -840,7 +839,7 @@ WriteObs <- function (x, filename, dt.format = "%Y-%m-%d", round = NULL, signif 
   }
   
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, scipen = 999)
 }
 
 # alias, for backwards compatibility
@@ -922,7 +921,7 @@ WriteAquiferData <- function(x, filename, verbose = TRUE) {
     warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
   # old version
   # # convert NAs to -9999, needed because format() below does not allow for automatic replacement of NA strings 
   # x[is.na(x)] <- -9999
@@ -944,7 +943,7 @@ WriteOutregions <- function(x, filename, verbose = TRUE) {
     warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
   # old version
   # # convert NAs to -9999, needed because format() below does not allow for automatic replacement of NA strings 
   # x[is.na(x)] <- -9999
@@ -967,7 +966,7 @@ WriteBranchData <- function(x, filename, verbose = TRUE) {
     warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -984,7 +983,7 @@ WriteCropData <- function(x, filename, verbose = TRUE) {
     warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -1001,7 +1000,7 @@ WriteDamData <- function(x, filename, verbose = TRUE) {
     warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -1013,7 +1012,7 @@ WriteLakeData <- function(x, filename, verbose = TRUE) {
     .CheckCharLengthDf(x, maxChar = 100)
     }
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -1028,7 +1027,7 @@ WriteMgmtData <- function(x, filename, verbose = TRUE) {
   te <- apply(x, 2, function(x) {any(is.na(x))})
   if (any(te) && verbose) warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -1043,14 +1042,14 @@ WritePointSourceData <- function(x, filename, verbose = TRUE) {
   te <- apply(x, 2, function(x) {any(is.na(x))})
   if (any(te) && verbose) warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
 #' @importFrom data.table fwrite
 #' @export
 WriteForcKey <- function(x, filename) {
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 #' @rdname HypeDataExport
@@ -1065,7 +1064,7 @@ WriteGlacierData <- function(x, filename, verbose = TRUE) {
   te <- apply(x, 2, function(x) {any(is.na(x))})
   if (any(te) && verbose) warning(paste("NA values in exported dataframe in column(s):", paste(names(x)[te], collapse=", ")))
   # export
-  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE)
+  fwrite(x, file = filename, sep = "\t", quote = FALSE, na = "-9999", row.names = FALSE, col.names = TRUE, scipen = 999)
 }
 
 
