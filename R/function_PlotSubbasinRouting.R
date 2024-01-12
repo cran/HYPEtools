@@ -16,6 +16,8 @@
 #' @param fillOpacity Numeric, opacity of subbasin polygons. See [leaflet::addPolygons()].
 #' @param line.weight Numeric, weight of routing lines. See [leaflet::addPolylines()].
 #' @param line.opacity Numeric, opacity of routing lines. See [leaflet::addPolylines()].
+#' @param seed Integer, seed number to to produce repeatable color palette.
+#' @param darken Numeric specifying the amount of darkening applied to the random color palette. Negative values will lighten the palette. See \code{\link{distinctColorPalette}}.
 #' @param font.size Numeric, font size (px) for map subbasin labels.
 #' @param file Save map to an image file by specifying the path to the desired output file using this argument. File extension must be specified. 
 #' See [mapview::mapshot()].
@@ -28,7 +30,7 @@
 #' @details
 #' \code{PlotSubbasinRouting} generates an interactive Leaflet map with lines indicating the routing of flow between subbasins. GeoData information only needs 
 #' to be provided if the \code{map} GIS data does not include SUBID and/or MAINDOWN fields. BranchData information only needs to be provided if model has a 
-#' BranchData.txt file. Subbasin routing lines are randomly assigned a color using [randomcoloR::distinctColorPalette()].
+#' BranchData.txt file. Subbasin routing lines are randomly assigned a color using \code{\link{distinctColorPalette}}.
 #'
 #' @return
 #' Returns an interactive Leaflet map.
@@ -53,7 +55,7 @@
 
 PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL, plot.scale = TRUE, plot.searchbar = FALSE,
                                 weight = 0.5, opacity = 1, fillColor = "#4d4d4d", fillOpacity = 0.25, line.weight = 5, line.opacity = 1,
-                                font.size = 10, file = "", vwidth = 1424, vheight = 1000, html.name = "") {
+                                seed = NULL, darken = 0, font.size = 10, file = "", vwidth = 1424, vheight = 1000, html.name = "") {
 
   # Check/Load Dependencies - do this here so that these packages are not required for the base HYPEtools installation
   if (!all(
@@ -61,11 +63,10 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
     requireNamespace("leaflet", quietly = TRUE),
     requireNamespace("leaflet.extras", quietly = TRUE),
     requireNamespace("mapview", quietly = TRUE),
-    requireNamespace("htmlwidgets", quietly = TRUE),
-    requireNamespace("randomcoloR", quietly = TRUE)
+    requireNamespace("htmlwidgets", quietly = TRUE)
   )) {
     # Warn that a dependency is not installed
-    stop('To use this function, please ensure that the following packages are installed: c("sf", "leaflet", "leaflet.extras", "mapview", "htmlwidgets", "randomcoloR")', call.=FALSE)
+    stop('To use this function, please ensure that the following packages are installed: c("sf", "leaflet", "leaflet.extras", "mapview", "htmlwidgets")', call.=FALSE)
 
     # Perform function
   } else {
@@ -192,9 +193,9 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
 
     # Create function to get colors for polylines
     color_pal <- function(X) {
-      tryCatch(randomcoloR::distinctColorPalette(X), # Try to get a distinct color for each line
+      tryCatch(distinctColorPalette(X, seed = seed, darken = darken), # Try to get a distinct color for each line
         error = function(e) {
-          rep_len(randomcoloR::distinctColorPalette(100), X) # If there is an error, then repeat palette of 100 colors as necessary
+          rep_len(distinctColorPalette(100, seed = seed, darken = darken), X) # If there is an error, then repeat palette of 100 colors as necessary
         }
       )
     }
@@ -271,7 +272,6 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
 # library(sf)
 # library(leaflet)
 # library(leaflet.extras)
-# library(randomcoloR)
 # map.subid.column <- 1
 # gd <- NULL
 # bd <- NULL

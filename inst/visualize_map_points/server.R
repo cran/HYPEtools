@@ -183,7 +183,17 @@ shinyAppServer <- function(input, output, session) {
   gis.subid <- shiny::reactive({which(colnames(gis()) == input$column)})
   
   # Output table for GIS
-  output$gis <- DT::renderDataTable(gis() %>% sf::st_drop_geometry(), rownames = FALSE, filter = "top", options = list(scrollX = TRUE, lengthMenu = c(5, 10, 25, 50, 100)))
+  output$gis <- DT::renderDataTable(
+    gis() %>%
+      sf::st_drop_geometry() %>%
+      # Convert strings columns to factors if there are any duplicated values
+      mutate(across(where(is.character), function(X) {
+        if (any(duplicated(X))) {
+          as.factor(X)
+        }
+      })),
+    rownames = FALSE, filter = "top", options = list(scrollX = TRUE, lengthMenu = c(5, 10, 25, 50, 100))
+  )
   # output$gis <- DT::renderDataTable(datatable(gis() %>% sf::st_drop_geometry(), rownames = FALSE, options = list(scrollX = TRUE)) %>% formatRound(unlist(lapply(gis() %>% sf::st_drop_geometry, is.numeric), use.names = FALSE), 3)) # Use this to round numeric columns, but then this affects columns like SUBID
   
   # GIS Data filtered by data table
@@ -203,6 +213,14 @@ shinyAppServer <- function(input, output, session) {
   
   # Input to select SUBID column in GIS file
   output$input_column <- shiny::renderUI({shiny::selectInput("column", "Select SUBID Column", choices = colnames(gis())[which(!colnames(gis()) %in% attr(gis(), "sf_column"))], selected = colnames(gis())[sites.subid.column])})
+  
+  # Download Data
+  output$download_gis <- shiny::downloadHandler(
+    filename = "gis_data.csv",
+    content = function(file){
+      write.csv(gis_filtered() %>% sf::st_drop_geometry(), file, row.names = FALSE)
+    }
+  )
   
   # _____________________________________________________________________________________________________________________________________
   # Process GIS Background Data #####
@@ -312,6 +330,14 @@ shinyAppServer <- function(input, output, session) {
   
   # Render Data Table
   output$table <- DT::renderDataTable(data_out() %>% rename_with(~gsub("^X", "", .), .cols = 2), rownames = FALSE, filter = "top", options = list(scrollX = TRUE, lengthMenu = c(5, 10, 25, 50, 100)))
+  
+  # Download Data
+  output$download_data <- shiny::downloadHandler(
+    filename = "result_data.csv",
+    content = function(file){
+      write.csv(data_out(), file, row.names = FALSE)
+    }
+  )
   
   # _____________________________________________________________________________________________________________________________________
   # Create Plotly BoxPlot #####
@@ -459,8 +485,6 @@ shinyAppServer <- function(input, output, session) {
     } else{
       var.name <- gsub("map", "", tools::file_path_sans_ext(input$result))
     }
-    
-    tester<<-result_type()
 
     # Create basemap and get data
     data <- PlotMapPoints(

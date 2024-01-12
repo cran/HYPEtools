@@ -55,6 +55,8 @@
 #' @importFrom graphics par grid abline axis axis.POSIXct box polygon lines boxplot text legend
 #' @importFrom stats na.omit median
 #' @importFrom utils modifyList
+#' @importFrom dplyr %>%
+#' @importFrom tidyr drop_na
 #' @export
 
 # Exported function
@@ -155,9 +157,14 @@ PlotSimObsRegime <- function(x, sim, obs, ts.in = NULL, ts.out = "month", start.
     
   } else if (log && ylim[1] <= 0) {
     
-    # minimum value 0 or negative, raise axis minimum to smalles positive value
+    # minimum value 0 or negative, raise axis minimum to smallest positive value and filter out negative/zero values
     warning("Zero or negative values in 'sim'/'obs', not shown in log-scaled plot.")
     ylim[1] <- min(c(x.sim[, 2], x.obs[, 2])[c(x.sim[, 2], x.obs[, 2]) > 0], na.rm = TRUE)
+    
+    x.sim <- x.sim[which(x.sim[, 2] > 0),]
+    if(!is.null(x.obs)){
+      x.obs <- x.obs[which(x.obs[, 2] > 0),]
+    }
     
   }
   
@@ -239,8 +246,8 @@ PlotSimObsRegime <- function(x, sim, obs, ts.in = NULL, ts.out = "month", start.
   # plot simulation regime ribbons, if sim was provided by user
   if (!is.null(sim)) {
     polcol <- .makeTransparent("red", 60)
-    polcoor.minmax <- rbind(reg.sim$minimum[, c(1, 3)], reg.sim$maximum[nrow(reg.sim$maximum):1, c(1, 3)])
-    polcoor.p25p75 <- rbind(reg.sim$p25[, c(1, 3)], reg.sim$p75[nrow(reg.sim$p75):1, c(1, 3)])
+    polcoor.minmax <- rbind(reg.sim$minimum[, c(1, 3)], reg.sim$maximum[nrow(reg.sim$maximum):1, c(1, 3)]) %>% drop_na()
+    polcoor.p25p75 <- rbind(reg.sim$p25[, c(1, 3)], reg.sim$p75[nrow(reg.sim$p75):1, c(1, 3)]) %>% drop_na()
     polygon(polcoor.minmax[, 1], polcoor.minmax[, 2], col = polcol, border = NA)
     polygon(polcoor.p25p75[, 1], polcoor.p25p75[, 2], col = polcol, border = NA)
     # add mean and median lines, median needs to be calculated

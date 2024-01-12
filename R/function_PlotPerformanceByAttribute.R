@@ -11,6 +11,9 @@
 #' @param join.type Specify how to join \code{subass} to \code{attributes}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
 #' will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a 
 #' grouping variable (e.g. month).
+#' @param group.join.type Specify how to join \code{subass} to \code{groups}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
+#' will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a 
+#' grouping variable (e.g. month).
 #' @param groups.color.pal Vector containing colors to use when plotting groups. Only used if groups is not \code{NULL}.
 #' @param drop Logical, should unused factor levels be omitted from the legend. See \code{\link{scale_color_manual}} and \code{link{scale_fill_manual}}.
 #' @param alpha Numeric value to set transparency of dots in output plots. Should be in the range 0-1.
@@ -41,6 +44,7 @@
 #' @param group.legend.title String, title for plot legend when generating plots with \code{groups}.
 #' @param common.y.axis Logical, if \code{TRUE}, then only one y-axis label and marginal density plot will be provided. If \code{FALSE}, then separate y-axis labels and marginal density plots will be included for each subplot.
 #' @param summary.table Logical, if \code{TRUE}, then a table providing summary statistics will be included at the bottom of the output plot.
+#' @param table.margin Numeric, controls spacing between plots and summary table.
 #' @param filename String, filename used to save plot. File extension must be specified. See \code{\link{ggsave}}.
 #' @param width Numeric, specify width of output plot. See \code{\link{ggsave}}.
 #' @param height Numeric, specify height of output plot. See \code{\link{ggsave}}.
@@ -101,14 +105,15 @@
 #' @importFrom scales pseudo_log_trans
 #' @export
 
-PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL, attributes, join.type = c("join", "cbind"), groups.color.pal = NULL, drop = TRUE, alpha = 0.4,
+PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL, attributes, join.type = c("join", "cbind"), group.join.type = c("join", "cbind"), groups.color.pal = NULL, drop = TRUE, alpha = 0.4,
                                        trendline = TRUE, trendline.method = "lm", trendline.formula = NULL, trendline.alpha = 0.5, trendline.darken = 15, density.plot = FALSE, density.plot.type = c("density", "boxplot"),
                                        scale.x.log = FALSE, scale.y.log = FALSE, xsigma = 1, ysigma = 1, xlimits = c(NA, NA), ylimits = c(NA, NA), xbreaks = waiver(), ybreaks = waiver(), xlabels = waiver(), ylabels = waiver(),
                                        xlab = NULL, ylab = NULL, ncol = NULL, nrow = NULL, align = "hv", common.legend = TRUE, legend.position = "bottom", group.legend.title = "Group", common.y.axis = FALSE, summary.table = FALSE,
-                                       filename = NULL, width = NA, height = NA, units = c("in", "cm", "mm", "px"), dpi = 300) {
+                                       table.margin = 0.4, filename = NULL, width = NA, height = NA, units = c("in", "cm", "mm", "px"), dpi = 300) {
 
   # Check join type and density plot type
   join.type <- match.arg(join.type)
+  group.join.type <- match.arg(group.join.type)
   density.plot.type <- match.arg(density.plot.type)
 
   # Check trendline.darken value
@@ -116,11 +121,6 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     warning("trendline.darken set must be in range 1-100. Setting to 1")
   } else if (trendline.darken > 100) {
     warning("trendline.darken set must be in range 1-100. Setting to 100")
-  }
-  
-  # Convert group IDs to string if numeric
-  if(is.numeric(groups[[2]])){
-    groups[[2]] <- as.character(groups[[2]])
   }
 
   # Create dataframe to store plot data
@@ -130,10 +130,31 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
   } else{
     plotdata <- subass
   }
+  
+  # Format groups
+  if (!is.null(groups)) {
+    
+    # Convert group IDs to string if numeric
+    if(is.numeric(groups[[2]])){
+      groups[[2]] <- as.character(groups[[2]])
+    }
+    
+    # Rename grouping column if it exists already in plotdata to avoid conflict when joining
+    if(colnames(groups)[2] %in% colnames(plotdata)){
+      colnames(groups)[2] <- "Group"
+    }
+  }
 
   # Join subass data to groups if they are given
   if (!is.null(groups)) {
-    plotdata <- left_join(plotdata, groups, by = "SUBID") %>% rename("Group" = colnames(groups)[2])
+    if(group.join.type == "join"){
+      plotdata <- left_join(plotdata, groups, by = "SUBID") %>% rename("Group" = colnames(groups)[2])
+    } else if (group.join.type == "cbind"){
+      if (!nrow(plotdata) == nrow(groups)) {
+        stop("ERROR: number of rows in subass does not match number of rows in groups")
+      }
+      plotdata <- cbind(plotdata, groups %>% select(-"SUBID")) %>% rename("Group" = colnames(groups)[2])
+    }
   }
 
   # Join subass data to attribute data
@@ -219,8 +240,9 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             summarize(unique = n_distinct(!!sym(col))) %>%
             filter(unique > 1) %>%
             select(all_of("Group")) %>%
-            unlist() %>%
-            as.numeric()
+            unlist()
+          
+          trendline_groups <- which(unique(groups[[2]]) %in% trendline_groups)
         } else{
           trendline_groups <- 1:length(unique(groups[[2]]))
         }
@@ -288,18 +310,18 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     
     # Scale x axis
     if(scale.x.log[which(plotcols == col)] == TRUE){ # Log scale
-      if(any(plotdata[[col]] <= 0)){
-        plot <- plot + scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = xlabels, trans=pseudo_log_trans(base = 10, sigma = xsigma)) # Psuedo-log if 0 or negative values
+      if(any(plotdata[[col]] <= 0, na.rm = TRUE)){
+        plot <- plot + scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = xlabels, trans=pseudo_log_trans(base = 10, sigma = xsigma)) # Pseudo-log if 0 or negative values
       } else{
         plot <- plot + scale_x_log10(limits = xlimits, breaks = xbreaks, labels = xlabels)
       }
     } else{ # Normal scale
       plot <- plot + scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = xlabels)
     }
-    
+
     # Scale y axis
     if(scale.y.log[which(plotcols == col)] == TRUE){ # Log scale
-      if(any(plotdata[[colnames(subass)[subass.column]]] <= 0)){
+      if(any(plotdata[[colnames(subass)[subass.column]]] <= 0, na.rm = TRUE)){
         plot <- plot + scale_y_continuous(limits = ylimits, breaks = ybreaks, labels = ylabels, trans=pseudo_log_trans(base = 10, sigma = ysigma)) # Psuedo-log if 0 or negative values
       } else{
         plot <- plot + scale_y_log10(limits = ylimits, breaks = ybreaks, labels = ylabels)
@@ -410,7 +432,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
       
       # Scale x axis
       if(scale.x.log[which(plotcols == col)] == TRUE){ # Log scale
-        if(any(plotdata[[col]] <= 0)){
+        if(any(plotdata[[col]] <= 0, na.rm = TRUE)){
           densx <- densx + scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = xlabels, trans=pseudo_log_trans(base = 10, sigma = xsigma)) # Psuedo-log if 0 or negative values
         } else{
           densx <- densx + scale_x_log10(limits = xlimits, breaks = xbreaks, labels = xlabels)
@@ -421,7 +443,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
       
       # Scale y axis
       if(scale.y.log[which(plotcols == col)] == TRUE){ # Log scale
-        if(any(plotdata[[colnames(subass)[subass.column]]] <= 0)){
+        if(any(plotdata[[colnames(subass)[subass.column]]] <= 0, na.rm = TRUE)){
           densy <- densy + scale_x_continuous(limits = ylimits, breaks = ybreaks, labels = ylabels, trans=pseudo_log_trans(base = 10, sigma = ysigma)) # Psuedo-log if 0 or negative values
         } else{
           densy <- densy + scale_x_log10(limits = ylimits, breaks = ybreaks, labels = ylabels)
@@ -587,7 +609,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     }
 
     # Arrange plots
-    arrangeplot <- ggarrange(arrangeplot, table.p, nrow = 2, heights = c(1, 0.4))
+    arrangeplot <- ggarrange(arrangeplot, table.p, nrow = 2, heights = c(1, table.margin))
   }
 
   # Save plot

@@ -3,7 +3,7 @@
 #'
 #' Function to sort an imported GeoData.txt file in downstream order, so that all upstream sub-basins are listed in rows above downstream sub-basins.
 #' 
-#' @param gd A data frame containing a column with SUBIDs and a column with areas, e.g. an imported 'GeoData.txt' file.
+#' @param gd A data frame containing a column with SUBIDs and a column (MAINDOWN) containing the corresponding downstream SUBID, e.g. an imported 'GeoData.txt' file.
 #' @param bd A data frame with bifurcation connections, e.g. an imported 'BranchData.txt' file. Optional argument.
 #' @param progbar Logical, display a progress bar while calculating SUBID sorting. 
 #' 
@@ -52,6 +52,8 @@ SortGeoData <- function(gd, bd = NULL, progbar = TRUE) {
     ibd <- bd[, c(brcol.sr, brcol.br)]
   }
   
+  # Get max SUBID and round up to power of 10 for dummy outlets
+  dummy_power <- 10^ceiling(log10(max(c(gd[[geocol.md]], gd[[geocol.sbd]]))) + 1)
   
   ## create dummy outlets for independent basins connected through BranchData
   ## this is needed to avoid upstream duplicates from subid sorting below
@@ -103,7 +105,7 @@ SortGeoData <- function(gd, bd = NULL, progbar = TRUE) {
       }
       
       # dummy outlet subids, larger than max allowed subid number of digits (HYPE restriction)
-      dsbd <- 1:length(le) + 10^8
+      dsbd <- 1:length(le) + dummy_power
       
       # add dummy outlets to internal gd
       for (i in 1:length(le)) {
@@ -130,7 +132,7 @@ SortGeoData <- function(gd, bd = NULL, progbar = TRUE) {
   }
   
   # remove dummy subids from result
-  ssbd <- ssbd[ssbd < 10^8]
+  ssbd <- ssbd[ssbd < dummy_power]
   
   # sort gd
   gd <- gd[match(ssbd, gd[, geocol.sbd]), ]

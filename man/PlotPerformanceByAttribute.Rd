@@ -11,6 +11,7 @@ PlotPerformanceByAttribute(
   groups = NULL,
   attributes,
   join.type = c("join", "cbind"),
+  group.join.type = c("join", "cbind"),
   groups.color.pal = NULL,
   drop = TRUE,
   alpha = 0.4,
@@ -41,6 +42,7 @@ PlotPerformanceByAttribute(
   group.legend.title = "Group",
   common.y.axis = FALSE,
   summary.table = FALSE,
+  table.margin = 0.4,
   filename = NULL,
   width = NA,
   height = NA,
@@ -54,6 +56,7 @@ PlotJohan(
   groups = NULL,
   attributes,
   join.type = c("join", "cbind"),
+  group.join.type = c("join", "cbind"),
   groups.color.pal = NULL,
   drop = TRUE,
   alpha = 0.4,
@@ -84,6 +87,7 @@ PlotJohan(
   group.legend.title = "Group",
   common.y.axis = FALSE,
   summary.table = FALSE,
+  table.margin = 0.4,
   filename = NULL,
   width = NA,
   height = NA,
@@ -102,6 +106,10 @@ with first column containing SUBIDs and additional columns containing model resu
 \item{attributes}{Data frame object containing the subbasin attribute information to plot on the x-axis of the output plots. Typically a data frame created by \code{\link{SubidAttributeSummary}}}
 
 \item{join.type}{Specify how to join \code{subass} to \code{attributes}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
+will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a
+grouping variable (e.g. month).}
+
+\item{group.join.type}{Specify how to join \code{subass} to \code{groups}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
 will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a
 grouping variable (e.g. month).}
 
@@ -164,6 +172,8 @@ grouping variable (e.g. month).}
 \item{common.y.axis}{Logical, if \code{TRUE}, then only one y-axis label and marginal density plot will be provided. If \code{FALSE}, then separate y-axis labels and marginal density plots will be included for each subplot.}
 
 \item{summary.table}{Logical, if \code{TRUE}, then a table providing summary statistics will be included at the bottom of the output plot.}
+
+\item{table.margin}{Numeric, controls spacing between plots and summary table.}
 
 \item{filename}{String, filename used to save plot. File extension must be specified. See \code{\link{ggsave}}.}
 

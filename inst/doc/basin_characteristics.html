@@ -343,94 +343,94 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="setup" class="section level2">
 <h2>Setup</h2>
 <p>Load HYPEtools Package and Import Files</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HYPEtools)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Path to HYPEtools Model Example Files</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>model_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;demo_model&quot;</span>, <span class="at">package =</span> <span class="st">&quot;HYPEtools&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Import HYPE Model Files</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>gd <span class="ot">&lt;-</span> <span class="fu">ReadGeoData</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoData.txt&quot;</span>))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="fu">ReadGeoClass</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoClass.txt&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load Package</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(HYPEtools)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Get Path to HYPEtools Model Example Files</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>model_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;demo_model&quot;</span>, <span class="at">package =</span> <span class="st">&quot;HYPEtools&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Import HYPE Model Files</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>gd <span class="ot">&lt;-</span> <span class="fu">ReadGeoData</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoData.txt&quot;</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="fu">ReadGeoClass</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoClass.txt&quot;</span>))</span></code></pre></div>
 </div>
 <div id="import-checks" class="section level2">
 <h2>Import Checks</h2>
 <p>Look at names of Soil and Land Use Classes</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read Comment in GeoClass.txt</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">comment</span>(gcl)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;!Landuses: 1=Water; 2=Coniferous forest; 3=Agricultural land\t\t\t\t\t\t\t\t\t\t\t\t\t&quot;                                                                      </span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;!Soils: 1=Fine soil; 2=Coarse soil\t\t\t\t\t\t\t\t\t\t\t\t\t&quot;                                                                                                </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;!Combination\tLanduse\tSoil\tCropid-main\tCropid-2nd\tRotation\tVegetationstyp\tSpecial-class\tTile-depth\tDrain-depth\t#Soil-layers\tDepth1\tDepth2\tDepth3&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Read Comment in GeoClass.txt</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">comment</span>(gcl)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;!Landuses: 1=Water; 2=Coniferous forest; 3=Agricultural land\t\t\t\t\t\t\t\t\t\t\t\t\t&quot;                                                                      </span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [2] &quot;!Soils: 1=Fine soil; 2=Coarse soil\t\t\t\t\t\t\t\t\t\t\t\t\t&quot;                                                                                                </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; [3] &quot;!Combination\tLanduse\tSoil\tCropid-main\tCropid-2nd\tRotation\tVegetationstyp\tSpecial-class\tTile-depth\tDrain-depth\t#Soil-layers\tDepth1\tDepth2\tDepth3&quot;</span></span></code></pre></div>
 </div>
 <div id="summarize-upstream-soil-fractions-for-a-gauge" class="section level2">
 <h2>Summarize Upstream Soil Fractions for a Gauge</h2>
 <p>Summarize fractions for the whole drainage area upstream of the
 gauge.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select SUBID for which you want to summarize the upstream characteristics</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Qobs.sbd <span class="ot">&lt;-</span> <span class="dv">3587</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Upstream soil fractions in percent</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sof <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">subid =</span> Qobs.sbd, <span class="at">gd =</span> gd, <span class="at">gc =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Show how many classes are in each soil category</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sof)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate how many soil classes have a value greater than 0</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sof <span class="sc">!=</span> <span class="dv">0</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Add names for soil categories</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sof) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Fine soil&quot;</span>, <span class="st">&quot;Coarse soil&quot;</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the upstream soil percentages</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>sof</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Fine soil Coarse soil </span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       95.30        4.74</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Select SUBID for which you want to summarize the upstream characteristics</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>Qobs.sbd <span class="ot">&lt;-</span> <span class="dv">3587</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Upstream soil fractions in percent</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>sof <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">subid =</span> Qobs.sbd, <span class="at">gd =</span> gd, <span class="at">gc =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># Show how many classes are in each soil category</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">length</span>(sof)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># Calculate how many soil classes have a value greater than 0</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="fu">sum</span>(sof <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># Add names for soil categories</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">names</span>(sof) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Fine soil&quot;</span>, <span class="st">&quot;Coarse soil&quot;</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># Display the upstream soil percentages</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>sof</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt;   Fine soil Coarse soil </span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt;       95.30        4.74</span></span></code></pre></div>
 </div>
 <div id="summarize-upstream-land-use-fractions-for-a-gauge" class="section level2">
 <h2>Summarize Upstream Land Use Fractions for a Gauge</h2>
 <p>Summarize fractions for the whole drainage area upstream of the
 gauge.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select SUBID for which you want to summarize the upstream characteristics</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Qobs.sbd <span class="ot">&lt;-</span> <span class="dv">3587</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Upstream land use fractions in percent</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>luf <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">subid =</span> Qobs.sbd, <span class="at">gd =</span> gd, <span class="at">gc =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Show how many land use classes there are</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(luf)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate how many land use classes have a value greater than 0</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(luf <span class="sc">!=</span> <span class="dv">0</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Add names for land use categories</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(luf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Water&quot;</span>, <span class="st">&quot;Coniferous&quot;</span>, <span class="st">&quot;Agriculture&quot;</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the upstream land use percentages</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>luf</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Water  Coniferous Agriculture </span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        7.13       81.90       10.90</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># Select SUBID for which you want to summarize the upstream characteristics</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>Qobs.sbd <span class="ot">&lt;-</span> <span class="dv">3587</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Upstream land use fractions in percent</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>luf <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">subid =</span> Qobs.sbd, <span class="at">gd =</span> gd, <span class="at">gc =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># Show how many land use classes there are</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">length</span>(luf)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># Calculate how many land use classes have a value greater than 0</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">sum</span>(luf <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># Add names for land use categories</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="fu">names</span>(luf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Water&quot;</span>, <span class="st">&quot;Coniferous&quot;</span>, <span class="st">&quot;Agriculture&quot;</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Display the upstream land use percentages</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>luf</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;       Water  Coniferous Agriculture </span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;        7.13       81.90       10.90</span></span></code></pre></div>
 </div>
 <div id="plot-upstream-soil-and-land-use-fractions" class="section level2">
 <h2>Plot Upstream Soil and Land Use Fractions</h2>
 <p>Plot fractions for the whole drainage area upstream of the gauge.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Upstream Soil Fractions</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sof, <span class="at">ylab =</span> <span class="st">&quot;Area (%)&quot;</span>, <span class="at">names.arg =</span> <span class="st">&quot;&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">xlab =</span> <span class="st">&quot;Soil fraction&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(sof), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">at =</span> <span class="fu">seq</span>(.<span class="dv">7</span>, <span class="at">by =</span> <span class="fl">1.2</span>, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="at">line =</span> <span class="sc">-</span>.<span class="dv">1</span>, <span class="at">padj =</span> .<span class="dv">5</span>, <span class="at">cex =</span> .<span class="dv">9</span>, <span class="at">las =</span> <span class="dv">3</span>, <span class="at">adj =</span> <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(Qobs.sbd, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">adj =</span> <span class="dv">0</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Plot Upstream Soil Fractions</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">barplot</span>(sof, <span class="at">ylab =</span> <span class="st">&quot;Area (%)&quot;</span>, <span class="at">names.arg =</span> <span class="st">&quot;&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">xlab =</span> <span class="st">&quot;Soil fraction&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(sof), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">at =</span> <span class="fu">seq</span>(.<span class="dv">7</span>, <span class="at">by =</span> <span class="fl">1.2</span>, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="at">line =</span> <span class="sc">-</span>.<span class="dv">1</span>, <span class="at">padj =</span> .<span class="dv">5</span>, <span class="at">cex =</span> .<span class="dv">9</span>, <span class="at">las =</span> <span class="dv">3</span>, <span class="at">adj =</span> <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">mtext</span>(Qobs.sbd, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">adj =</span> <span class="dv">0</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Upstream Land Use Fractions</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(luf, <span class="at">ylab =</span> <span class="st">&quot;Area (%)&quot;</span>, <span class="at">names.arg =</span> <span class="st">&quot;&quot;</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">xlab =</span> <span class="st">&quot;Land use fraction&quot;</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(luf), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">at =</span> <span class="fu">seq</span>(.<span class="dv">7</span>, <span class="at">by =</span> <span class="fl">1.2</span>, <span class="at">length.out =</span> <span class="dv">8</span>), <span class="at">line =</span> <span class="sc">-</span>.<span class="dv">1</span>, <span class="at">padj =</span> .<span class="dv">5</span>, <span class="at">cex =</span> .<span class="dv">9</span>, <span class="at">las =</span> <span class="dv">3</span>, <span class="at">adj =</span> <span class="dv">1</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(Qobs.sbd, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">adj =</span> <span class="dv">0</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># Plot Upstream Land Use Fractions</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">barplot</span>(luf, <span class="at">ylab =</span> <span class="st">&quot;Area (%)&quot;</span>, <span class="at">names.arg =</span> <span class="st">&quot;&quot;</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">xlab =</span> <span class="st">&quot;Land use fraction&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">text =</span> <span class="fu">names</span>(luf), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">at =</span> <span class="fu">seq</span>(.<span class="dv">7</span>, <span class="at">by =</span> <span class="fl">1.2</span>, <span class="at">length.out =</span> <span class="dv">8</span>), <span class="at">line =</span> <span class="sc">-</span>.<span class="dv">1</span>, <span class="at">padj =</span> .<span class="dv">5</span>, <span class="at">cex =</span> .<span class="dv">9</span>, <span class="at">las =</span> <span class="dv">3</span>, <span class="at">adj =</span> <span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">mtext</span>(Qobs.sbd, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">adj =</span> <span class="dv">0</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqkAAAJACAMAAACZsw+/AAAAn1BMVEUAAAAAADoAAGYAOjoAOpAAZrYA/wA6AAA6ADo6AGY6OgA6OpA6ZrY6kLY6kNtmAABmADpmAGZmOgBmkLZmkNtmtrZmtttmtv+QOgCQOjqQOmaQkGaQttuQ27aQ2/+2ZgC2Zjq2Zma225C22/+2/7a2///bkDrbkGbbtmbbtpDb/7bb/9vb////tmb/trb/25D/27b/29v//7b//9v///8bzHSmAAAACXBIWXMAAA7DAAAOwwHHb6hkAAATIklEQVR4nO3daXviyBmFYblj4slmOssEslnZmmxWmAD//7dFC8K4Z+RuFW8dOOXn/tAXvYwg4olUVUi4OgAOqmu/AOCrUCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8UCo8zCt1v656Hz5lejnAhFmlbqrH4UEzPgBE5pS6X5/63Nw/Z3gxwKQ5pe6Wq/Fhw/kfWhxT4WHmOPV4UGWcCrV5c//dcpj7c0SFGuup8ECp8MDKPzyw8g8PrFLBQ8zKfwUkylHqVxxTmaBhniylfsXKf+ZS9+vVl/8RnOQp9csr/5lL3X18yvsEuWy/eWr33Z3dq99U1arJOifJVKp6c9+zWWR+gjy6cVN9/5z3Pc+gvv9Pexarc+70Qksdj+lu67ntuWC/Xhy2P/F63f3LXuV92YWW6qp9v7cPK7u1vWOpWS/xpNTbsn2oFofa7VTQ/l+rPfvvljk/5slS6njufeP8m73U/EN8nGm69zrr55F5jqn79ZeOCrlLFQzxIZXp7N9NCwI3N5tiiJ+D6UxQsXyda5zaVG+/dk2ppndx7X9ntp6qWL4udUYlGOJnZDfAFixfl1qqYIifkduoRTFoKbZUa7XbMVWg0FKPAye3Y9N4cPL73D+/sks1nVHZ4eyfqDl97sB6qlDeJYsiSzW+6q/7bM12Jph1yaLQUm1tuhOo6+oa11IlaCw/6xnvQDMdX2ddsii01P36ce+48m9aqmLJotBSu3Fq/ej3WY/32T+rgkvd+F07fzCdUSmWrwsttbverz2gul0770qxfF1qqd2Ar/b7rMfy7m/N8nWppZoyXQfmqr9Eu6XtWd/07m+BIksdzkeG51HPa/5fbptjnJqieesrXGCn3FIPXaxWxya8pdxSN56XeVre/c1Vf6m6L2/3nJo43/3NVX+zma71HHzv/h5w1d9s3THV7Qza8777m09Tk2wfHEcA1nd/c9VfKse5v+Xd31z1d4mG26iKUmapG887kXcf/2Q7F8yuyFJ3S8+DqW+p3ch6v+Z7/t+NWvEBegbHH+vEjOr9MF0J5pp/mOiPpl/80tyLUOoN2S2/dbzqr1Nn/8YaSoUHSoUHSr0t3WfAbmd/zaCFUm9K3kmJNUq9KaarVM4/O0W8uVJY3u/PXdTvkem3vvCzU94by7uouY8KeEGp8ECpN8bzWylP36KSb7xKqbfF9Jt+Ty873/3flHpTbL89fXzZ+S78o9SbQqmTKPW2uJ/9860HU+qNsZxRnb4HtMl3nyWlIs5/WfmHgZrPqN6Pfiq1MZtP9bqvAss6aKHUW3Ic5jV23/zeXQCe+doaSr0hp2v+zK6oarpMc389MaXekNNlnl7fnzq8bEp9R44L6G6ldud+jqnvy/ipud23p3eXqFDqO3L86rfacfJfM/d/V2rPj6h6eb9YmVIR53981x/evUyldp9YvHkLGKVinjylbsahVjM15iqq1OpmXXvPBMpS6vErijtTn7aUtA8P1Y9vVEl7OUuppxXs6avXS9qHlKrAMTUApQrkGqceD6rvZJx67SKnlLSXM839xxvAJz9hK2kfUqoC66kBKFVAXGqR6yeUqpCp1LqqFv3q/9TF6yXtQ0pVyDSjasendfcdRZN3rpe0DylVId8q1XBPEKtU11TSXs638j+s+bPyf00l7WWOqQEoVSDzOPXs06oLNnfrKFWAuX8AShVg5T8ApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBSg1AKUKUGoAShWg1ACUKkCpAShVgFIDUKoApQagVAFKDUCpApQagFIFKDUApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBSg1AKUKUGoAShWg1ACUKkCpAShVgFIDUKoApQagVAFKDUCpApQagFIFKDUApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBTKVul9XvQ+fQjZ34yhVIE+pm+pxeNCMDy7a3K2jVIEspe7Xpz43988Xb+7mUapAllJ3y9X4sJk4/5e0DylVgWNqAEoVyDVOPR5UGadeVUl7OdPcf7cc5v4TR1RK1ShpL7OeGoBSBcSlVichm7sRlCqQqdS6nfJvH6rq7ilkczeOUgXylNqH+s3Tq/WqCzZ36yhVINN6ajvjrxfdQ1aprqmkvZxt5f+4psrK/zWVtJcznf3b4+mGY+rVlbSX85S6W3741B9Um6kpVUn7kFIVcq1SNcNa1CJoc7eNUgVY+Q9AqQKUGoBSBRJKPZ7Yq4mV0uDndUCpAnNL3S3Hsed+PX3vSeDzOqBUgZml7n55Hufr3+V5XgeUKsA4NQClClBqAEoVSCu1u0xq8iLp2Od1QKkCSaXuPj4dDs1FqZa0DylVIanU7c+eL5pOzXleB5QqMHfu319vyjH1NUoVmH1MrbsV/26cesFi6pzndUCpAgln/3rqzugsz+uAUgWSxqmb6Wukwp/XAaUKJHya2t3G11y4SEWpEiXt5Zml7tfdKPUnn7qh6kUD1ZL2IaUqpHzuv//d1L3RGZ7XAaUKJB9TVc/rgFIF5o5Tuy+bnvy6iRzP64BSBbhCJQClClBqAEoV4ErqAJQqwN0pAShVgDv+AlCqAOPUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUSSh1/1hRX/Y0oVSDl7pT7583isH1gPXVEqQLzS+1+3ER3X+rU96IHP68DShVIKXXVX6F62VWqJe1DSlWYX2r3/f3dDf+UekKpAgnj1E07laofOfu/oFSBlFWqetHN//lmihNKFWA9NQClClBqAEoVSCm1PfXfP9eXfeVPSfuQUhVSrqS+e2pnU/1P8RU8rwNKFUhbperm/Rs+TR1RqkDayn9X6tRPmQ5+XgeUKpB+TK1ZTx1RqkDyOHXDHX8nlCqQOPe/+Ct/StqHlKrAemoAShVIG6cKn9cBpQqkzf2Fz+uAUgVSZlSXXZsy83kdUKpAyjG14j6q1yhVgBlVAEoVSC91/3uOqUeUKpBa6oaz/wtKFUgqtWHl/xVKFUidUV26plrSPqRUhbml1m2li8OFF6fOeV4HlCows9Tjsj+lvkKpAnOPqQ3H1O+jVIGU76VinPoZShVImvsffyC15HkdUKpA6npqw3rqC0oVuODT1L9Q6hGlCvC5fwBKFchUavcjq9+83qqkfUipCnlK3YxrA83UIkFJ+5BSFbKUenYDy9R3V5a0DylVIUupZzewTN0gUNI+pFQFjqkBKFUg1zj1eFBlnHpVJe3lTHP/8WaryW8EKmkfUqoC66kBKFVAXGp1ErK5G0GpAllLfePnAJa0DylVIdMq1cuxk1WqKyppL+c5ph6n/BxTr6ykvZxt7t/N+in1ykray9nGqfXdE6VeW0l7Od+MalM9UuqVlbSXM879tw8/otTrKmkv51yl2q+nfxZASfuQUhX4jCoApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBSg1AKUKUGoAShWg1ACUKkCpAShVgFIDUKoApQagVAFKDUCpApQagFIFKDUApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBSg1AKUKUGoAShWg1ACUKkCpAShVgFIDUKoApQagVAFKDUCpApQagFIFKDUApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKZSt2vq96HTyGbu3GUKpCn1E31ODxoxgcXbe7WUapAllL361Ofm/vnizd38yhVIEupu+VqfNhMnP9L2oeUqsAxNQClCuQapx4PqoxTr6qkvZxp7r9bDnP/iSMqpWqUtJdZTw1AqQLiUquTkM3dCEoVyFTqpm2xH6pumPtfUUl7OdOM6u6pHaouDpR6XSXt5YyrVPt1O5+i1GsqaS9nXfmv758p9ZpK2st5V/7rBaVeU0l7OdM49djnbjl1NVVJ+5BSFbLN/Yfz/35NqVdU0l5m5T8ApQpQagBKFaDUAJQqQKkBKFWAUgNQqgClBqBUAUoNQKkClBqAUgUoNQClClBqAEoVoNQAlCpAqQEoVYBSA1CqAKUGoFQBSg1AqQKUGoBSBSg1AKUKUGoAShWg1ACUKkCpAShVgFIDUKoApQagVAFKDUCpApQagFIFKDUApQpQagBKFaDUAJQqQKkBKFWAUgOYllrdrB98tV/9bsx897Sbuy7XUq/98qZQai5eb7npy6bUAF5vuenLptQAXm+56cum1ABeb7npy6bUAF5vuenLptQAXm+56cum1ABeb7npy6bUAF5vuenLptQAXm+56cum1ABeb7npy6bUAF5vuenLptQAXm+56cum1ABeb7npy76pUq99sdm0L/yPufZbO4VSL/fDL+bau2gKpUpRajJKlaLUZJQqRanJKFWKUpNRqhSlJqNUKUpNRqlSlJqMUqUoNRmlSlFqMkqVotRklCpFqckoVYpSk1GqFKUmo1QpSk1GqVKUmoxSpSg1GaVKUWoySpWi1GSUKkWpyShVilKTUaoUpSajVClKTUapUpSajFKlKDUZpUopS92vh+8e+fBpzua8dp396/Z62XlK3VSPw4NmfPBVm/Padfav2+tlZyl1vz71ubl//vrNee06+9ft9bKzlLpbrsaHzevz/3W/Bw3OcpT6FcdUIJOZ49TjQXVynApkMm/uv1sOR2yOqFALXk9tfferqvp5V/Kma/ruafiTn/3ttMTF4RgJwkvdPjwevlsuzka124dfPO/rcQpWczxGivBS+xK7pYHtN0/Dn/Szr+3DMMTdTH5oALwl/uzf6XpsxoNn3R5gx27HYIGZspT6r3YEcKh/9NPq7jft75q7Px6+W/fd7teLHM+HdyBDqU0/adot22lVn+z/uplUP8dqo32Kfz68CzmOqfv6FGQ7Rt0t7/92+Gd/1ueQimRZzv675bgS1ZY6zKH6wSqHVCTLXGobaN/o8CsrVEgWXOowt28n+sNqavfbvtH+4paXgIG5oo+pdTso7Rb/D5v2TP/dsj2INtVvj1N/Tv5IF13q/s8P1d1vu0f/aB/8ujvb/+un48ernPyRLM/KPxCNUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUuGBUmeo3/6x783d05e3samqx4n/fHXYLVcpr+tdoNQZAkrdLSc6pdIvoNQZQkqd6pFS30apM7yUWldVterq+nbZP+hO6nd/GErtk+t+2T5Up788nvK7P/rw949/qD58Grcx/PWi+5v7f/e1NsM/f9k4DpQ6y6nUetH21Xa5W7a/dA/qtrymel3q9mHVVbfq/8H2YUi1+8vdstvOuI3jhh6Hvzn+J7vl4mXj6FDqDGOpu49P3eFxNYw62wd9lIf6dalNW+/w+y7S4++GHh8/38bpb1aH/br/53dP48b1/ztvEqXOcD5Obapq9VmUzetSd8shzuGPj8mdjpynbYwtjn8z/L799TSKQIdSZziV2o4sP/z14aXUzQ+V2h4d+5FoN+ysxjHpS6njNrbfDOf316X2pVPqGUqdYSy1j2n78IVj6vCf3D29WhI4lXraBsfUr0OpM4yl9mE2Z2f/oa7NWOrZ+HI8No5e5k0v25gcp1LqGUqd4fyYultWjy+Hzy7Sce6/X98/tyf+VX8sbcb5+9l063RM7bfR//V+veiK/WzuT6lnKHWGehhwPvarp0/1+WHvbD21C7D6djkMUPs/6hZMTwsBZ+PUfhvH9dRu65+vp1LqGUqFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFB0qFh/8DTNIfaaQ6dWYAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
 <div id="summarize-upstream-soil-and-land-use-fractions-for-all-subbasins" class="section level2">
@@ -438,136 +438,136 @@ gauge.</p>
 Subbasins</h2>
 <p>This summarizes the soil and land use fractions for the total
 upstream area for each subbasin.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a vector of all subids in the model from GeoData</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sbd <span class="ot">&lt;-</span> gd<span class="sc">$</span>SUBID</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize upstream soils</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sof.all <span class="ot">&lt;-</span> <span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>sof.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, sof.all)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>sof.all</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    SUBID soil_1  soil_2</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   3344   84.8 15.3000</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   3396   99.9  0.0623</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3407   99.8  0.1610</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   3466   90.3  9.6900</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   3558   99.9  0.1090</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   3555   99.4  0.5550</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   3607  100.0  0.0000</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  63804   92.4  7.6200</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  63931   96.7  3.3200</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  3564   96.6  3.4200</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  3581   93.6  6.3600</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  3547   95.0  4.9800</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  3594   95.3  4.7300</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 40556   94.0  6.0400</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 40541   94.4  5.6400</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  3486   94.6  5.4000</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  3361   94.7  5.3000</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  3427   96.2  3.8200</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  3435   95.7  4.3500</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  3432   95.2  4.8000</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21 63794   94.9  5.1300</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22 63938   98.3  1.7500</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23 63937   95.2  4.8300</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  3532   95.3  4.7000</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  3587   95.3  4.7400</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize upstream land use</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>luf.all <span class="ot">&lt;-</span> <span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>luf.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, luf.all)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>luf.all</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    SUBID landuse_1 landuse_2 landuse_3</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   3344      1.30      85.2    13.600</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   3396     10.80      74.2    15.000</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3407     10.70      73.6    15.800</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   3466      3.89      80.2    15.900</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   3558     26.10      73.4     0.497</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   3555     11.80      83.7     4.500</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   3607      7.80      91.3     0.920</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  63804      6.73      84.1     9.200</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  63931     12.70      81.3     6.060</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  3564     12.60      81.2     6.180</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  3581      3.18      90.0     6.860</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  3547      7.33      86.3     6.400</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  3594      7.04      86.9     6.080</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 40556      6.25      84.6     9.200</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 40541      6.71      83.8     9.450</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  3486      6.55      83.4    10.000</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  3361     14.00      85.3     0.745</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  3427     11.60      87.8     0.593</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  3435     12.50      85.1     2.450</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  3432      8.54      84.0     7.440</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21 63794      6.66      83.3    10.000</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22 63938      7.70      80.4    11.900</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23 63937      6.75      83.1    10.200</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  3532      7.18      82.0    10.800</span></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  3587      7.13      81.9    10.900</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Get a vector of all subids in the model from GeoData</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>sbd <span class="ot">&lt;-</span> gd<span class="sc">$</span>SUBID</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Summarize upstream soils</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>sof.all <span class="ot">&lt;-</span> <span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>sof.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, sof.all)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>sof.all</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;    SUBID soil_1  soil_2</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 1   3344   84.8 15.3000</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 2   3396   99.9  0.0623</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 3   3407   99.8  0.1610</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 4   3466   90.3  9.6900</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 5   3558   99.9  0.1090</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 6   3555   99.4  0.5550</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 7   3607  100.0  0.0000</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 8  63804   92.4  7.6200</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 9  63931   96.7  3.3200</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 10  3564   96.6  3.4200</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 11  3581   93.6  6.3600</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; 12  3547   95.0  4.9800</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; 13  3594   95.3  4.7300</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; 14 40556   94.0  6.0400</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; 15 40541   94.4  5.6400</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; 16  3486   94.6  5.4000</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; 17  3361   94.7  5.3000</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; 18  3427   96.2  3.8200</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; 19  3435   95.7  4.3500</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; 20  3432   95.2  4.8000</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; 21 63794   94.9  5.1300</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt; 22 63938   98.3  1.7500</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; 23 63937   95.2  4.8300</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; 24  3532   95.3  4.7000</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; 25  3587   95.3  4.7400</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co"># Summarize upstream land use</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>luf.all <span class="ot">&lt;-</span> <span class="fu">UpstreamGroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">progbar =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>luf.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, luf.all)</span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>luf.all</span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt;    SUBID landuse_1 landuse_2 landuse_3</span></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co">#&gt; 1   3344      1.30      85.2    13.600</span></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="co">#&gt; 2   3396     10.80      74.2    15.000</span></span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="co">#&gt; 3   3407     10.70      73.6    15.800</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="co">#&gt; 4   3466      3.89      80.2    15.900</span></span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a><span class="co">#&gt; 5   3558     26.10      73.4     0.497</span></span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co">#&gt; 6   3555     11.80      83.7     4.500</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="co">#&gt; 7   3607      7.80      91.3     0.920</span></span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="co">#&gt; 8  63804      6.73      84.1     9.200</span></span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a><span class="co">#&gt; 9  63931     12.70      81.3     6.060</span></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="co">#&gt; 10  3564     12.60      81.2     6.180</span></span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="co">#&gt; 11  3581      3.18      90.0     6.860</span></span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="co">#&gt; 12  3547      7.33      86.3     6.400</span></span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="co">#&gt; 13  3594      7.04      86.9     6.080</span></span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="co">#&gt; 14 40556      6.25      84.6     9.200</span></span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a><span class="co">#&gt; 15 40541      6.71      83.8     9.450</span></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co">#&gt; 16  3486      6.55      83.4    10.000</span></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="co">#&gt; 17  3361     14.00      85.3     0.745</span></span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="co">#&gt; 18  3427     11.60      87.8     0.593</span></span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co">#&gt; 19  3435     12.50      85.1     2.450</span></span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a><span class="co">#&gt; 20  3432      8.54      84.0     7.440</span></span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a><span class="co">#&gt; 21 63794      6.66      83.3    10.000</span></span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="co">#&gt; 22 63938      7.70      80.4    11.900</span></span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a><span class="co">#&gt; 23 63937      6.75      83.1    10.200</span></span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co">#&gt; 24  3532      7.18      82.0    10.800</span></span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="co">#&gt; 25  3587      7.13      81.9    10.900</span></span></code></pre></div>
 </div>
 <div id="summarize-soil-and-land-use-by-individual-subbasins" class="section level2">
 <h2>Summarize Soil and Land Use by Individual Subbasins</h2>
 <p>This summarizes the soil and land use fractions within just each
 subbasin area.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize subbasin soils</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sof.sbd.all <span class="ot">&lt;-</span> <span class="fu">GroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sof.sbd.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, sof.sbd.all)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sof.sbd.all</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    SUBID       AREA   soil_1  soil_2</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   3344 2012608500  84.7500 15.2501</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   3396 1112100200  99.9376  0.0623</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3407   10551800  89.4554 10.5444</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   3466 2359837800  90.5252  9.4750</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   3558  154308900  99.8914  0.1087</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   3555  187596400  99.0778  0.9220</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   3607 1563873200 100.0000  0.0000</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  63804  853734600  92.3847  7.6151</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  63931 1762503100  95.8143  4.1858</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  3564   14564400  69.1240 30.8759</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  3581 6261965800  93.6349  6.3648</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  3547  615319700  98.4508  1.5492</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  3594 1226245300  97.5376  2.4621</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 40556 3592919600  94.5337  5.4660</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 40541 1632334200  99.7367  0.2632</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  3486 1073738400  99.6694  0.3307</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  3361 1070852700  94.6982  5.3018</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  3427  480763600  99.4852  0.5149</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  3435 1216238400  94.9739  5.0261</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  3432 1739028400  94.4824  5.5178</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21 63794 1259415200  98.8926  1.1073</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22 63938 2913067100  98.2519  1.7482</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23 63937    7209200  99.7633  0.2366</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  3532 1098516200  99.5008  0.4992</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  3587  231451000  88.2830 11.7169</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize subbasin land use</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>luf.sbd.all <span class="ot">&lt;-</span> <span class="fu">GroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>luf.sbd.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, luf.sbd.all)</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>luf.sbd.all</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    SUBID       AREA landuse_1 landuse_2 landuse_3</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   3344 2012608500    1.2984   85.1508   13.5509</span></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   3396 1112100200   10.7671   74.2386   14.9942</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3407   10551800    0.0000    2.7361   97.2637</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   3466 2359837800    2.8875   79.2264   17.8863</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   3558  154308900   26.0620   73.4415    0.4966</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   3555  187596400    0.0000   92.2010    7.7988</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   3607 1563873200    7.8028   91.2776    0.9196</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  63804  853734600    6.7265   84.0698    9.2035</span></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  63931 1762503100   19.8918   71.0023    9.1060</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  3564   14564400    0.0000   59.9522   40.0477</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  3581 6261965800    3.1752   89.9599    6.8646</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  3547  615319700   13.4997   83.4072    3.0931</span></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  3594 1226245300    4.3993   92.3861    3.2143</span></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 40556 3592919600    6.6157   83.2779   10.1061</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 40541 1632334200   12.8052   74.3974   12.7973</span></span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  3486 1073738400    3.2067   73.8250   22.9684</span></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  3361 1070852700   13.9634   85.2920    0.7446</span></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  3427  480763600    6.2788   93.4668    0.2545</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  3435 1216238400   13.6581   81.5245    4.8174</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  3432 1739028400    2.2440   82.3727   15.3835</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21 63794 1259415200    2.0353   79.5062   18.4584</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22 63938 2913067100    7.6999   80.3565   11.9437</span></span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23 63937    7209200    0.0000   78.0271   21.9728</span></span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  3532 1098516200   20.0171   49.3721   30.6108</span></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  3587  231451000    0.0000   74.7462   25.2537</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Summarize subbasin soils</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>sof.sbd.all <span class="ot">&lt;-</span> <span class="fu">GroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;soil&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>sof.sbd.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, sof.sbd.all)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>sof.sbd.all</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;    SUBID       AREA   soil_1  soil_2</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 1   3344 2012608500  84.7500 15.2501</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 2   3396 1112100200  99.9376  0.0623</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; 3   3407   10551800  89.4554 10.5444</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 4   3466 2359837800  90.5252  9.4750</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 5   3558  154308900  99.8914  0.1087</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; 6   3555  187596400  99.0778  0.9220</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 7   3607 1563873200 100.0000  0.0000</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 8  63804  853734600  92.3847  7.6151</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 9  63931 1762503100  95.8143  4.1858</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 10  3564   14564400  69.1240 30.8759</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 11  3581 6261965800  93.6349  6.3648</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 12  3547  615319700  98.4508  1.5492</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 13  3594 1226245300  97.5376  2.4621</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 14 40556 3592919600  94.5337  5.4660</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 15 40541 1632334200  99.7367  0.2632</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 16  3486 1073738400  99.6694  0.3307</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 17  3361 1070852700  94.6982  5.3018</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 18  3427  480763600  99.4852  0.5149</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 19  3435 1216238400  94.9739  5.0261</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 20  3432 1739028400  94.4824  5.5178</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; 21 63794 1259415200  98.8926  1.1073</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; 22 63938 2913067100  98.2519  1.7482</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; 23 63937    7209200  99.7633  0.2366</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; 24  3532 1098516200  99.5008  0.4992</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; 25  3587  231451000  88.2830 11.7169</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co"># Summarize subbasin land use</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>luf.sbd.all <span class="ot">&lt;-</span> <span class="fu">GroupSLCClasses</span>(<span class="at">gd =</span> gd, <span class="at">gcl =</span> gcl, <span class="at">type =</span> <span class="st">&quot;landuse&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a>luf.sbd.all <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;SUBID&quot;</span> <span class="ot">=</span> sbd, luf.sbd.all)</span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>luf.sbd.all</span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt;    SUBID       AREA landuse_1 landuse_2 landuse_3</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; 1   3344 2012608500    1.2984   85.1508   13.5509</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; 2   3396 1112100200   10.7671   74.2386   14.9942</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; 3   3407   10551800    0.0000    2.7361   97.2637</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; 4   3466 2359837800    2.8875   79.2264   17.8863</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; 5   3558  154308900   26.0620   73.4415    0.4966</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; 6   3555  187596400    0.0000   92.2010    7.7988</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; 7   3607 1563873200    7.8028   91.2776    0.9196</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; 8  63804  853734600    6.7265   84.0698    9.2035</span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; 9  63931 1762503100   19.8918   71.0023    9.1060</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; 10  3564   14564400    0.0000   59.9522   40.0477</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; 11  3581 6261965800    3.1752   89.9599    6.8646</span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; 12  3547  615319700   13.4997   83.4072    3.0931</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt; 13  3594 1226245300    4.3993   92.3861    3.2143</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; 14 40556 3592919600    6.6157   83.2779   10.1061</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a><span class="co">#&gt; 15 40541 1632334200   12.8052   74.3974   12.7973</span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a><span class="co">#&gt; 16  3486 1073738400    3.2067   73.8250   22.9684</span></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a><span class="co">#&gt; 17  3361 1070852700   13.9634   85.2920    0.7446</span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a><span class="co">#&gt; 18  3427  480763600    6.2788   93.4668    0.2545</span></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#&gt; 19  3435 1216238400   13.6581   81.5245    4.8174</span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co">#&gt; 20  3432 1739028400    2.2440   82.3727   15.3835</span></span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co">#&gt; 21 63794 1259415200    2.0353   79.5062   18.4584</span></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a><span class="co">#&gt; 22 63938 2913067100    7.6999   80.3565   11.9437</span></span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a><span class="co">#&gt; 23 63937    7209200    0.0000   78.0271   21.9728</span></span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a><span class="co">#&gt; 24  3532 1098516200   20.0171   49.3721   30.6108</span></span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a><span class="co">#&gt; 25  3587  231451000    0.0000   74.7462   25.2537</span></span></code></pre></div>
 </div>
 
 

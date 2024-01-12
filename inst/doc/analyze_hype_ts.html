@@ -343,320 +343,320 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="setup" class="section level2">
 <h2>Setup</h2>
 <p>Load HYPEtools package and import HYPE model files.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load HYPEtools Package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HYPEtools)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Path to HYPEtools Model Example Files</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>model_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;demo_model&quot;</span>, <span class="at">package =</span> <span class="st">&quot;HYPEtools&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Import HYPE Model Files</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>gd <span class="ot">&lt;-</span> <span class="fu">ReadGeoData</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoData.txt&quot;</span>))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="fu">ReadGeoClass</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoClass.txt&quot;</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>bas <span class="ot">&lt;-</span> <span class="fu">ReadBasinOutput</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;results/0003587.txt&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load HYPEtools Package</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(HYPEtools)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Get Path to HYPEtools Model Example Files</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>model_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;demo_model&quot;</span>, <span class="at">package =</span> <span class="st">&quot;HYPEtools&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Import HYPE Model Files</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>gd <span class="ot">&lt;-</span> <span class="fu">ReadGeoData</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoData.txt&quot;</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="fu">ReadGeoClass</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;GeoClass.txt&quot;</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>bas <span class="ot">&lt;-</span> <span class="fu">ReadBasinOutput</span>(<span class="fu">file.path</span>(model_path, <span class="st">&quot;results/0003587.txt&quot;</span>))</span></code></pre></div>
 </div>
 <div id="import-checks" class="section level2">
 <h2>Import Checks</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List HYPE Variable Names in Basin Ouptut File</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(bas)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;DATE&quot;   &quot;CRUN&quot;   &quot;EVAP&quot;   &quot;UPCPRF&quot; &quot;UPCPSF&quot; &quot;TEMP&quot;   &quot;UPEPOT&quot; &quot;UPEVAP&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;COUT&quot;   &quot;ROUT&quot;   &quot;SOIM&quot;   &quot;SM13&quot;   &quot;UPSMFP&quot; &quot;SNOW&quot;   &quot;UPCPRC&quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># List subbasin SUBIDs in Basin Output File</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">subid</span>(bas)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3587</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize Basin Output File Structure</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(bas)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    365 obs. of  15 variables:</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ DATE  : POSIXct, format: &quot;2001-01-01&quot; &quot;2001-01-02&quot; ...</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ CRUN  : num  0 0.063 0.3387 0.0833 0.5939 ...</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ EVAP  : num  0 0 0.16 0 0.16 ...</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPCPRF: num  0 1.074 1.54 0.0126 1.488 ...</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPCPSF: num  10.15 2.408 0.8085 0.0183 0.8036 ...</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ TEMP  : num  -3.74 -0.13 2 0.5 2 2.63 3.05 3.33 1.91 -2.64 ...</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPEPOT: num  0.00 0.00 1.11e-01 2.99e-06 1.07e-01 ...</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPEVAP: num  0.00 0.00 1.11e-01 2.99e-06 1.07e-01 ...</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ COUT  : num  4.90e-09 1.85e-03 9.37e-03 3.46e-03 1.71e-02 ...</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ ROUT  : num  5.09 5 5 5 5.01 ...</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ SOIM  : num  386 387 392 391 395 ...</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ SM13  : num  386 387 392 391 395 ...</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPSMFP: num  0.89 0.892 0.9 0.9 0.906 ...</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ SNOW  : num  8.89 11.21 8.89 8.89 6.44 ...</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UPCPRC: num  10.15 3.482 2.348 0.0309 2.291 ...</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;hypeunit&quot;)= chr [1:14] &quot;mm&quot; &quot;mm&quot; &quot;mm&quot; &quot;mm&quot; ...</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;timestep&quot;)= chr &quot;day&quot;</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;comment&quot;)= chr &quot;&quot;</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;variable&quot;)= chr [1:14] &quot;CRUN&quot; &quot;EVAP&quot; &quot;UPCPRF&quot; &quot;UPCPSF&quot; ...</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;outregid&quot;)= logi NA</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;subid&quot;)= int 3587</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># List HYPE Variable Names in Basin Ouptut File</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(bas)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;DATE&quot;   &quot;CRUN&quot;   &quot;EVAP&quot;   &quot;UPCPRF&quot; &quot;UPCPSF&quot; &quot;TEMP&quot;   &quot;UPEPOT&quot; &quot;UPEVAP&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;COUT&quot;   &quot;ROUT&quot;   &quot;SOIM&quot;   &quot;SM13&quot;   &quot;UPSMFP&quot; &quot;SNOW&quot;   &quot;UPCPRC&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># List subbasin SUBIDs in Basin Output File</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">subid</span>(bas)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; [1] 3587</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># Summarize Basin Output File Structure</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">str</span>(bas)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    365 obs. of  15 variables:</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  $ DATE  : POSIXct, format: &quot;2001-01-01&quot; &quot;2001-01-02&quot; ...</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  $ CRUN  : num  0 0.063 0.3387 0.0833 0.5939 ...</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;  $ EVAP  : num  0 0 0.16 0 0.16 ...</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;  $ UPCPRF: num  0 1.074 1.54 0.0126 1.488 ...</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;  $ UPCPSF: num  10.15 2.408 0.8085 0.0183 0.8036 ...</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;  $ TEMP  : num  -3.74 -0.13 2 0.5 2 2.63 3.05 3.33 1.91 -2.64 ...</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt;  $ UPEPOT: num  0.00 0.00 1.11e-01 2.99e-06 1.07e-01 ...</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;  $ UPEVAP: num  0.00 0.00 1.11e-01 2.99e-06 1.07e-01 ...</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;  $ COUT  : num  4.90e-09 1.85e-03 9.37e-03 3.46e-03 1.71e-02 ...</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt;  $ ROUT  : num  5.09 5 5 5 5.01 ...</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;  $ SOIM  : num  386 387 392 391 395 ...</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;  $ SM13  : num  386 387 392 391 395 ...</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt;  $ UPSMFP: num  0.89 0.892 0.9 0.9 0.906 ...</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt;  $ SNOW  : num  8.89 11.21 8.89 8.89 6.44 ...</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt;  $ UPCPRC: num  10.15 3.482 2.348 0.0309 2.291 ...</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;hypeunit&quot;)= chr [1:14] &quot;mm&quot; &quot;mm&quot; &quot;mm&quot; &quot;mm&quot; ...</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;timestep&quot;)= chr &quot;day&quot;</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;comment&quot;)= chr &quot;&quot;</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;variable&quot;)= chr [1:14] &quot;CRUN&quot; &quot;EVAP&quot; &quot;UPCPRF&quot; &quot;UPCPSF&quot; ...</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;outregid&quot;)= logi NA</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;subid&quot;)= int 3587</span></span></code></pre></div>
 </div>
 <div id="plot-time-series-with-plotbasinoutput" class="section level2">
 <h2>Plot Time Series with PlotBasinOutput()</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot to screen</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;)</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select variables</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;, hype.vars = c(&quot;cout&quot;, &quot;rout&quot;))</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot time series in R with a log scale for the flow (log.q = TRUE)</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;, log.q = TRUE, start.mon = 10, name = paste0(&quot;Subid &quot;, attr(bas, &quot;subid&quot;)))</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Plot to screen</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;)</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Select variables</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;, hype.vars = c(&quot;cout&quot;, &quot;rout&quot;))</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Plot time series in R with a log scale for the flow (log.q = TRUE)</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># PlotBasinOutput(bas, gd = gd, driver = &quot;screen&quot;, log.q = TRUE, start.mon = 10, name = paste0(&quot;Subid &quot;, attr(bas, &quot;subid&quot;)))</span></span></code></pre></div>
 </div>
 <div id="plot-summary-plots-with-plotbasinsummary" class="section level2">
 <h2>Plot Summary Plots with PlotBasinSummary()</h2>
 <p>The PlotBasinSummary() function is useful mostly with water quality
 variables.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PlotBasinSummary(bas, gd = gd, gcl = gcl, driver = &quot;screen&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># PlotBasinSummary(bas, gd = gd, gcl = gcl, driver = &quot;screen&quot;)</span></span></code></pre></div>
 </div>
 <div id="compute-annual-regime-for-all-variables-with-annualregime" class="section level2">
 <h2>Compute Annual Regime for all variables with AnnualRegime()</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AnnualRegime</span>(bas, <span class="at">ts.in =</span> <span class="fu">attr</span>(bas, <span class="st">&quot;timestep&quot;</span>), <span class="at">ts.out =</span> <span class="st">&quot;month&quot;</span>, <span class="at">start.mon =</span> <span class="dv">10</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $mean</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month       CRUN       EVAP    UPCPRF       UPCPSF       TEMP</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.11264516 1.09638497 1.6334995 0.0001639355  9.5267742</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.18820667 0.23511410 0.6574063 0.3987223000  2.2110000</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.45347742 0.06859806 0.2008369 1.1678916710 -2.4816129</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.59801419 0.05769190 0.3854452 0.8419914194 -0.6816129</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.53100000 0.12712857 0.2067391 0.9468679714 -3.7303571</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 1.10476129 0.12321974 0.4841131 0.6633113531 -1.6564516</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.95269667 0.79415013 1.2328285 0.2003473333  5.0853333</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.09964935 1.77248387 1.1221931 0.0000000000 11.0441935</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.06736367 1.85810000 1.1264347 0.0000000000 13.9763333</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.06228839 1.67306452 1.0119977 0.0000000000 18.3254839</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.09373452 1.39522903 1.8392424 0.0000000000 16.2825806</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.17210213 1.32256000 3.1364993 0.0000000000 11.2493333</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        UPEPOT     UPEVAP      COUT      ROUT     SOIM     SM13    UPSMFP</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1.11706935 1.08027151 0.6892258 0.7352903 379.4000 379.4000 0.8867452</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.20656484 0.20655150 0.8112567 1.2311000 393.6167 393.5300 0.9151800</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 0.05172873 0.05172873 1.6056129 1.9815484 400.2710 400.1419 0.9204839</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.04235244 0.04235244 0.1689544 6.1718387 398.0484 397.6806 0.9146516</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  0.10787500 0.10787500 0.8958964 4.1295357 399.8286 399.4679 0.9185357</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  0.10316529 0.10316529 2.1351935 3.4917097 403.1774 401.5710 0.9214161</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  0.72064770 0.72064770 3.3454667 4.6523667 403.1800 402.4067 0.9244933</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1.89230000 1.73787742 2.3817097 3.7306774 380.9355 380.9355 0.8798161</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2.45980000 1.96390000 1.1707600 1.4557333 357.5567 357.5567 0.8339167</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  3.17219355 1.85832258 0.7224774 0.7571613 333.4065 333.4065 0.7762710</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  2.55229032 1.51474194 0.5309387 0.5488710 328.0226 328.0226 0.7627065</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1.51908667 1.29937000 0.6121567 0.6428667 363.1567 363.1567 0.8451200</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         SNOW   UPCPRC</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  0.000000 1.633663</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  1.081922 1.056039</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  6.897853 1.368912</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   2.579419 1.227408</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   3.361582 1.153621</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  10.681816 1.147419</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   0.347025 1.433205</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   0.000000 1.122193</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   0.000000 1.126435</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   0.000000 1.011998</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   0.000000 1.839242</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9   0.000000 3.136499</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $median</span></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP   UPCPRF   UPCPSF   TEMP  UPEPOT  UPEVAP</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.041410 1.10800 0.090860 0.000000 10.080 1.19000 1.08700</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.108500 0.09442 0.007651 0.000000  1.475 0.05343 0.05343</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.254500 0.00000 0.000000 0.254500  0.190 0.00000 0.00000</span></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.449300 0.00000 0.026910 0.149200 -1.340 0.00000 0.00000</span></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.259450 0.00000 0.000000 0.029330 -2.520 0.00000 0.00000</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.695900 0.00000 0.000000 0.005158 -1.730 0.00000 0.00000</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.730300 0.87815 0.348200 0.000000  5.760 0.79170 0.79170</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.057320 1.85700 0.000000 0.000000 11.330 1.90800 1.80900</span></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.027115 1.83800 0.148650 0.000000 12.795 2.23750 1.88900</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.016870 1.73500 0.042700 0.000000 18.580 3.14600 1.91800</span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.036250 1.39900 0.760900 0.000000 16.130 2.54000 1.51900</span></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.094390 1.41800 1.881500 0.000000 12.365 1.65550 1.42600</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      COUT   ROUT   SOIM   SM13  UPSMFP    SNOW   UPCPRC</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.6926 0.6940 379.30 379.30 0.88700 0.00000 0.090860</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.8369 1.2920 393.60 393.55 0.91645 0.00000 0.012890</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1.7190 2.0230 399.50 399.50 0.92010 0.81660 0.631400</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.1818 6.1930 398.90 398.90 0.91730 0.59260 0.208500</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1.0555 4.1270 398.95 398.95 0.91730 1.18205 0.057935</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2.5020 3.5580 402.50 402.40 0.92280 6.94300 0.022100</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  3.2420 4.6790 402.35 402.35 0.92570 0.00000 0.353400</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2.2830 3.5340 379.70 379.70 0.87720 0.00000 0.000000</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1.1315 1.3715 356.85 356.85 0.83235 0.00000 0.148650</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  0.7153 0.7240 334.00 334.00 0.77750 0.00000 0.042700</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  0.5335 0.5530 328.20 328.20 0.76260 0.00000 0.760900</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  0.6216 0.6190 367.80 367.80 0.85370 0.00000 1.881500</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minimum</span></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN     EVAP UPCPRF UPCPSF   TEMP  UPEPOT    UPEVAP</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.012030 0.008334      0      0   0.75 0.00035 0.0003167</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.031720 0.000000      0      0  -2.80 0.00000 0.0000000</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.149900 0.000000      0      0 -16.93 0.00000 0.0000000</span></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.000000 0.000000      0      0  -4.44 0.00000 0.0000000</span></span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.143100 0.000000      0      0 -16.59 0.00000 0.0000000</span></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.103500 0.000000      0      0 -10.66 0.00000 0.0000000</span></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.245800 0.000000      0      0   0.16 0.00000 0.0000000</span></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.021660 1.034000      0      0   6.25 0.97830 0.9682000</span></span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.017390 1.406000      0      0   9.74 1.64900 1.4330000</span></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.013660 1.068000      0      0  13.62 2.33200 1.2280000</span></span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.010820 0.954100      0      0  11.09 1.59600 1.1210000</span></span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.009824 0.391800      0      0   3.68 0.39390 0.3739000</span></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         COUT  ROUT  SOIM  SM13 UPSMFP    SNOW UPCPRC</span></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 6.221e-01 0.651 372.7 372.7 0.8723 0.00000      0</span></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 6.609e-01 0.800 384.6 384.6 0.9003 0.00000      0</span></span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1.051e+00 1.672 397.8 397.8 0.9143 0.00000      0</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  4.902e-09 4.996 385.7 385.7 0.8899 0.01009      0</span></span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  3.616e-01 3.192 397.1 397.1 0.9139 0.00000      0</span></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1.227e+00 2.737 396.4 396.4 0.9118 0.00000      0</span></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2.988e+00 3.825 398.8 398.8 0.9163 0.00000      0</span></span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1.577e+00 2.269 366.9 366.9 0.8495 0.00000      0</span></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  9.028e-01 0.935 343.0 343.0 0.7999 0.00000      0</span></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  5.722e-01 0.646 322.1 322.1 0.7488 0.00000      0</span></span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  4.641e-01 0.504 319.8 319.8 0.7434 0.00000      0</span></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  4.920e-01 0.505 331.9 331.9 0.7745 0.00000      0</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $p05</span></span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month      CRUN      EVAP UPCPRF UPCPSF    TEMP      UPEPOT</span></span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.0126150 0.3195500      0      0   3.610 0.331100000</span></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.0361740 0.0000000      0      0  -2.464 0.000000000</span></span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.1608500 0.0000000      0      0 -13.910 0.000000000</span></span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.0731700 0.0000000      0      0  -4.270 0.000000000</span></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.1527900 0.0000000      0      0 -15.605 0.000000000</span></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.1123500 0.0000000      0      0  -7.630 0.000000000</span></span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.2782850 0.0013968      0      0   0.483 0.000009387</span></span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.0220800 1.1780000      0      0   7.155 1.141000000</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.0177185 1.4269000      0      0  10.161 1.737350000</span></span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.0138150 1.2670000      0      0  13.840 2.338000000</span></span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.0109500 1.0245000      0      0  13.195 2.003500000</span></span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.0124055 0.5767000      0      0   5.016 0.569535000</span></span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         UPEVAP     COUT    ROUT    SOIM    SM13   UPSMFP    SNOW UPCPRC</span></span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.298600000 0.626000 0.66350 373.600 373.600 0.874200 0.00000      0</span></span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.000000000 0.672255 0.81725 386.025 386.025 0.903440 0.00000      0</span></span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 0.000000000 1.154000 1.72950 398.050 398.050 0.914750 0.00000      0</span></span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.000000000 0.002655 4.99950 389.200 389.200 0.895900 0.09165      0</span></span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  0.000000000 0.371555 3.24415 397.335 397.335 0.914170 0.00000      0</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  0.000000000 1.233500 2.76350 396.500 396.500 0.912250 0.11610      0</span></span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  0.000009387 3.001450 3.86280 399.035 399.035 0.917440 0.00000      0</span></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1.104500000 1.633000 2.34000 369.550 369.550 0.856050 0.00000      0</span></span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1.471300000 0.915580 0.96920 344.990 344.990 0.805575 0.00000      0</span></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1.382000000 0.590100 0.68900 323.750 323.750 0.752850 0.00000      0</span></span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1.148000000 0.471000 0.50600 320.400 320.400 0.744750 0.00000      0</span></span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  0.546415000 0.493645 0.50500 332.325 332.325 0.776280 0.00000      0</span></span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $p25</span></span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month      CRUN      EVAP   UPCPRF    UPCPSF     TEMP    UPEPOT</span></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.0161250 0.8917500 0.002202 0.0000000   8.4100 0.9503500</span></span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.0502000 0.0118175 0.000000 0.0000000   0.7750 0.0004752</span></span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.1956000 0.0000000 0.000000 0.0008009  -5.5200 0.0000000</span></span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.2303000 0.0000000 0.000000 0.0091020  -2.1750 0.0000000</span></span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.2029750 0.0000000 0.000000 0.0000000 -10.1200 0.0000000</span></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.2890500 0.0000000 0.000000 0.0000000  -5.0100 0.0000000</span></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.3832500 0.4620500 0.000000 0.0000000   3.2425 0.3835750</span></span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.0286350 1.4415000 0.000000 0.0000000   9.6400 1.6110000</span></span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.0195175 1.6320000 0.000000 0.0000000  11.6450 2.0255000</span></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.0144550 1.4150000 0.000000 0.0000000  16.6950 2.8225000</span></span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.0119750 1.2095000 0.000000 0.0000000  15.0950 2.3265000</span></span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.0348750 1.1580000 0.096975 0.0000000  10.2450 1.3832500</span></span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       UPEVAP    COUT    ROUT    SOIM    SM13   UPSMFP    SNOW    UPCPRC</span></span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.8859000 0.65455 0.68400 375.700 375.700 0.878650 0.00000 0.0047435</span></span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.0004752 0.74800 1.00850 392.725 392.700 0.911675 0.00000 0.0000000</span></span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 0.0000000 1.53550 1.91750 398.700 398.700 0.917000 0.02046 0.0146185</span></span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.0000000 0.09181 5.60800 397.300 397.300 0.914450 0.17880 0.0212350</span></span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  0.0000000 0.56760 3.58025 398.050 398.050 0.915300 0.00000 0.0000000</span></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  0.0000000 1.27400 2.99700 399.550 399.550 0.917100 6.25400 0.0000000</span></span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  0.3835750 3.08750 4.30150 401.200 401.200 0.922750 0.00000 0.0000000</span></span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1.4355000 1.85200 2.84950 374.250 374.250 0.866150 0.00000 0.0000000</span></span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1.7265000 1.04000 1.14300 353.050 353.050 0.824675 0.00000 0.0000000</span></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1.5920000 0.67335 0.71250 330.800 330.800 0.770250 0.00000 0.0000000</span></span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1.3440000 0.49675 0.51200 323.200 323.200 0.751050 0.00000 0.0000000</span></span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1.1487500 0.55395 0.52475 352.525 352.525 0.821675 0.00000 0.0969750</span></span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $p75</span></span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP   UPCPRF  UPCPSF    TEMP   UPEPOT   UPEVAP</span></span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.130100 1.42550 1.721750 0.00000 11.5850 1.396500 1.392000</span></span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.286100 0.34420 0.407375 0.08178  3.5750 0.306100 0.306100</span></span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.695150 0.10719 0.365550 1.34420  1.5950 0.061435 0.061435</span></span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.778150 0.11586 0.191350 0.90310  1.6050 0.068485 0.068485</span></span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.638325 0.23185 0.000000 1.45100  2.3000 0.167600 0.167600</span></span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 1.870000 0.13525 0.169750 0.27490  1.5000 0.090985 0.090985</span></span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 1.209250 1.11700 1.944500 0.00000  6.9900 1.043000 1.043000</span></span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.110605 2.02500 0.466250 0.00000 12.3300 2.150500 1.994500</span></span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.066860 2.06625 1.087700 0.00000 16.3525 2.913750 2.268250</span></span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.096550 1.92100 1.738000 0.00000 20.4350 3.492500 2.097500</span></span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.142100 1.51050 2.730500 0.00000 17.4200 2.721000 1.622500</span></span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.240775 1.55300 4.271750 0.00000 12.9900 1.808500 1.533250</span></span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       COUT    ROUT    SOIM    SM13   UPSMFP       SNOW  UPCPRC</span></span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.71560 0.81300 382.050 382.050 0.892850  0.0000000 1.72175</span></span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.84115 1.43825 395.300 395.275 0.919775  1.9982500 0.50590</span></span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1.74750 2.07400 401.750 401.750 0.924500  6.6985000 1.87200</span></span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.21925 6.83950 400.600 400.200 0.919600  4.5725000 1.91100</span></span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1.16550 4.51925 401.250 401.225 0.922925  3.7325000 1.93900</span></span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2.74400 4.00600 406.800 404.300 0.926650 20.4700000 0.81730</span></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  3.63100 5.03925 404.275 404.275 0.927475  0.0462825 2.02125</span></span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2.86300 4.61350 387.200 387.200 0.892100  0.0000000 0.46625</span></span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1.32375 1.77100 363.625 363.625 0.847875  0.0000000 1.08770</span></span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  0.75975 0.78800 336.750 336.750 0.783300  0.0000000 1.73800</span></span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  0.56535 0.57800 332.850 332.850 0.774250  0.0000000 2.73050</span></span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  0.67925 0.76275 377.700 377.700 0.879300  0.0000000 4.27175</span></span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $p95</span></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP  UPCPRF   UPCPSF    TEMP   UPEPOT   UPEVAP</span></span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.460400 1.60400 7.14750 0.000000 12.8450 1.592000 1.578500</span></span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.533145 0.86732 4.67680 1.981650  7.8415 0.812070 0.812070</span></span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 1.232500 0.36650 0.83455 4.001500  3.8200 0.308450 0.308450</span></span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 1.732500 0.26330 1.51400 2.320500  2.8400 0.215250 0.215250</span></span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 1.630350 0.55312 0.54995 4.866800  4.7180 0.516385 0.516385</span></span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 2.946500 0.67795 3.24850 3.825500  4.8400 0.613500 0.613500</span></span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 2.343650 1.47030 3.59580 1.564565  8.6285 1.373100 1.373100</span></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.310000 2.26600 7.02500 0.000000 14.7300 2.605500 2.228000</span></span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.257230 2.34050 5.85660 0.000000 19.6695 3.525700 2.550600</span></span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.207250 2.05650 4.31000 0.000000 22.2600 3.995000 2.311500</span></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.302550 1.84400 6.26750 0.000000 20.0250 3.184500 1.974000</span></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.490295 1.81005 9.11080 0.000000 14.9295 2.122850 1.753550</span></span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        COUT    ROUT    SOIM    SM13   UPSMFP     SNOW  UPCPRC</span></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.752700 0.84300 386.400 386.400 0.902150  0.00000 7.14750</span></span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 0.970135 1.61240 399.970 399.605 0.921875  4.00500 6.22635</span></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1.769000 2.09900 403.650 402.900 0.925500 29.03000 4.00150</span></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  0.336150 7.30600 402.450 400.850 0.921300  8.89350 5.16400</span></span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1.244800 5.24570 404.180 402.300 0.924165 13.88455 5.40720</span></span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2.772500 4.16300 410.300 404.550 0.926950 24.05000 5.33100</span></span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  3.840150 5.40780 409.520 405.000 0.928200  2.07000 4.81240</span></span>
-<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  3.387500 5.34900 395.400 395.400 0.909500  0.00000 7.02500</span></span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1.484450 2.10400 368.735 368.735 0.858745  0.00000 5.85660</span></span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  0.873400 0.90000 342.150 342.150 0.798450  0.00000 4.31000</span></span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  0.586000 0.59750 335.100 335.100 0.778850  0.00000 6.26750</span></span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  0.711350 0.79665 381.740 381.740 0.887410  0.00000 9.11080</span></span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $maximum</span></span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       refdate month   CRUN   EVAP UPCPRF    UPCPSF  TEMP UPEPOT UPEVAP   COUT</span></span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.5015 1.6570  9.223  0.005082 13.63 1.6450 1.6290 0.7574</span></span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.5729 1.1170  6.486  4.832000  9.96 1.0820 1.0820 1.0210</span></span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 1.2530 0.4549  1.289 12.650000  4.58 0.4050 0.4050 1.7750</span></span>
-<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 2.0060 0.3242  5.181 10.150000  3.33 0.2659 0.2659 0.3525</span></span>
-<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 2.2440 0.5834  4.700  5.992000  4.86 0.5301 0.5301 1.2620</span></span>
-<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 4.0330 0.7984  3.535  8.474000  5.74 0.7306 0.7306 2.9210</span></span>
-<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 3.4900 1.5390 11.080  2.548000  8.96 1.4700 1.4700 3.8670</span></span>
-<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.4902 2.5450  9.858  0.000000 15.51 2.7610 2.5190 3.5000</span></span>
-<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.3182 2.4220  6.593  0.000000 20.05 3.6210 2.6030 1.5400</span></span>
-<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.2419 2.1260  4.898  0.000000 22.69 4.0710 2.3940 0.8990</span></span>
-<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.4512 2.0130 10.510  0.000000 22.32 3.6060 2.2110 0.5916</span></span>
-<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.7936 1.9410 15.840  0.000000 15.20 2.1590 1.8870 0.7149</span></span>
-<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ROUT  SOIM  SM13 UPSMFP   SNOW UPCPRC</span></span>
-<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 0.867 386.9 386.9 0.9055  0.000  9.223</span></span>
-<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 1.661 400.9 400.5 0.9224  5.369 10.260</span></span>
-<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 2.099 404.0 403.0 0.9258 29.260 12.720</span></span>
-<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  7.335 403.7 401.1 0.9213 11.210 10.150</span></span>
-<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  5.427 406.0 402.4 0.9243 18.500  5.992</span></span>
-<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  4.163 413.5 404.7 0.9271 24.050 11.960</span></span>
-<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  5.433 411.8 405.0 0.9283  2.070 13.570</span></span>
-<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  5.433 397.0 397.0 0.9122  0.000  9.858</span></span>
-<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2.182 371.4 371.4 0.8647  0.000  6.593</span></span>
-<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  0.917 345.2 345.2 0.8056  0.000  4.898</span></span>
-<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  0.618 336.3 336.3 0.7815  0.000 10.510</span></span>
-<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  0.799 382.4 382.4 0.8894  0.000 15.840</span></span>
-<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;timestep&quot;)</span></span>
-<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;month&quot;</span></span>
-<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;period&quot;)</span></span>
-<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2001-01-01 UTC&quot; &quot;2001-12-31 UTC&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">AnnualRegime</span>(bas, <span class="at">ts.in =</span> <span class="fu">attr</span>(bas, <span class="st">&quot;timestep&quot;</span>), <span class="at">ts.out =</span> <span class="st">&quot;month&quot;</span>, <span class="at">start.mon =</span> <span class="dv">10</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; $mean</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;       refdate month       CRUN       EVAP    UPCPRF       UPCPSF       TEMP</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.11264516 1.09638497 1.6334995 0.0001639355  9.5267742</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.18820667 0.23511410 0.6574063 0.3987223000  2.2110000</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.45347742 0.06859806 0.2008369 1.1678916710 -2.4816129</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.59801419 0.05769190 0.3854452 0.8419914194 -0.6816129</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.53100000 0.12712857 0.2067391 0.9468679714 -3.7303571</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 1.10476129 0.12321974 0.4841131 0.6633113531 -1.6564516</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.95269667 0.79415013 1.2328285 0.2003473333  5.0853333</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.09964935 1.77248387 1.1221931 0.0000000000 11.0441935</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.06736367 1.85810000 1.1264347 0.0000000000 13.9763333</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.06228839 1.67306452 1.0119977 0.0000000000 18.3254839</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.09373452 1.39522903 1.8392424 0.0000000000 16.2825806</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.17210213 1.32256000 3.1364993 0.0000000000 11.2493333</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;        UPEPOT     UPEVAP      COUT      ROUT     SOIM     SM13    UPSMFP</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 10 1.11706935 1.08027151 0.6892258 0.7352903 379.4000 379.4000 0.8867452</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 11 0.20656484 0.20655150 0.8112567 1.2311000 393.6167 393.5300 0.9151800</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 12 0.05172873 0.05172873 1.6056129 1.9815484 400.2710 400.1419 0.9204839</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 1  0.04235244 0.04235244 0.1689544 6.1718387 398.0484 397.6806 0.9146516</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 2  0.10787500 0.10787500 0.8958964 4.1295357 399.8286 399.4679 0.9185357</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 3  0.10316529 0.10316529 2.1351935 3.4917097 403.1774 401.5710 0.9214161</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 4  0.72064770 0.72064770 3.3454667 4.6523667 403.1800 402.4067 0.9244933</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 5  1.89230000 1.73787742 2.3817097 3.7306774 380.9355 380.9355 0.8798161</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 6  2.45980000 1.96390000 1.1707600 1.4557333 357.5567 357.5567 0.8339167</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 7  3.17219355 1.85832258 0.7224774 0.7571613 333.4065 333.4065 0.7762710</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 8  2.55229032 1.51474194 0.5309387 0.5488710 328.0226 328.0226 0.7627065</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; 9  1.51908667 1.29937000 0.6121567 0.6428667 363.1567 363.1567 0.8451200</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;         SNOW   UPCPRC</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; 10  0.000000 1.633663</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; 11  1.081922 1.056039</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 12  6.897853 1.368912</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; 1   2.579419 1.227408</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; 2   3.361582 1.153621</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; 3  10.681816 1.147419</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; 4   0.347025 1.433205</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; 5   0.000000 1.122193</span></span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; 6   0.000000 1.126435</span></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; 7   0.000000 1.011998</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; 8   0.000000 1.839242</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; 9   0.000000 3.136499</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; $median</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP   UPCPRF   UPCPSF   TEMP  UPEPOT  UPEVAP</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.041410 1.10800 0.090860 0.000000 10.080 1.19000 1.08700</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.108500 0.09442 0.007651 0.000000  1.475 0.05343 0.05343</span></span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.254500 0.00000 0.000000 0.254500  0.190 0.00000 0.00000</span></span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.449300 0.00000 0.026910 0.149200 -1.340 0.00000 0.00000</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.259450 0.00000 0.000000 0.029330 -2.520 0.00000 0.00000</span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.695900 0.00000 0.000000 0.005158 -1.730 0.00000 0.00000</span></span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.730300 0.87815 0.348200 0.000000  5.760 0.79170 0.79170</span></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.057320 1.85700 0.000000 0.000000 11.330 1.90800 1.80900</span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.027115 1.83800 0.148650 0.000000 12.795 2.23750 1.88900</span></span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.016870 1.73500 0.042700 0.000000 18.580 3.14600 1.91800</span></span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.036250 1.39900 0.760900 0.000000 16.130 2.54000 1.51900</span></span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.094390 1.41800 1.881500 0.000000 12.365 1.65550 1.42600</span></span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a><span class="co">#&gt;      COUT   ROUT   SOIM   SM13  UPSMFP    SNOW   UPCPRC</span></span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a><span class="co">#&gt; 10 0.6926 0.6940 379.30 379.30 0.88700 0.00000 0.090860</span></span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a><span class="co">#&gt; 11 0.8369 1.2920 393.60 393.55 0.91645 0.00000 0.012890</span></span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a><span class="co">#&gt; 12 1.7190 2.0230 399.50 399.50 0.92010 0.81660 0.631400</span></span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a><span class="co">#&gt; 1  0.1818 6.1930 398.90 398.90 0.91730 0.59260 0.208500</span></span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a><span class="co">#&gt; 2  1.0555 4.1270 398.95 398.95 0.91730 1.18205 0.057935</span></span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a><span class="co">#&gt; 3  2.5020 3.5580 402.50 402.40 0.92280 6.94300 0.022100</span></span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a><span class="co">#&gt; 4  3.2420 4.6790 402.35 402.35 0.92570 0.00000 0.353400</span></span>
+<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a><span class="co">#&gt; 5  2.2830 3.5340 379.70 379.70 0.87720 0.00000 0.000000</span></span>
+<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a><span class="co">#&gt; 6  1.1315 1.3715 356.85 356.85 0.83235 0.00000 0.148650</span></span>
+<span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a><span class="co">#&gt; 7  0.7153 0.7240 334.00 334.00 0.77750 0.00000 0.042700</span></span>
+<span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a><span class="co">#&gt; 8  0.5335 0.5530 328.20 328.20 0.76260 0.00000 0.760900</span></span>
+<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a><span class="co">#&gt; 9  0.6216 0.6190 367.80 367.80 0.85370 0.00000 1.881500</span></span>
+<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a><span class="co">#&gt; $minimum</span></span>
+<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN     EVAP UPCPRF UPCPSF   TEMP  UPEPOT    UPEVAP</span></span>
+<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.012030 0.008334      0      0   0.75 0.00035 0.0003167</span></span>
+<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.031720 0.000000      0      0  -2.80 0.00000 0.0000000</span></span>
+<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.149900 0.000000      0      0 -16.93 0.00000 0.0000000</span></span>
+<span id="cb5-76"><a href="#cb5-76" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.000000 0.000000      0      0  -4.44 0.00000 0.0000000</span></span>
+<span id="cb5-77"><a href="#cb5-77" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.143100 0.000000      0      0 -16.59 0.00000 0.0000000</span></span>
+<span id="cb5-78"><a href="#cb5-78" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.103500 0.000000      0      0 -10.66 0.00000 0.0000000</span></span>
+<span id="cb5-79"><a href="#cb5-79" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.245800 0.000000      0      0   0.16 0.00000 0.0000000</span></span>
+<span id="cb5-80"><a href="#cb5-80" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.021660 1.034000      0      0   6.25 0.97830 0.9682000</span></span>
+<span id="cb5-81"><a href="#cb5-81" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.017390 1.406000      0      0   9.74 1.64900 1.4330000</span></span>
+<span id="cb5-82"><a href="#cb5-82" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.013660 1.068000      0      0  13.62 2.33200 1.2280000</span></span>
+<span id="cb5-83"><a href="#cb5-83" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.010820 0.954100      0      0  11.09 1.59600 1.1210000</span></span>
+<span id="cb5-84"><a href="#cb5-84" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.009824 0.391800      0      0   3.68 0.39390 0.3739000</span></span>
+<span id="cb5-85"><a href="#cb5-85" tabindex="-1"></a><span class="co">#&gt;         COUT  ROUT  SOIM  SM13 UPSMFP    SNOW UPCPRC</span></span>
+<span id="cb5-86"><a href="#cb5-86" tabindex="-1"></a><span class="co">#&gt; 10 6.221e-01 0.651 372.7 372.7 0.8723 0.00000      0</span></span>
+<span id="cb5-87"><a href="#cb5-87" tabindex="-1"></a><span class="co">#&gt; 11 6.609e-01 0.800 384.6 384.6 0.9003 0.00000      0</span></span>
+<span id="cb5-88"><a href="#cb5-88" tabindex="-1"></a><span class="co">#&gt; 12 1.051e+00 1.672 397.8 397.8 0.9143 0.00000      0</span></span>
+<span id="cb5-89"><a href="#cb5-89" tabindex="-1"></a><span class="co">#&gt; 1  4.902e-09 4.996 385.7 385.7 0.8899 0.01009      0</span></span>
+<span id="cb5-90"><a href="#cb5-90" tabindex="-1"></a><span class="co">#&gt; 2  3.616e-01 3.192 397.1 397.1 0.9139 0.00000      0</span></span>
+<span id="cb5-91"><a href="#cb5-91" tabindex="-1"></a><span class="co">#&gt; 3  1.227e+00 2.737 396.4 396.4 0.9118 0.00000      0</span></span>
+<span id="cb5-92"><a href="#cb5-92" tabindex="-1"></a><span class="co">#&gt; 4  2.988e+00 3.825 398.8 398.8 0.9163 0.00000      0</span></span>
+<span id="cb5-93"><a href="#cb5-93" tabindex="-1"></a><span class="co">#&gt; 5  1.577e+00 2.269 366.9 366.9 0.8495 0.00000      0</span></span>
+<span id="cb5-94"><a href="#cb5-94" tabindex="-1"></a><span class="co">#&gt; 6  9.028e-01 0.935 343.0 343.0 0.7999 0.00000      0</span></span>
+<span id="cb5-95"><a href="#cb5-95" tabindex="-1"></a><span class="co">#&gt; 7  5.722e-01 0.646 322.1 322.1 0.7488 0.00000      0</span></span>
+<span id="cb5-96"><a href="#cb5-96" tabindex="-1"></a><span class="co">#&gt; 8  4.641e-01 0.504 319.8 319.8 0.7434 0.00000      0</span></span>
+<span id="cb5-97"><a href="#cb5-97" tabindex="-1"></a><span class="co">#&gt; 9  4.920e-01 0.505 331.9 331.9 0.7745 0.00000      0</span></span>
+<span id="cb5-98"><a href="#cb5-98" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-99"><a href="#cb5-99" tabindex="-1"></a><span class="co">#&gt; $p05</span></span>
+<span id="cb5-100"><a href="#cb5-100" tabindex="-1"></a><span class="co">#&gt;       refdate month      CRUN      EVAP UPCPRF UPCPSF    TEMP      UPEPOT</span></span>
+<span id="cb5-101"><a href="#cb5-101" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.0126150 0.3195500      0      0   3.610 0.331100000</span></span>
+<span id="cb5-102"><a href="#cb5-102" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.0361740 0.0000000      0      0  -2.464 0.000000000</span></span>
+<span id="cb5-103"><a href="#cb5-103" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.1608500 0.0000000      0      0 -13.910 0.000000000</span></span>
+<span id="cb5-104"><a href="#cb5-104" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.0731700 0.0000000      0      0  -4.270 0.000000000</span></span>
+<span id="cb5-105"><a href="#cb5-105" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.1527900 0.0000000      0      0 -15.605 0.000000000</span></span>
+<span id="cb5-106"><a href="#cb5-106" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.1123500 0.0000000      0      0  -7.630 0.000000000</span></span>
+<span id="cb5-107"><a href="#cb5-107" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.2782850 0.0013968      0      0   0.483 0.000009387</span></span>
+<span id="cb5-108"><a href="#cb5-108" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.0220800 1.1780000      0      0   7.155 1.141000000</span></span>
+<span id="cb5-109"><a href="#cb5-109" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.0177185 1.4269000      0      0  10.161 1.737350000</span></span>
+<span id="cb5-110"><a href="#cb5-110" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.0138150 1.2670000      0      0  13.840 2.338000000</span></span>
+<span id="cb5-111"><a href="#cb5-111" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.0109500 1.0245000      0      0  13.195 2.003500000</span></span>
+<span id="cb5-112"><a href="#cb5-112" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.0124055 0.5767000      0      0   5.016 0.569535000</span></span>
+<span id="cb5-113"><a href="#cb5-113" tabindex="-1"></a><span class="co">#&gt;         UPEVAP     COUT    ROUT    SOIM    SM13   UPSMFP    SNOW UPCPRC</span></span>
+<span id="cb5-114"><a href="#cb5-114" tabindex="-1"></a><span class="co">#&gt; 10 0.298600000 0.626000 0.66350 373.600 373.600 0.874200 0.00000      0</span></span>
+<span id="cb5-115"><a href="#cb5-115" tabindex="-1"></a><span class="co">#&gt; 11 0.000000000 0.672255 0.81725 386.025 386.025 0.903440 0.00000      0</span></span>
+<span id="cb5-116"><a href="#cb5-116" tabindex="-1"></a><span class="co">#&gt; 12 0.000000000 1.154000 1.72950 398.050 398.050 0.914750 0.00000      0</span></span>
+<span id="cb5-117"><a href="#cb5-117" tabindex="-1"></a><span class="co">#&gt; 1  0.000000000 0.002655 4.99950 389.200 389.200 0.895900 0.09165      0</span></span>
+<span id="cb5-118"><a href="#cb5-118" tabindex="-1"></a><span class="co">#&gt; 2  0.000000000 0.371555 3.24415 397.335 397.335 0.914170 0.00000      0</span></span>
+<span id="cb5-119"><a href="#cb5-119" tabindex="-1"></a><span class="co">#&gt; 3  0.000000000 1.233500 2.76350 396.500 396.500 0.912250 0.11610      0</span></span>
+<span id="cb5-120"><a href="#cb5-120" tabindex="-1"></a><span class="co">#&gt; 4  0.000009387 3.001450 3.86280 399.035 399.035 0.917440 0.00000      0</span></span>
+<span id="cb5-121"><a href="#cb5-121" tabindex="-1"></a><span class="co">#&gt; 5  1.104500000 1.633000 2.34000 369.550 369.550 0.856050 0.00000      0</span></span>
+<span id="cb5-122"><a href="#cb5-122" tabindex="-1"></a><span class="co">#&gt; 6  1.471300000 0.915580 0.96920 344.990 344.990 0.805575 0.00000      0</span></span>
+<span id="cb5-123"><a href="#cb5-123" tabindex="-1"></a><span class="co">#&gt; 7  1.382000000 0.590100 0.68900 323.750 323.750 0.752850 0.00000      0</span></span>
+<span id="cb5-124"><a href="#cb5-124" tabindex="-1"></a><span class="co">#&gt; 8  1.148000000 0.471000 0.50600 320.400 320.400 0.744750 0.00000      0</span></span>
+<span id="cb5-125"><a href="#cb5-125" tabindex="-1"></a><span class="co">#&gt; 9  0.546415000 0.493645 0.50500 332.325 332.325 0.776280 0.00000      0</span></span>
+<span id="cb5-126"><a href="#cb5-126" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-127"><a href="#cb5-127" tabindex="-1"></a><span class="co">#&gt; $p25</span></span>
+<span id="cb5-128"><a href="#cb5-128" tabindex="-1"></a><span class="co">#&gt;       refdate month      CRUN      EVAP   UPCPRF    UPCPSF     TEMP    UPEPOT</span></span>
+<span id="cb5-129"><a href="#cb5-129" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.0161250 0.8917500 0.002202 0.0000000   8.4100 0.9503500</span></span>
+<span id="cb5-130"><a href="#cb5-130" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.0502000 0.0118175 0.000000 0.0000000   0.7750 0.0004752</span></span>
+<span id="cb5-131"><a href="#cb5-131" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.1956000 0.0000000 0.000000 0.0008009  -5.5200 0.0000000</span></span>
+<span id="cb5-132"><a href="#cb5-132" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.2303000 0.0000000 0.000000 0.0091020  -2.1750 0.0000000</span></span>
+<span id="cb5-133"><a href="#cb5-133" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.2029750 0.0000000 0.000000 0.0000000 -10.1200 0.0000000</span></span>
+<span id="cb5-134"><a href="#cb5-134" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 0.2890500 0.0000000 0.000000 0.0000000  -5.0100 0.0000000</span></span>
+<span id="cb5-135"><a href="#cb5-135" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 0.3832500 0.4620500 0.000000 0.0000000   3.2425 0.3835750</span></span>
+<span id="cb5-136"><a href="#cb5-136" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.0286350 1.4415000 0.000000 0.0000000   9.6400 1.6110000</span></span>
+<span id="cb5-137"><a href="#cb5-137" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.0195175 1.6320000 0.000000 0.0000000  11.6450 2.0255000</span></span>
+<span id="cb5-138"><a href="#cb5-138" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.0144550 1.4150000 0.000000 0.0000000  16.6950 2.8225000</span></span>
+<span id="cb5-139"><a href="#cb5-139" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.0119750 1.2095000 0.000000 0.0000000  15.0950 2.3265000</span></span>
+<span id="cb5-140"><a href="#cb5-140" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.0348750 1.1580000 0.096975 0.0000000  10.2450 1.3832500</span></span>
+<span id="cb5-141"><a href="#cb5-141" tabindex="-1"></a><span class="co">#&gt;       UPEVAP    COUT    ROUT    SOIM    SM13   UPSMFP    SNOW    UPCPRC</span></span>
+<span id="cb5-142"><a href="#cb5-142" tabindex="-1"></a><span class="co">#&gt; 10 0.8859000 0.65455 0.68400 375.700 375.700 0.878650 0.00000 0.0047435</span></span>
+<span id="cb5-143"><a href="#cb5-143" tabindex="-1"></a><span class="co">#&gt; 11 0.0004752 0.74800 1.00850 392.725 392.700 0.911675 0.00000 0.0000000</span></span>
+<span id="cb5-144"><a href="#cb5-144" tabindex="-1"></a><span class="co">#&gt; 12 0.0000000 1.53550 1.91750 398.700 398.700 0.917000 0.02046 0.0146185</span></span>
+<span id="cb5-145"><a href="#cb5-145" tabindex="-1"></a><span class="co">#&gt; 1  0.0000000 0.09181 5.60800 397.300 397.300 0.914450 0.17880 0.0212350</span></span>
+<span id="cb5-146"><a href="#cb5-146" tabindex="-1"></a><span class="co">#&gt; 2  0.0000000 0.56760 3.58025 398.050 398.050 0.915300 0.00000 0.0000000</span></span>
+<span id="cb5-147"><a href="#cb5-147" tabindex="-1"></a><span class="co">#&gt; 3  0.0000000 1.27400 2.99700 399.550 399.550 0.917100 6.25400 0.0000000</span></span>
+<span id="cb5-148"><a href="#cb5-148" tabindex="-1"></a><span class="co">#&gt; 4  0.3835750 3.08750 4.30150 401.200 401.200 0.922750 0.00000 0.0000000</span></span>
+<span id="cb5-149"><a href="#cb5-149" tabindex="-1"></a><span class="co">#&gt; 5  1.4355000 1.85200 2.84950 374.250 374.250 0.866150 0.00000 0.0000000</span></span>
+<span id="cb5-150"><a href="#cb5-150" tabindex="-1"></a><span class="co">#&gt; 6  1.7265000 1.04000 1.14300 353.050 353.050 0.824675 0.00000 0.0000000</span></span>
+<span id="cb5-151"><a href="#cb5-151" tabindex="-1"></a><span class="co">#&gt; 7  1.5920000 0.67335 0.71250 330.800 330.800 0.770250 0.00000 0.0000000</span></span>
+<span id="cb5-152"><a href="#cb5-152" tabindex="-1"></a><span class="co">#&gt; 8  1.3440000 0.49675 0.51200 323.200 323.200 0.751050 0.00000 0.0000000</span></span>
+<span id="cb5-153"><a href="#cb5-153" tabindex="-1"></a><span class="co">#&gt; 9  1.1487500 0.55395 0.52475 352.525 352.525 0.821675 0.00000 0.0969750</span></span>
+<span id="cb5-154"><a href="#cb5-154" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-155"><a href="#cb5-155" tabindex="-1"></a><span class="co">#&gt; $p75</span></span>
+<span id="cb5-156"><a href="#cb5-156" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP   UPCPRF  UPCPSF    TEMP   UPEPOT   UPEVAP</span></span>
+<span id="cb5-157"><a href="#cb5-157" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.130100 1.42550 1.721750 0.00000 11.5850 1.396500 1.392000</span></span>
+<span id="cb5-158"><a href="#cb5-158" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.286100 0.34420 0.407375 0.08178  3.5750 0.306100 0.306100</span></span>
+<span id="cb5-159"><a href="#cb5-159" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 0.695150 0.10719 0.365550 1.34420  1.5950 0.061435 0.061435</span></span>
+<span id="cb5-160"><a href="#cb5-160" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 0.778150 0.11586 0.191350 0.90310  1.6050 0.068485 0.068485</span></span>
+<span id="cb5-161"><a href="#cb5-161" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 0.638325 0.23185 0.000000 1.45100  2.3000 0.167600 0.167600</span></span>
+<span id="cb5-162"><a href="#cb5-162" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 1.870000 0.13525 0.169750 0.27490  1.5000 0.090985 0.090985</span></span>
+<span id="cb5-163"><a href="#cb5-163" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 1.209250 1.11700 1.944500 0.00000  6.9900 1.043000 1.043000</span></span>
+<span id="cb5-164"><a href="#cb5-164" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.110605 2.02500 0.466250 0.00000 12.3300 2.150500 1.994500</span></span>
+<span id="cb5-165"><a href="#cb5-165" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.066860 2.06625 1.087700 0.00000 16.3525 2.913750 2.268250</span></span>
+<span id="cb5-166"><a href="#cb5-166" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.096550 1.92100 1.738000 0.00000 20.4350 3.492500 2.097500</span></span>
+<span id="cb5-167"><a href="#cb5-167" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.142100 1.51050 2.730500 0.00000 17.4200 2.721000 1.622500</span></span>
+<span id="cb5-168"><a href="#cb5-168" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.240775 1.55300 4.271750 0.00000 12.9900 1.808500 1.533250</span></span>
+<span id="cb5-169"><a href="#cb5-169" tabindex="-1"></a><span class="co">#&gt;       COUT    ROUT    SOIM    SM13   UPSMFP       SNOW  UPCPRC</span></span>
+<span id="cb5-170"><a href="#cb5-170" tabindex="-1"></a><span class="co">#&gt; 10 0.71560 0.81300 382.050 382.050 0.892850  0.0000000 1.72175</span></span>
+<span id="cb5-171"><a href="#cb5-171" tabindex="-1"></a><span class="co">#&gt; 11 0.84115 1.43825 395.300 395.275 0.919775  1.9982500 0.50590</span></span>
+<span id="cb5-172"><a href="#cb5-172" tabindex="-1"></a><span class="co">#&gt; 12 1.74750 2.07400 401.750 401.750 0.924500  6.6985000 1.87200</span></span>
+<span id="cb5-173"><a href="#cb5-173" tabindex="-1"></a><span class="co">#&gt; 1  0.21925 6.83950 400.600 400.200 0.919600  4.5725000 1.91100</span></span>
+<span id="cb5-174"><a href="#cb5-174" tabindex="-1"></a><span class="co">#&gt; 2  1.16550 4.51925 401.250 401.225 0.922925  3.7325000 1.93900</span></span>
+<span id="cb5-175"><a href="#cb5-175" tabindex="-1"></a><span class="co">#&gt; 3  2.74400 4.00600 406.800 404.300 0.926650 20.4700000 0.81730</span></span>
+<span id="cb5-176"><a href="#cb5-176" tabindex="-1"></a><span class="co">#&gt; 4  3.63100 5.03925 404.275 404.275 0.927475  0.0462825 2.02125</span></span>
+<span id="cb5-177"><a href="#cb5-177" tabindex="-1"></a><span class="co">#&gt; 5  2.86300 4.61350 387.200 387.200 0.892100  0.0000000 0.46625</span></span>
+<span id="cb5-178"><a href="#cb5-178" tabindex="-1"></a><span class="co">#&gt; 6  1.32375 1.77100 363.625 363.625 0.847875  0.0000000 1.08770</span></span>
+<span id="cb5-179"><a href="#cb5-179" tabindex="-1"></a><span class="co">#&gt; 7  0.75975 0.78800 336.750 336.750 0.783300  0.0000000 1.73800</span></span>
+<span id="cb5-180"><a href="#cb5-180" tabindex="-1"></a><span class="co">#&gt; 8  0.56535 0.57800 332.850 332.850 0.774250  0.0000000 2.73050</span></span>
+<span id="cb5-181"><a href="#cb5-181" tabindex="-1"></a><span class="co">#&gt; 9  0.67925 0.76275 377.700 377.700 0.879300  0.0000000 4.27175</span></span>
+<span id="cb5-182"><a href="#cb5-182" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-183"><a href="#cb5-183" tabindex="-1"></a><span class="co">#&gt; $p95</span></span>
+<span id="cb5-184"><a href="#cb5-184" tabindex="-1"></a><span class="co">#&gt;       refdate month     CRUN    EVAP  UPCPRF   UPCPSF    TEMP   UPEPOT   UPEVAP</span></span>
+<span id="cb5-185"><a href="#cb5-185" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.460400 1.60400 7.14750 0.000000 12.8450 1.592000 1.578500</span></span>
+<span id="cb5-186"><a href="#cb5-186" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.533145 0.86732 4.67680 1.981650  7.8415 0.812070 0.812070</span></span>
+<span id="cb5-187"><a href="#cb5-187" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 1.232500 0.36650 0.83455 4.001500  3.8200 0.308450 0.308450</span></span>
+<span id="cb5-188"><a href="#cb5-188" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 1.732500 0.26330 1.51400 2.320500  2.8400 0.215250 0.215250</span></span>
+<span id="cb5-189"><a href="#cb5-189" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 1.630350 0.55312 0.54995 4.866800  4.7180 0.516385 0.516385</span></span>
+<span id="cb5-190"><a href="#cb5-190" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 2.946500 0.67795 3.24850 3.825500  4.8400 0.613500 0.613500</span></span>
+<span id="cb5-191"><a href="#cb5-191" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 2.343650 1.47030 3.59580 1.564565  8.6285 1.373100 1.373100</span></span>
+<span id="cb5-192"><a href="#cb5-192" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.310000 2.26600 7.02500 0.000000 14.7300 2.605500 2.228000</span></span>
+<span id="cb5-193"><a href="#cb5-193" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.257230 2.34050 5.85660 0.000000 19.6695 3.525700 2.550600</span></span>
+<span id="cb5-194"><a href="#cb5-194" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.207250 2.05650 4.31000 0.000000 22.2600 3.995000 2.311500</span></span>
+<span id="cb5-195"><a href="#cb5-195" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.302550 1.84400 6.26750 0.000000 20.0250 3.184500 1.974000</span></span>
+<span id="cb5-196"><a href="#cb5-196" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.490295 1.81005 9.11080 0.000000 14.9295 2.122850 1.753550</span></span>
+<span id="cb5-197"><a href="#cb5-197" tabindex="-1"></a><span class="co">#&gt;        COUT    ROUT    SOIM    SM13   UPSMFP     SNOW  UPCPRC</span></span>
+<span id="cb5-198"><a href="#cb5-198" tabindex="-1"></a><span class="co">#&gt; 10 0.752700 0.84300 386.400 386.400 0.902150  0.00000 7.14750</span></span>
+<span id="cb5-199"><a href="#cb5-199" tabindex="-1"></a><span class="co">#&gt; 11 0.970135 1.61240 399.970 399.605 0.921875  4.00500 6.22635</span></span>
+<span id="cb5-200"><a href="#cb5-200" tabindex="-1"></a><span class="co">#&gt; 12 1.769000 2.09900 403.650 402.900 0.925500 29.03000 4.00150</span></span>
+<span id="cb5-201"><a href="#cb5-201" tabindex="-1"></a><span class="co">#&gt; 1  0.336150 7.30600 402.450 400.850 0.921300  8.89350 5.16400</span></span>
+<span id="cb5-202"><a href="#cb5-202" tabindex="-1"></a><span class="co">#&gt; 2  1.244800 5.24570 404.180 402.300 0.924165 13.88455 5.40720</span></span>
+<span id="cb5-203"><a href="#cb5-203" tabindex="-1"></a><span class="co">#&gt; 3  2.772500 4.16300 410.300 404.550 0.926950 24.05000 5.33100</span></span>
+<span id="cb5-204"><a href="#cb5-204" tabindex="-1"></a><span class="co">#&gt; 4  3.840150 5.40780 409.520 405.000 0.928200  2.07000 4.81240</span></span>
+<span id="cb5-205"><a href="#cb5-205" tabindex="-1"></a><span class="co">#&gt; 5  3.387500 5.34900 395.400 395.400 0.909500  0.00000 7.02500</span></span>
+<span id="cb5-206"><a href="#cb5-206" tabindex="-1"></a><span class="co">#&gt; 6  1.484450 2.10400 368.735 368.735 0.858745  0.00000 5.85660</span></span>
+<span id="cb5-207"><a href="#cb5-207" tabindex="-1"></a><span class="co">#&gt; 7  0.873400 0.90000 342.150 342.150 0.798450  0.00000 4.31000</span></span>
+<span id="cb5-208"><a href="#cb5-208" tabindex="-1"></a><span class="co">#&gt; 8  0.586000 0.59750 335.100 335.100 0.778850  0.00000 6.26750</span></span>
+<span id="cb5-209"><a href="#cb5-209" tabindex="-1"></a><span class="co">#&gt; 9  0.711350 0.79665 381.740 381.740 0.887410  0.00000 9.11080</span></span>
+<span id="cb5-210"><a href="#cb5-210" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-211"><a href="#cb5-211" tabindex="-1"></a><span class="co">#&gt; $maximum</span></span>
+<span id="cb5-212"><a href="#cb5-212" tabindex="-1"></a><span class="co">#&gt;       refdate month   CRUN   EVAP UPCPRF    UPCPSF  TEMP UPEPOT UPEVAP   COUT</span></span>
+<span id="cb5-213"><a href="#cb5-213" tabindex="-1"></a><span class="co">#&gt; 10 1911-10-15    10 0.5015 1.6570  9.223  0.005082 13.63 1.6450 1.6290 0.7574</span></span>
+<span id="cb5-214"><a href="#cb5-214" tabindex="-1"></a><span class="co">#&gt; 11 1911-11-15    11 0.5729 1.1170  6.486  4.832000  9.96 1.0820 1.0820 1.0210</span></span>
+<span id="cb5-215"><a href="#cb5-215" tabindex="-1"></a><span class="co">#&gt; 12 1911-12-15    12 1.2530 0.4549  1.289 12.650000  4.58 0.4050 0.4050 1.7750</span></span>
+<span id="cb5-216"><a href="#cb5-216" tabindex="-1"></a><span class="co">#&gt; 1  1912-01-15    01 2.0060 0.3242  5.181 10.150000  3.33 0.2659 0.2659 0.3525</span></span>
+<span id="cb5-217"><a href="#cb5-217" tabindex="-1"></a><span class="co">#&gt; 2  1912-02-15    02 2.2440 0.5834  4.700  5.992000  4.86 0.5301 0.5301 1.2620</span></span>
+<span id="cb5-218"><a href="#cb5-218" tabindex="-1"></a><span class="co">#&gt; 3  1912-03-15    03 4.0330 0.7984  3.535  8.474000  5.74 0.7306 0.7306 2.9210</span></span>
+<span id="cb5-219"><a href="#cb5-219" tabindex="-1"></a><span class="co">#&gt; 4  1912-04-15    04 3.4900 1.5390 11.080  2.548000  8.96 1.4700 1.4700 3.8670</span></span>
+<span id="cb5-220"><a href="#cb5-220" tabindex="-1"></a><span class="co">#&gt; 5  1912-05-15    05 0.4902 2.5450  9.858  0.000000 15.51 2.7610 2.5190 3.5000</span></span>
+<span id="cb5-221"><a href="#cb5-221" tabindex="-1"></a><span class="co">#&gt; 6  1912-06-15    06 0.3182 2.4220  6.593  0.000000 20.05 3.6210 2.6030 1.5400</span></span>
+<span id="cb5-222"><a href="#cb5-222" tabindex="-1"></a><span class="co">#&gt; 7  1912-07-15    07 0.2419 2.1260  4.898  0.000000 22.69 4.0710 2.3940 0.8990</span></span>
+<span id="cb5-223"><a href="#cb5-223" tabindex="-1"></a><span class="co">#&gt; 8  1912-08-15    08 0.4512 2.0130 10.510  0.000000 22.32 3.6060 2.2110 0.5916</span></span>
+<span id="cb5-224"><a href="#cb5-224" tabindex="-1"></a><span class="co">#&gt; 9  1912-09-15    09 0.7936 1.9410 15.840  0.000000 15.20 2.1590 1.8870 0.7149</span></span>
+<span id="cb5-225"><a href="#cb5-225" tabindex="-1"></a><span class="co">#&gt;     ROUT  SOIM  SM13 UPSMFP   SNOW UPCPRC</span></span>
+<span id="cb5-226"><a href="#cb5-226" tabindex="-1"></a><span class="co">#&gt; 10 0.867 386.9 386.9 0.9055  0.000  9.223</span></span>
+<span id="cb5-227"><a href="#cb5-227" tabindex="-1"></a><span class="co">#&gt; 11 1.661 400.9 400.5 0.9224  5.369 10.260</span></span>
+<span id="cb5-228"><a href="#cb5-228" tabindex="-1"></a><span class="co">#&gt; 12 2.099 404.0 403.0 0.9258 29.260 12.720</span></span>
+<span id="cb5-229"><a href="#cb5-229" tabindex="-1"></a><span class="co">#&gt; 1  7.335 403.7 401.1 0.9213 11.210 10.150</span></span>
+<span id="cb5-230"><a href="#cb5-230" tabindex="-1"></a><span class="co">#&gt; 2  5.427 406.0 402.4 0.9243 18.500  5.992</span></span>
+<span id="cb5-231"><a href="#cb5-231" tabindex="-1"></a><span class="co">#&gt; 3  4.163 413.5 404.7 0.9271 24.050 11.960</span></span>
+<span id="cb5-232"><a href="#cb5-232" tabindex="-1"></a><span class="co">#&gt; 4  5.433 411.8 405.0 0.9283  2.070 13.570</span></span>
+<span id="cb5-233"><a href="#cb5-233" tabindex="-1"></a><span class="co">#&gt; 5  5.433 397.0 397.0 0.9122  0.000  9.858</span></span>
+<span id="cb5-234"><a href="#cb5-234" tabindex="-1"></a><span class="co">#&gt; 6  2.182 371.4 371.4 0.8647  0.000  6.593</span></span>
+<span id="cb5-235"><a href="#cb5-235" tabindex="-1"></a><span class="co">#&gt; 7  0.917 345.2 345.2 0.8056  0.000  4.898</span></span>
+<span id="cb5-236"><a href="#cb5-236" tabindex="-1"></a><span class="co">#&gt; 8  0.618 336.3 336.3 0.7815  0.000 10.510</span></span>
+<span id="cb5-237"><a href="#cb5-237" tabindex="-1"></a><span class="co">#&gt; 9  0.799 382.4 382.4 0.8894  0.000 15.840</span></span>
+<span id="cb5-238"><a href="#cb5-238" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-239"><a href="#cb5-239" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;timestep&quot;)</span></span>
+<span id="cb5-240"><a href="#cb5-240" tabindex="-1"></a><span class="co">#&gt; [1] &quot;month&quot;</span></span>
+<span id="cb5-241"><a href="#cb5-241" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;period&quot;)</span></span>
+<span id="cb5-242"><a href="#cb5-242" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2001-01-01 UTC&quot; &quot;2001-12-31 UTC&quot;</span></span></code></pre></div>
 </div>
 <div id="plot-annual-flow-regime-with-plotannualregime" class="section level2">
 <h2>Plot Annual Flow Regime with PlotAnnualRegime()</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>regime <span class="ot">&lt;-</span> <span class="fu">AnnualRegime</span>(bas[, <span class="fu">c</span>(<span class="st">&quot;DATE&quot;</span>, <span class="st">&quot;COUT&quot;</span>, <span class="st">&quot;ROUT&quot;</span>)], <span class="at">ts.in =</span> <span class="fu">timestep</span>(bas), <span class="at">ts.out =</span> <span class="st">&quot;month&quot;</span>, <span class="at">start.mon =</span> <span class="dv">10</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">PlotAnnualRegime</span>(regime, <span class="at">band =</span> <span class="st">&quot;p25p75&quot;</span>, <span class="at">add.legend =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>regime <span class="ot">&lt;-</span> <span class="fu">AnnualRegime</span>(bas[, <span class="fu">c</span>(<span class="st">&quot;DATE&quot;</span>, <span class="st">&quot;COUT&quot;</span>, <span class="st">&quot;ROUT&quot;</span>)], <span class="at">ts.in =</span> <span class="fu">timestep</span>(bas), <span class="at">ts.out =</span> <span class="st">&quot;month&quot;</span>, <span class="at">start.mon =</span> <span class="dv">10</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">PlotAnnualRegime</span>(regime, <span class="at">band =</span> <span class="st">&quot;p25p75&quot;</span>, <span class="at">add.legend =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>))</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 
