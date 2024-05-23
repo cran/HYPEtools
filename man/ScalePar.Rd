@@ -4,38 +4,60 @@
 \alias{ScalePar}
 \title{Scale 'par.txt' files to different model time step}
 \usage{
-ScalePar(x, sfac = 1/24, digits = 3, verbose = TRUE, print.par = FALSE)
+ScalePar(
+  x = NULL,
+  timestep.ratio = 1/24,
+  digits = 3,
+  verbose = TRUE,
+  print.par = FALSE
+)
 }
 \arguments{
 \item{x}{List containing HYPE parameters. Typically imported with \code{\link[=ReadPar]{ReadPar()}}.}
 
-\item{sfac}{Numeric, scale factor. Defaults to scaling from daily to hourly time steps.}
+\item{timestep.ratio}{Numeric, time step scaling factor. Defaults to (1/24) to scale from daily to hourly time steps. To scale from hourly to daily time steps use 24.}
 
-\item{digits}{Integer, number of significant digits \emph{in SLC class columns} to export. See \code{\link[=signif]{signif()}}.}
+\item{digits}{Integer, number of significant digits in scaled parameter values to export. See \code{\link[=signif]{signif()}}.}
 
 \item{verbose}{Logical, if \code{TRUE}, then information will be printed.}
 
-\item{print.par}{Logical, print known time-scale dependent parameters instead of scaling a par list.}
+\item{print.par}{Logical, print known time-scale dependent parameters and recession coefficients instead of scaling a parameter list.}
 }
 \value{
-A \code{\link[=list]{list()}} object as supplied in \code{x}, with parameters re-scaled parameters, or nothing if \code{print.par = TRUE}.
+A \code{\link[=list]{list()}} object as supplied in \code{x}, with re-scaled parameters and recession coefficients, or nothing if \code{print.par = TRUE}.
 }
 \description{
-\code{ScalePar} scales time step-dependent parameters in an imported
-\href{http://www.smhi.net/hype/wiki/doku.php?id=start:hype_file_reference:par.txt}{HYPE 'par.txt'} parameter file to a
-new target time step.
+\code{ScalePar} scales time step-dependent parameters and recession coefficients in an imported
+\href{http://hype.smhi.net//wiki/doku.php?id=start:hype_file_reference:par.txt}{HYPE 'par.txt'} parameter file to a
+new target time step. See HYPE wiki tutorial on \href{http://hype.smhi.net//wiki/doku.php?id=start:hype_tutorials:subdaily_timesteps}{sub-daily time steps}.
 }
 \details{
-\code{ScalePar} simply applies a user-chosen scaling factor \code{sfac} to all time scale-dependent parameters
-in a HYPE parameter list. Parameters are matched against an inbuilt set of parameter names.
-\emph{\href{https://github.com/rcapell/HYPEtools/issues}{Please notify us} if you find parameters missing.}
+\code{ScalePar} applies a user-specified scaling factor, \code{timestep.ratio}, to all time scale-dependent parameters and recession coefficients
+in a HYPE parameter list. Parameters are matched against an inbuilt set of parameter names. To see these parameters, call \code{ScalePar(print.par = TRUE)}.
+\emph{\href{https://github.com/rcapell/HYPEtools/issues}{Please notify us} if you find any missing parameters.}
+
+If parameters are not timestep-dependent recession coefficients, then scaling is performed using the ratio between the two time step lengths (e.g. 1/24 when scaling from daily to hourly time steps).
+If parameters are timestep-dependent recession coefficients, then scaling is performed using the relationship described in:
+Nalbantis, Ioannis (1995). “Use of multiple-time-step information in rainfall-runoff modelling”, Journal of Hydrology 165, 1-4, pp. 135–159.
+
+\code{new_parameter_value = 1 - (1 - old_parameter_value)^time_step_ratio}
+
+\code{ScalePar} does not scale the values for the "gratk", "ilratk", "olratk", or "wetrate" rating curve recession coefficients in par.txt because they are not limited to the range 0-1.
+Likewise, HYPEtools does not provide any scaling function for the "RATE" columns in DamData.txt and LakeData.txt because these values are not limited to the range 0-1.
+We recommend looking at the results from the lakes/wetlands and recalibrating these parameters and their related power coefficients as needed.
+
+Use the \code{\link{ScaleAquiferData}} and \code{\link{ScaleFloodData}} functions to scale the time-dependent recession coefficients in AquiferData.txt and FloodData.txt files, respectively.
 }
 \examples{
 # Import daily HYPE parameter file
-hpar <- ReadPar(filename = system.file("demo_model", "par.txt", package = "HYPEtools"))
+par <- ReadPar(filename = system.file("demo_model", "par.txt", package = "HYPEtools"))
 # Scale to hourly time steps
-ScalePar(x = hpar)
+ScalePar(x = par)
 # Print all time scale-dependent parameters known to the function
 ScalePar(print.par = TRUE)
 
+}
+\seealso{
+\code{\link{ScaleAquiferData}}
+\code{\link{ScaleFloodData}}
 }

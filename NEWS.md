@@ -1,6 +1,20 @@
 # HYPEtools NEWS
 
-## HYPEtools 1.6.1
+## HYPEtools 1.6.2
+*Enhancements and bug fixes*
+
+#### Highlights
+* Update ScalePar() function to properly handle recession coefficients
+* Add ScaleAquiferData() function to scale RETRATE recession coefficient
+* Add example AquiferData.txt and FloodData.txt files to demo model; taken from HYPE wiki:
+  * http://hype.smhi.net//wiki/doku.php?id=start:hype_file_reference:aquiferdata.txt
+  * http://hype.smhi.net//wiki/doku.php?id=start:hype_file_reference:flooddata.txt
+* Add ScaleFloodData() function to scale recession cofficients
+* Add ReadFloodData() and WriteFloodData() functions
+* Update CompareFiles() function to warn if "type" argument is not in the supported list of options
+* Update links to HYPEtools Wiki
+
+## HYPEtools 1.6.1 (2024-01-12)
 *Enhancements and bug fixes*
 
 #### Highlights
