@@ -8,48 +8,48 @@
 #' @param subass.column Column index of information in \code{subass} to plot on the y-axis of the output plots.
 #' @param groups Optional data frame object to specify groups of SUBIDs to plot separately. First column should contain SUBIDs and second column should contain group IDs.
 #' @param attributes Data frame object containing the subbasin attribute information to plot on the x-axis of the output plots. Typically a data frame created by \code{\link{SubidAttributeSummary}}
-#' @param join.type Specify how to join \code{subass} to \code{attributes}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
+#' @param join.type Specify how to join \code{subass} to \code{attributes}. Default "join" will perform a [dplyr::left_join] in which the order of the SUBIDs does not need to match. Additional option "cbind"
 #' will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a 
 #' grouping variable (e.g. month).
-#' @param group.join.type Specify how to join \code{subass} to \code{groups}. Default "join" will perform a \code{\link{left_join}} in which the order of the SUBIDs does not need to match. Additional option "cbind"
+#' @param group.join.type Specify how to join \code{subass} to \code{groups}. Default "join" will perform a [dplyr::left_join] in which the order of the SUBIDs does not need to match. Additional option "cbind"
 #' will perform a \code{\link{cbind}} in which the order of the SUBIDs needs to match; this can be helpful if you want to create plots where \code{subass} performance data is calculated according to a 
 #' grouping variable (e.g. month).
 #' @param groups.color.pal Vector containing colors to use when plotting groups. Only used if groups is not \code{NULL}.
-#' @param drop Logical, should unused factor levels be omitted from the legend. See \code{\link{scale_color_manual}} and \code{link{scale_fill_manual}}.
+#' @param drop Logical, should unused factor levels be omitted from the legend. See [ggplot2::scale_color_manual] and [ggplot2::scale_fill_manual].
 #' @param alpha Numeric value to set transparency of dots in output plots. Should be in the range 0-1.
-#' @param trendline Logical, if \code{TRUE}, then trendlines will be added to the output plots. Set to \code{FALSE} to hide trendlines. See \code{\link{geom_smooth}}.
-#' @param trendline.method Specify method used to create trendlines. See \code{\link{geom_smooth}}.
-#' @param trendline.formula Specify formula used to create trendlines. See \code{\link{geom_smooth}}.
+#' @param trendline Logical, if \code{TRUE}, then trendlines will be added to the output plots. Set to \code{FALSE} to hide trendlines. See [ggplot2::geom_smooth].
+#' @param trendline.method Specify method used to create trendlines. See [ggplot2::geom_smooth].
+#' @param trendline.formula Specify formula used to create trendlines. See [ggplot2::geom_smooth].
 #' @param trendline.alpha Numeric value to set transparency of trendlines in output plots. Should be in the range 0-1.
 #' @param trendline.darken Numeric value to make the trendlines darker color shades of their corresponding scatterplot points. Should be in the range 1-100.
 #' @param density.plot Logical, if \code{TRUE}, then density plots will be added to the output plots. Set to \code{FALSE} to hide density plots.
-#' @param density.plot.type String, type of plot geometry to use for density plots: \code{"density"} for \code{\link{geom_density}} or \code{"boxplot"} for \code{\link{geom_boxplot}}. Outliers are hidden from the boxplots.
-#' @param scale.x.log Vector describing if output plots should use a log scale on the x-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_x_log10}}.
-#' @param scale.y.log Vector describing if output plots should use a log scale on the y-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See \code{\link{scale_y_log10}}.
-#' @param xsigma Numeric, scaling factor for the linear part of psuedo-long transformation of x axis. Used if \code{scale.x.log} is \code{TRUE} and zero or negative values are present. See \code{\link{pseudo_log_trans}}.
-#' @param ysigma Numeric, scaling factor for the linear part of psuedo-long transformation of y axis. Used if \code{scale.y.log} is \code{TRUE} and zero or negative values are present. See \code{\link{pseudo_log_trans}}.
-#' @param xlimits Vector containing minimum and maximum values for the x-axis of the output plots. See \code{\link{scale_x_continuous}}.
-#' @param xbreaks Vector containing the break values used for the x-axis of the output plots. See \code{\link{scale_x_continuous}}.
-#' @param xlabels Vector containing the labels for each break value used for the x-axis of the output plots. See \code{\link{scale_x_continuous}}.
-#' @param ylimits Vector containing minimum and maximum values for the y-axis of the output plots. See \code{\link{scale_y_continuous}}.
-#' @param ybreaks Vector containing the break values used for the y-axis of the output plots. See \code{\link{scale_y_continuous}}.
-#' @param ylabels Vector containing the labels for each break value used for the y-axis of the output plots. See \code{\link{scale_y_continuous}}.
-#' @param xlab String containing the text to use for the x-axis title of the output plots. See \code{\link{xlab}}.
-#' @param ylab String containing the text to use for the y-axis title of the output plots. See \code{\link{ylab}}.
-#' @param ncol Integer, number of columns to use in the output arranged plot. See \code{\link{ggarrange}}.
-#' @param nrow Integer, number of rows to use in the output arranged plot. See \code{\link{ggarrange}}.
-#' @param align Specify how output plots should be arranged. See \code{\link{ggarrange}}.
-#' @param common.legend Specify if arranged plot should use a common legend. See \code{\link{ggarrange}}.
-#' @param legend.position Specify position of common legend for arranged plot. See \code{\link{ggarrange}}. Use \code{"none"} to hide legend.
+#' @param density.plot.type String, type of plot geometry to use for density plots: \code{"density"} for [ggplot2::geom_density] or \code{"boxplot"} for [ggplot2::geom_boxplot]. Outliers are hidden from the boxplots.
+#' @param scale.x.log Vector describing if output plots should use a log scale on the x-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See [ggplot2::scale_x_log10].
+#' @param scale.y.log Vector describing if output plots should use a log scale on the y-axis. A pseudo-log scale will be used if any zero or negative values are present. If length of vector == 1, then the value will be used for all output plots. Vector values should be either \code{TRUE} or \code{FALSE}. See [ggplot2::scale_y_log10].
+#' @param xsigma Numeric, scaling factor for the linear part of psuedo-long transformation of x axis. Used if \code{scale.x.log} is \code{TRUE} and zero or negative values are present. See [scales::pseudo_log_trans].
+#' @param ysigma Numeric, scaling factor for the linear part of psuedo-long transformation of y axis. Used if \code{scale.y.log} is \code{TRUE} and zero or negative values are present. See [scales::pseudo_log_trans].
+#' @param xlimits Vector containing minimum and maximum values for the x-axis of the output plots. See [ggplot2::scale_x_continuous].
+#' @param xbreaks Vector containing the break values used for the x-axis of the output plots. See [ggplot2::scale_x_continuous].
+#' @param xlabels Vector containing the labels for each break value used for the x-axis of the output plots. See [ggplot2::scale_x_continuous].
+#' @param ylimits Vector containing minimum and maximum values for the y-axis of the output plots. See [ggplot2::scale_y_continuous].
+#' @param ybreaks Vector containing the break values used for the y-axis of the output plots. See [ggplot2::scale_y_continuous].
+#' @param ylabels Vector containing the labels for each break value used for the y-axis of the output plots. See [ggplot2::scale_y_continuous].
+#' @param xlab String containing the text to use for the x-axis title of the output plots. See [ggplot2::xlab].
+#' @param ylab String containing the text to use for the y-axis title of the output plots. See [ggplot2::ylab].
+#' @param ncol Integer, number of columns to use in the output arranged plot. See [ggpubr::ggarrange].
+#' @param nrow Integer, number of rows to use in the output arranged plot. See [ggpubr::ggarrange].
+#' @param align Specify how output plots should be arranged. See [ggpubr::ggarrange].
+#' @param common.legend Specify if arranged plot should use a common legend. See [ggpubr::ggarrange].
+#' @param legend.position Specify position of common legend for arranged plot. See [ggpubr::ggarrange]. Use \code{"none"} to hide legend.
 #' @param group.legend.title String, title for plot legend when generating plots with \code{groups}.
 #' @param common.y.axis Logical, if \code{TRUE}, then only one y-axis label and marginal density plot will be provided. If \code{FALSE}, then separate y-axis labels and marginal density plots will be included for each subplot.
 #' @param summary.table Logical, if \code{TRUE}, then a table providing summary statistics will be included at the bottom of the output plot.
 #' @param table.margin Numeric, controls spacing between plots and summary table.
-#' @param filename String, filename used to save plot. File extension must be specified. See \code{\link{ggsave}}.
-#' @param width Numeric, specify width of output plot. See \code{\link{ggsave}}.
-#' @param height Numeric, specify height of output plot. See \code{\link{ggsave}}.
-#' @param units Specify units of \code{width} and \code{height}. See \code{\link{ggsave}}.
-#' @param dpi Specify resolution of output plot. See \code{\link{ggsave}}.
+#' @param filename String, filename used to save plot. File extension must be specified. See [ggplot2::ggsave].
+#' @param width Numeric, specify width of output plot. See [ggplot2::ggsave].
+#' @param height Numeric, specify height of output plot. See [ggplot2::ggsave].
+#' @param units Specify units of \code{width} and \code{height}. See [ggplot2::ggsave].
+#' @param dpi Specify resolution of output plot. See [ggplot2::ggsave].
 #'
 #' @details
 #' \code{PlotPerformanceByAttribute} can be used to analyze model performance according to subbasin attributes. The function requires two primary inputs; Model performance
@@ -94,7 +94,7 @@
 #' }
 #' 
 #' @importFrom dplyr group_by sym left_join n rename select summarize n_distinct
-#' @importFrom ggplot2 aes coord_flip element_text geom_density geom_boxplot geom_point geom_smooth ggplot ggsave guide_legend guides scale_color_manual scale_fill_discrete scale_fill_manual scale_x_continuous
+#' @importFrom ggplot2 aes coord_cartesian coord_flip element_text geom_density geom_boxplot geom_point geom_smooth ggplot ggsave guide_legend guides scale_color_manual scale_fill_discrete scale_fill_manual scale_x_continuous
 #' scale_y_continuous theme theme_void unit waiver xlab ylab scale_x_log10 scale_y_log10
 #' @importFrom ggpubr colnames_style get_legend ggarrange ggtexttable tab_add_title tbody_style ttheme
 #' @importFrom grDevices colorRampPalette hcl
@@ -103,6 +103,7 @@
 #' @importFrom stats median
 #' @importFrom rlang .data
 #' @importFrom scales pseudo_log_trans
+#' @importFrom stats complete.cases
 #' @export
 
 PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL, attributes, join.type = c("join", "cbind"), group.join.type = c("join", "cbind"), groups.color.pal = NULL, drop = TRUE, alpha = 0.4,
@@ -148,21 +149,26 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
   # Join subass data to groups if they are given
   if (!is.null(groups)) {
     if(group.join.type == "join"){
-      plotdata <- left_join(plotdata, groups, by = "SUBID") %>% rename("Group" = colnames(groups)[2])
+      plotdata <- left_join(plotdata, groups, by = "SUBID") %>% rename("Group" = colnames(groups)[2]) %>% arrange(.data[["Group"]])
     } else if (group.join.type == "cbind"){
       if (!nrow(plotdata) == nrow(groups)) {
-        stop("ERROR: number of rows in subass does not match number of rows in groups")
+        stop("Number of rows in subass does not match number of rows in groups")
       }
-      plotdata <- cbind(plotdata, groups %>% select(-"SUBID")) %>% rename("Group" = colnames(groups)[2])
+      plotdata <- cbind(plotdata, groups %>% select(-"SUBID")) %>% rename("Group" = colnames(groups)[2]) %>% arrange(.data[["Group"]])
     }
   }
 
   # Join subass data to attribute data
   if (join.type == "join") {
-    plotdata <- left_join(plotdata, attributes, by = "SUBID")
+    # Check for columns present in both subass and attributes
+    colnames_intersect <- intersect(colnames(plotdata), colnames(attributes))
+    if(length(colnames_intersect) > 1){
+      warning(paste("Multiple column names are present in both subass and attributes. Joining by:", paste(colnames_intersect, collapse = ", ")))
+    }
+    plotdata <- left_join(plotdata, attributes, by = colnames_intersect)
   } else if (join.type == "cbind") {
     if (!nrow(plotdata) == nrow(attributes)) {
-      stop("ERROR: number of rows in subass does not match number of rows in attributes")
+      stop("Number of rows in subass does not match number of rows in attributes")
     }
     plotdata <- cbind(plotdata, attributes %>% select(-"SUBID"))
   }
@@ -176,14 +182,14 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
   if(length(scale.x.log == 1)){
     scale.x.log = rep(scale.x.log, length(plotcols))
   } else if(!length(scale.x.log) == length(plotcols)){
-    stop("ERROR: length of scale.x.log does not match number of output plots")
+    stop("Length of scale.x.log does not match number of output plots")
   }
   
   # Check scale.y.log
   if(length(scale.y.log == 1)){
     scale.y.log = rep(scale.y.log, length(plotcols))
   } else if(!length(scale.y.log) == length(plotcols)){
-    stop("ERROR: length of scale.y.log does not match number of output plots")
+    stop("Length of scale.y.log does not match number of output plots")
   }
   
   # Determine if ncol and nrow should be automatically calculated
@@ -228,13 +234,16 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
         geom_point(alpha = alpha)
     }
     
+    # Identify groups with values for x-axis plots
+    x_groups <- plotdata %>% filter(complete.cases(!!sym(col)))
+    x_groups <- which(sort(unique(plotdata$Group)) %in% x_groups$Group)
+    
     # Add trendlines
     if (trendline == TRUE) {
       if (!is.null(groups)) {
         plot <- plot + geom_smooth(aes(color = .data[["Group"]]), method = trendline.method, formula = trendline.formula)
         
         # Identify which groups have unique values and thus trendlines
-        if(drop == TRUE){
           trendline_groups <- plotdata %>%
             group_by(.data[["Group"]]) %>%
             summarize(unique = n_distinct(!!sym(col))) %>%
@@ -242,10 +251,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             select(all_of("Group")) %>%
             unlist()
           
-          trendline_groups <- which(unique(groups[[2]]) %in% trendline_groups)
-        } else{
-          trendline_groups <- 1:length(unique(groups[[2]]))
-        }
+          trendline_groups <- which(sort(unique(groups[[2]])) %in% trendline_groups)
         
       } else {
         plot <- plot + geom_smooth(method = trendline.method, formula = trendline.formula)
@@ -266,20 +272,30 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     # Format colors if color palette specified
     if (!is.null(groups.color.pal)) {
       
-      manual_colors <- groups.color.pal[which(sort(unique(groups[[2]])) %in% unique(plotdata$Group))]
-      
-      if(drop == TRUE){
-        legend_colors <- manual_colors
-      } else{
-        legend_colors <- groups.color.pal
+      # Check that enough colors are provided
+      if(length(unique(groups[[2]])) > length(groups.color.pal)){
+        stop(paste(length(unique(groups[[2]])), "groups specified but only", length(groups.color.pal), "colors provided. Increase the number of colors in groups.color.pal"))
       }
       
+      # Get colors
+      if(drop == TRUE){
+        manual_colors <- groups.color.pal
+        legend_colors <- manual_colors
+        trendline_groups <- x_groups
+      } else if(drop == FALSE){
+        manual_colors <- groups.color.pal[which(sort(unique(groups[[2]])) %in% unique(plotdata$Group))]
+        legend_colors <- groups.color.pal
+        if(trendline == FALSE){
+          trendline_groups <- 1:length(legend_colors)
+        }
+      }
+
       plot <- plot +
-        scale_fill_manual(values = legend_colors, name = group.legend.title, drop = drop) +
-        scale_color_manual(values = unlist(lapply(groups.color.pal[trendline_groups], function(X) {
+        scale_fill_manual(values = manual_colors, name = group.legend.title, drop = drop) +
+        scale_color_manual(values = unlist(lapply(legend_colors[trendline_groups], function(X) {
           colorRampPalette(c(X, "black"))(100)[trendline.darken] # Add darker colors for trendlines
         })), name = group.legend.title, drop = drop) + 
-        guides(color = guide_legend(override.aes = list(color = groups.color.pal[trendline_groups]))) # Override colors in legend to be the original colors
+        guides(color = guide_legend(override.aes = list(color = legend_colors[trendline_groups]))) # Override colors in legend to be the original colors
 
       # Format colors if no color palette specified
     } else {
@@ -290,22 +306,26 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
         hcl(h = hues, l = 65, c = 100)[1:n]
       }
 
-      # Get colors for ggplot
-      gg_colors <- gg_color_hue(length(unique(groups[[2]])))[which(sort(unique(groups[[2]])) %in% unique(plotdata$Group))]
-      
+      # Get colors
       if(drop == TRUE){
+        gg_colors <- gg_color_hue(length(which(sort(unique(groups[[2]])) %in% unique(plotdata$Group))))
         legend_colors <- gg_colors
-      } else{
+        trendline_groups <- x_groups
+      } else if(drop == FALSE){
+        gg_colors <- gg_color_hue(length(unique(groups[[2]])))[which(sort(unique(groups[[2]])) %in% unique(plotdata$Group))]
         legend_colors <- gg_color_hue(length(unique(groups[[2]])))
+        if(trendline == FALSE){
+          trendline_groups <- 1:length(legend_colors)
+        }
       }
 
       # Adjust colors
       plot <- plot +
-        scale_fill_manual(values = legend_colors, name = group.legend.title, drop = drop) + # Assign name to palette for points
-        scale_color_manual(values = unlist(lapply(gg_color_hue(length(unique(groups[[2]])))[trendline_groups], function(X) {
+        scale_fill_manual(values = gg_colors, name = group.legend.title, drop = drop) + # Assign name to palette for points
+        scale_color_manual(values = unlist(lapply(legend_colors[trendline_groups], function(X) {
           colorRampPalette(c(X, "black"))(100)[trendline.darken] # Add darker colors for trendlines
         })), name = group.legend.title, drop = drop) + 
-        guides(color = guide_legend(override.aes = list(color = gg_color_hue(length(unique(groups[[2]])))[trendline_groups]))) # Override colors in legend to be the original colors
+        guides(color = guide_legend(override.aes = list(color = legend_colors[trendline_groups]))) # Override colors in legend to be the original colors
     }
     
     # Scale x axis
@@ -329,9 +349,35 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     } else{ # Normal scale
       plot <- plot + scale_y_continuous(limits = ylimits, breaks = ybreaks, labels = ylabels)
     }
+    
+    # Get Cartesian coordinate limits so that main plot and density plots align
+    if(is.na(xlimits[1])){
+      cart_x_min <- min(plotdata[[col]], na.rm = TRUE)
+    } else{
+      cart_x_min <- xlimits[1]
+    }
+    
+    if(is.na(xlimits[2])){
+      cart_x_max <- max(plotdata[[col]], na.rm = TRUE)
+    } else{
+      cart_x_max <- xlimits[2]
+    }
+    
+    if(is.na(ylimits[1])){
+      cart_y_min <- min(plotdata[[colnames(subass)[subass.column]]], na.rm = TRUE)
+    } else{
+      cart_y_min <- ylimits[1]
+    }
+    
+    if(is.na(ylimits[2])){
+      cart_y_max <- max(plotdata[[colnames(subass)[subass.column]]], na.rm = TRUE)
+    } else{
+      cart_y_max <- ylimits[2]
+    }
 
     # Format plot
     plot <- plot +
+      coord_cartesian(xlim = c(cart_x_min, cart_x_max), ylim = c(cart_y_min, cart_y_max)) +
       theme(axis.title = element_text(face = "bold"),
             legend.position = "bottom")
     
@@ -344,11 +390,11 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             # Create density plot for x-axis
             densx <- ggplot(plotdata, aes(x = !!sym(col), fill = !!sym("Group"))) +
               geom_density(size = 0.2, alpha = 0.4) +
-              scale_fill_manual(values = manual_colors, name = group.legend.title) +
+              scale_fill_manual(values = manual_colors[x_groups], name = group.legend.title) +
               theme_void()+
               theme(legend.position = "none")
             
-            # Create density plot for y-a.xis
+            # Create density plot for y-axis
             densy <- ggplot(plotdata, aes(x = !!sym(colnames(subass)[subass.column]), fill = !!sym("Group"))) +
               geom_density(size = 0.2, alpha = 0.4) +
               scale_fill_manual(values = manual_colors, name = group.legend.title) +
@@ -359,7 +405,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             # Create density plot for x-axis
             densx <- ggplot(plotdata, aes(x = !!sym(col), fill = !!sym("Group"))) +
               geom_boxplot(size = 0.2, alpha = 0.4, outlier.shape = NA) +
-              scale_fill_manual(values = manual_colors, name = group.legend.title) +
+              scale_fill_manual(values = manual_colors[x_groups], name = group.legend.title) +
               theme_void()+
               theme(legend.position = "none")
             
@@ -376,7 +422,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             # Create density plot for x-axis
             densx <- ggplot(plotdata, aes(x = !!sym(col), fill = !!sym("Group"))) +
               geom_density(size = 0.2, alpha = 0.4) +
-              scale_fill_manual(values = gg_colors, name = group.legend.title) +
+              scale_fill_manual(values = gg_colors[x_groups], name = group.legend.title) +
               theme_void()+
               theme(legend.position = "none")
             
@@ -391,7 +437,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
             # Create density plot for x-axis
             densx <- ggplot(plotdata, aes(x = !!sym(col), fill = !!sym("Group"))) +
               geom_boxplot(size = 0.2, alpha = 0.4, outlier.shape = NA) +
-              scale_fill_manual(values = gg_colors, name = group.legend.title) +
+              scale_fill_manual(values = gg_colors[x_groups], name = group.legend.title) +
               theme_void()+
               theme(legend.position = "none")
             
@@ -554,7 +600,7 @@ PlotPerformanceByAttribute <- function(subass, subass.column = 2, groups = NULL,
     # Calculate Summary Stats
     if (!is.null(groups)) {
       table <- plotdata %>%
-        group_by(.data$Group) %>%
+        group_by(.data[["Group"]]) %>%
         summarize(
           n = n(),
           Mean = round(mean(!!sym(colnames(subass)[subass.column]), na.rm = TRUE), 2),
