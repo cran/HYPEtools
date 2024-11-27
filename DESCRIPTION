@@ -1,5 +1,5 @@
 Package: HYPEtools
-Version: 1.6.3
+Version: 1.6.4
 Title: Tools for Processing and Analyzing Files from the Hydrological
         Catchment Model HYPE
 Description: Work with model files (setup, input, output) from
@@ -28,7 +28,7 @@ Suggests: rmarkdown, knitr, beepr, DT, htmlwidgets, leaflet,
         shinyFiles, shinyWidgets, webshot
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2024-09-05 14:52:00 UTC; a002416
+Packaged: 2024-11-27 13:33:10 UTC; a002416
 Author: Rene Capell [aut, cre] (<https://orcid.org/0000-0002-7784-1313>),
   Conrad Brendel [aut] (<https://orcid.org/0000-0002-5199-0580>),
   Jafet Andersson [ctb],
@@ -37,4 +37,4 @@ Author: Rene Capell [aut, cre] (<https://orcid.org/0000-0002-7784-1313>),
   Jude Lubega [ctb]
 Maintainer: Rene Capell <hypetools.rene@smhi.se>
 Repository: CRAN
-Date/Publication: 2024-09-05 22:40:13 UTC
+Date/Publication: 2024-11-27 13:50:02 UTC
