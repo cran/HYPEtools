@@ -1,5 +1,5 @@
 Package: HYPEtools
-Version: 1.6.4
+Version: 1.6.5
 Title: Tools for Processing and Analyzing Files from the Hydrological
         Catchment Model HYPE
 Description: Work with model files (setup, input, output) from
@@ -16,7 +16,7 @@ Depends: R (>= 3.5.0)
 Imports: clipr, colorspace, data.table (>= 1.9.8), dplyr, ggplot2,
         ggpubr, ggrepel, grDevices, graphics, lubridate, methods,
         ncdf4, parallel, patchwork, pbapply, purrr, rlang, scales,
-        stats, stringr, tidyr, tidyselect, utils, zoo
+        stats, stringr, tidyr, tidyselect, tools, utils, zoo
 License: LGPL-3
 URL: https://hypeweb.smhi.se/, https://github.com/rcapell/HYPEtools
 BugReports: https://github.com/rcapell/HYPEtools/issues
@@ -28,13 +28,13 @@ Suggests: rmarkdown, knitr, beepr, DT, htmlwidgets, leaflet,
         shinyFiles, shinyWidgets, webshot
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2024-11-27 13:33:10 UTC; a002416
-Author: Rene Capell [aut, cre] (<https://orcid.org/0000-0002-7784-1313>),
-  Conrad Brendel [aut] (<https://orcid.org/0000-0002-5199-0580>),
+Packaged: 2025-05-05 18:01:19 UTC; a002416
+Author: Rene Capell [aut, cre] (ORCID: <https://orcid.org/0000-0002-7784-1313>),
+  Conrad Brendel [aut] (ORCID: <https://orcid.org/0000-0002-5199-0580>),
   Jafet Andersson [ctb],
   David Gustafsson [ctb],
   Jude Musuuza [ctb],
   Jude Lubega [ctb]
 Maintainer: Rene Capell <hypetools.rene@smhi.se>
 Repository: CRAN
-Date/Publication: 2024-11-27 13:50:02 UTC
+Date/Publication: 2025-05-05 18:20:02 UTC

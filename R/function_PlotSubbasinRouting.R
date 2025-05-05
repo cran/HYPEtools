@@ -14,7 +14,10 @@
 #' @param opacity Numeric, opacity of subbasin boundary lines. See [leaflet::addPolygons()].
 #' @param fillColor String, color of subbasin polygons. See [leaflet::addPolygons()].
 #' @param fillOpacity Numeric, opacity of subbasin polygons. See [leaflet::addPolygons()].
-#' @param line.weight Numeric, weight of routing lines. See [leaflet::addPolylines()].
+#' @param line.color String, color codes to use for each routing line. If \code{NULL}, then random colors will be used. If a single value is provided, then that color will be used for all lines.
+#  A data frame with "SUBID" and "COLOR" columns can also be entered to provide specific colors for each SUBID.
+#' @param line.weight Numeric, weight of routing lines. See [leaflet::addPolylines()].If a single value is provided, then that weight will be used for all lines.
+#  A data frame with "SUBID" and "WEIGHT" columns can also be entered to provide specific weights for each SUBID.
 #' @param line.opacity Numeric, opacity of routing lines. See [leaflet::addPolylines()].
 #' @param seed Integer, seed number to to produce repeatable color palette.
 #' @param darken Numeric specifying the amount of darkening applied to the random color palette. Negative values will lighten the palette. See \code{\link{distinctColorPalette}}.
@@ -54,7 +57,7 @@
 #' @export
 
 PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL, plot.scale = TRUE, plot.searchbar = FALSE,
-                                weight = 0.5, opacity = 1, fillColor = "#4d4d4d", fillOpacity = 0.25, line.weight = 5, line.opacity = 1,
+                                weight = 0.5, opacity = 1, fillColor = "#4d4d4d", fillOpacity = 0.25, line.color = NULL, line.weight = 5, line.opacity = 1,
                                 seed = NULL, darken = 0, font.size = 10, file = "", vwidth = 1424, vheight = 1000, html.name = "") {
 
   # Check/Load Dependencies - do this here so that these packages are not required for the base HYPEtools installation
@@ -109,11 +112,26 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
       bd <- bd %>%
         dplyr::filter(!is.na(.data$SOURCEID))
     }
+    
+    # Check for duplicate SUBIDs
+    if(any(duplicated(map[[map.subid.name]]))){warning('Duplicate SUBIDs in "map"', call. = FALSE)}
+    if(any(duplicated(gd$SUBID))){warning('Duplicate SUBIDs in "gd"', call. = FALSE)}
 
     # Join GIS & GeoData if GeoData provided
     if (!is.null(gd)) {
       message(paste0('Joining "', colnames(map)[map.subid.column], '" from GIS Data (map) To "', "SUBID", '" from GeoData (gd)'))
-      map <- full_join(map[, map.subid.column] %>% mutate(across(1, ~ as.character(.x))), gd %>% mutate(across("SUBID", ~ as.character(.x))), by = setNames(nm = colnames(map)[map.subid.column], "SUBID")) # Join GIS Data with GeoData in a manner in which column names don't have to be identical (e.g. "SUBID" and "subid" is okay, character and integer is okay)
+      gis_subids <- map[, map.subid.column] %>% sf::st_drop_geometry() %>% unlist() # Get SUBIDs from GIS file
+      if(any(gd$SUBID %in% gis_subids)){
+        if(!all(gis_subids %in% gd$SUBID)){
+          warning('Not all SUBIDs in "map" exist in "gd"', call. = FALSE)
+        }
+        if(!all(gd$SUBID %in% gis_subids)){
+          warning('Not all SUBIDs in "gd" exist in "map"', call. = FALSE)
+        }
+        map <- full_join(map[, map.subid.column] %>% mutate(across(1, ~ as.character(.x))), gd %>% mutate(across("SUBID", ~ as.character(.x))), by = setNames(nm = colnames(map)[map.subid.column], "SUBID")) # Join GIS Data with GeoData in a manner in which column names don't have to be identical (e.g. "SUBID" and "subid" is okay, character and integer is okay)
+      } else{
+        stop('No common SUBIDs in "gd" and "map". Check data and/or "map.subid.column" argument.')
+      }
     }
 
     # Create Subbasin Points and remove rows where downstream subbasins don't exist
@@ -161,7 +179,11 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
 
     # Remove Subbasins where downstream subbasin doesn't exist
     map_point <- map_point %>%
-      dplyr::filter(.data$MAINDOWN %in% unlist(map_point[, map.subid.name] %>% sf::st_drop_geometry()))
+      dplyr::filter(.data$MAINDOWN %in% unlist(map_point[, map.subid.name] %>% sf::st_drop_geometry())) %>%
+      dplyr::filter(!sf::st_is_empty(.))
+    
+    # Remove empty geometries
+    map <- map %>% dplyr::filter(!sf::st_is_empty(.))
 
     # Create Leaflet Plot
     message("Creating Map")
@@ -169,7 +191,7 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
       leaflet::addTiles() %>%
       leaflet::addLayersControl(
         baseGroups = c("Map", "Street", "Topo", "Satellite"),
-        overlayGroups = c("Routing", "Subbasins"),
+        overlayGroups = c("Labels", "Routing", "Subbasins"),
         options = leaflet::layersControlOptions(collapsed = FALSE, autoIndex = TRUE)
       ) %>%
       leaflet.extras::addResetMapButton() %>%
@@ -185,7 +207,7 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
         labelOptions = leaflet::labelOptions(noHide = TRUE, textOnly = TRUE, style = list("color" = fillColor, "font-size" = "0px")) # Set label color and size to 0 to hide labels
       ) %>%
       leaflet::addLabelOnlyMarkers(
-        group = "Subbasins",
+        group = "Labels",
         data = suppressWarnings(sf::st_point_on_surface(map)),
         label = map[[map.subid.name]],
         labelOptions = leaflet::labelOptions(noHide = TRUE, direction = "auto", textOnly = TRUE, style = list("font-size" = paste0(font.size, "px")))
@@ -201,8 +223,29 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
     }
 
     # Get colors for polylines
-    colors <- color_pal(nrow(map_point))
-
+    if(is.null(line.color)){
+      colors <- color_pal(nrow(map_point))
+    } else if(is.data.frame(line.color)){
+      stopifnot(all(c("SUBID", "COLOR") %in% colnames(line.color)))
+      colors <- left_join(map_point[, map.subid.column] %>% mutate(across(1, ~ as.character(.x))), line.color %>% mutate(across("SUBID", ~ as.character(.x))), by = setNames(nm = colnames(map)[map.subid.column], "SUBID")) # Join data in a manner in which column names don't have to be identical (e.g. "SUBID" and "subid" is okay, character and integer is okay)
+      colors <- colors[["COLOR"]]
+    } else if(length(line.color) == 1){
+      colors <- rep(line.color, nrow(map_point))
+    } else{
+      stop('"line.color" must be either NULL, a data frame with columns SUBID and COLOR, or a single string value.')
+    }
+    
+    # Get line weights for polylines
+    if(is.data.frame(line.weight)){
+      stopifnot(all(c("SUBID", "WEIGHT") %in% colnames(line.weight)))
+      weights <- left_join(map_point[, map.subid.column] %>% mutate(across(1, ~ as.character(.x))), line.weight %>% mutate(across("SUBID", ~ as.character(.x))), by = setNames(nm = colnames(map)[map.subid.column], "SUBID")) # Join data in a manner in which column names don't have to be identical (e.g. "SUBID" and "subid" is okay, character and integer is okay)
+      weights <- weights[["WEIGHT"]]
+    } else if(length(line.weight) == 1){
+      weights <- rep(line.weight, nrow(map_point))
+    } else{
+      stop('"line.weight" must be either a data frame with columns SUBID and WEIGHT, or a single numeric value.')
+    }
+    
     # Add Lines
     message("Adding Routing Lines")
     progress <- 1
@@ -217,11 +260,11 @@ PlotSubbasinRouting <- function(map, map.subid.column = 1, gd = NULL, bd = NULL,
       leafmap <- leafmap %>%
         leaflet::addPolylines(
           group = "Routing",
-          lat = c(sf::st_coordinates(map_point[attr(map, "sf_column")])[i, 2], sf::st_coordinates(map_point$ds_geometry)[i, 2]),
-          lng = c(sf::st_coordinates(map_point[attr(map, "sf_column")])[i, 1], sf::st_coordinates(map_point$ds_geometry)[i, 1]),
+          lat = c(sf::st_coordinates(map_point[attr(map_point, "sf_column")])[i, 2], sf::st_coordinates(map_point$ds_geometry)[i, 2]),
+          lng = c(sf::st_coordinates(map_point[attr(map_point, "sf_column")])[i, 1], sf::st_coordinates(map_point$ds_geometry)[i, 1]),
           label = paste("SUBID", unlist(map_point[, map.subid.name] %>% sf::st_drop_geometry())[i], "to SUBID", map_point$MAINDOWN[i]),
           color = colors[i],
-          weight = line.weight,
+          weight = weights[i],
           opacity = line.opacity
         )
     }
