@@ -1,6 +1,6 @@
-d69f075d2265c98612150614a0511f35 *DESCRIPTION
+57c3d36f4d993dca164a32d4b71d7971 *DESCRIPTION
 50abc5ed76065ac5d31b689317b0b684 *NAMESPACE
-c8d6eccd63590280878a5dfc4b00e359 *NEWS.md
+2e981ef89cae662c8315870c59a8fd21 *NEWS.md
 0a72dfe30d298673a2c1177d70d2e2ba *R/HYPEtools-package.R
 6eb4c49d2d0eec0c0517557cb758675d *R/class_HypeGeoData.R
 f6b2fa7fc3d77a3b4ec9075d2397e3fc *R/class_HypeMultiVar.R
@@ -32,7 +32,7 @@ d4929f8971b42b6732a3c65f70257b3b *R/function_OptimisedClasses.R
 af4b47d2e89069d43ff9ebc68b433509 *R/function_OutletNearObs.R
 a202c7297a827a09fb3389d60da963d4 *R/function_OutletSubids.R
 69915f4de0ee81e198b2e49a6b85a66b *R/function_PartyParrot.R
-bbd9a245f08753909a2ab7abe34a28de *R/function_PlotAnnualRegime.R
+2fe70a8e4384604571a668dc4b2e7059 *R/function_PlotAnnualRegime.R
 3677cdd6b9deb1b5a028d719642cca0f *R/function_PlotBasinOutput.R
 bb73f7903f01dedca3693c001b3ad4ff *R/function_PlotBasinSummary.R
 99d30d9974a358d66008e6f889760e5f *R/function_PlotDurationCurve.R
@@ -43,7 +43,7 @@ c2b5d0d5b4d80302944ee8c155dbcdbc *R/function_PlotSimObsRegime.R
 3e7ffbeff5227d9c2267abad97dcf4a0 *R/function_PlotSubbasinRouting.R
 8739dfac152f1ff7a149b7f6873a5a3d *R/function_ReadWsOutput.R
 86052967837b3a0de13a36e856a3d1ce *R/function_RescaleSLCClasses.R
-3a0734b43759d15ddbcf39fe0b5ba4c2 *R/function_RunHYPE.R
+fd5245e6a915366d262600c85e51e2b0 *R/function_RunHYPE.R
 bae56164157bf993d0d92b38054c2a83 *R/function_ScaleAquiferData.R
 b742e1d0d3d22ced2278753e5b15e17c *R/function_ScaleFloodData.R
 f643aad1919ca8a79354ad3b835779a7 *R/function_ScalePar.R
@@ -65,10 +65,10 @@ a2fbb49c42a0c4b69d6d31071e98b9aa *R/functioncollection_Harmonized.R
 739527e3ba10e9a34db0d87a1274c822 *R/functioncollection_HypeAttrAccess.R
 eb9322bb460ce46c9360ba009838e17f *R/functioncollection_HypeSubidChecks.R
 09d2b67932a2cf584b6c9aaff529415e *R/functioncollection_export.R
-cb3f8ddd7e01d5745253c7b877726c46 *R/functioncollection_import.R
+f82d9bfc874a9d34c54992240072fcb0 *R/functioncollection_import.R
 5e3604d32010c55287f16c2a8e69d9ec *R/functioncollection_internal.R
-f4f0af53e0e48952d20b0ada43403467 *R/methods_hydroGOF.R
-0b8d61c7b5a0354fb0975cc151388553 *R/sysdata.rda
+07e1f52a1d97166b2b4a47a939c588b7 *R/methods_hydroGOF.R
+24c07ad36ac2e38f92542c9e7e9e7743 *R/sysdata.rda
 1ff0e43c87eef001d732364e335de085 *R/zzz.R
 ea0d44ec9da20767ac8cd3e972279b86 *README.md
 1dda19015f0aa969acee990c150e3ac9 *build/partial.rdb
@@ -110,13 +110,13 @@ d59d7b3eed5a0f15c45d944a86de9136 *inst/demo_model/results/mapSNOW.txt
 b33f61e331a4ff887cb22d4d3be09f62 *inst/demo_model/results/timeCOUT.txt
 5849fe21655b293697cd09e0d97ca56d *inst/doc/analyze_hype_ts.R
 82907496ed73f3e01d16259878c9c753 *inst/doc/analyze_hype_ts.Rmd
-e0017baa40fe6d8b38e5c70849ce4872 *inst/doc/analyze_hype_ts.html
+90222e58d8a109e1f53b4a3e13273889 *inst/doc/analyze_hype_ts.html
 378e2ed1c1c323ea7a25b0d8c7240add *inst/doc/basin_characteristics.R
 40b92e4134c52be6af2d9708ff70c2fa *inst/doc/basin_characteristics.Rmd
 9db67d53ffc439ce8227ee1fed964443 *inst/doc/basin_characteristics.html
 da6f514efa360ed0ffcc8110d1990814 *inst/doc/basin_network.R
 c61e18309ee4457a5dd2a3058d2eb53a *inst/doc/basin_network.Rmd
-335f5e8ee919617ddcef319a3ea3de08 *inst/doc/basin_network.html
+3b0d3f44fa782cab038daa43c34254b6 *inst/doc/basin_network.html
 ae825d9b7ad7ed47456ffdc3f86dafaa *inst/doc/import_files.R
 50fbd543135a54d6b51b500645aadcc7 *inst/doc/import_files.Rmd
 e8b32366678cae57add2a7d4b994e675 *inst/doc/import_files.html
@@ -125,7 +125,7 @@ e8b32366678cae57add2a7d4b994e675 *inst/doc/import_files.html
 3b5686d9f0c62e5901b910727885a92c *inst/doc/modify_par.html
 3fac44c3e92b2a4027683188a7763c3f *inst/doc/plot_map_statistics.R
 4d0d596ba84eaec4c6642c8dd5dbad18 *inst/doc/plot_map_statistics.Rmd
-e357b87e51622dbe123cb32adcc9b1ed *inst/doc/plot_map_statistics.html
+bc706c23ec66e026fe1276adb4e29f84 *inst/doc/plot_map_statistics.html
 441c4186b08bfdcf4942828ecb02f133 *inst/visualize_map_output/server.R
 e6b365deffd71acd39dd3068b3e32a9b *inst/visualize_map_output/ui.R
 bff2085f3e42ba68aaeeb64f1489b841 *inst/visualize_map_points/server.R
@@ -144,7 +144,7 @@ a89d24f9ca18e96f583e812b82f76936 *man/CompareFiles.Rd
 78d4d76f6574e14b0afc72196461a59e *man/EquallySpacedObs.Rd
 c4b3e03982ef76efd1c55a03e65af73c *man/ExtractFreq.Rd
 acb2e57fa7cc4acad5d88fc38b89121e *man/ExtractStats.Rd
-5ca7e9b310b39cf4212750fdbba9aab1 *man/GOF.Rd
+d7852e532c99bf2d334ba83d64dc95d3 *man/GOF.Rd
 b908815b4fb2bbed3d4a89a61007d4ec *man/GroupSLCClasses.Rd
 4d0a1a12299b368896a4a3c51a448757 *man/GwRetention.Rd
 9959d604b92dd8da6b0ae466243109a9 *man/HYPEtools-package.Rd
@@ -167,7 +167,7 @@ eef10737450c356789411bce55c2f045 *man/OptimisedClasses.Rd
 31d64ed82795ab2eff505141e0ab0622 *man/OutletNearObs.Rd
 8b46165dddb3c636f35b4dc20e25dd93 *man/OutletSubids.Rd
 04c5b8f80ad9af08dba2f5500ef964ef *man/PartyParrot.Rd
-be00b02674c0daff2b4955bf3ba09822 *man/PlotAnnualRegime.Rd
+e154c773d95e1b2341331b37b53b90c2 *man/PlotAnnualRegime.Rd
 8263aa17b1e18f576ace3df7f89893ce *man/PlotBasinOutput.Rd
 84c88a1508d651e763d8248cb2effed4 *man/PlotBasinSummary.Rd
 2908c6c352535338b93d7df63f54ae6a *man/PlotDurationCurve.Rd
@@ -189,11 +189,11 @@ ea032dd87fe2789c7674b56021cf2c8b *man/ReadObs.Rd
 f11a9acb87554bff778f1f86632b69e4 *man/ReadPmsf.Rd
 f67031fb6743dd4bdf5caedbb9cca419 *man/ReadSimass.Rd
 ba8c0ad82d89c562ded9a87449bf01c8 *man/ReadSubass.Rd
-7b2e7d55e645c34eea6a302180c779a0 *man/ReadTimeOutput.Rd
+64604f7b4f8e15a0698e6230f9b282be *man/ReadTimeOutput.Rd
 3fabaa4b45d96beee9145fed43d619f5 *man/ReadWsOutput.Rd
 d96960794669bb632ee1846cd48932e4 *man/ReadXobs.Rd
 03807feaa96b942eb50571625246fda3 *man/RescaleSLCClasses.Rd
-e81f49eeae8138823ba2a2732c2f53f3 *man/RunHYPE.Rd
+9a935929f63b640fd2815e80905ff13e *man/RunHYPE.Rd
 2f7e94d5856216a090c991e2875b0e89 *man/ScaleAquiferData.Rd
 4d90d6636837b5070a7d45e0cc4d5fc9 *man/ScaleFloodData.Rd
 258673874c831a6697b3c53c1a59116e *man/ScalePar.Rd
