@@ -1,6 +1,6 @@
-8e86fcc93987eb38d038721946647205 *DESCRIPTION
-f014280f6a952b3b0cdd8c80006856a5 *NAMESPACE
-4d23068e4a9c42cb343e8e71c16ff71d *NEWS.md
+be22a87f8a04c983163897fb8edbf540 *DESCRIPTION
+a6b87978c509abd7c242c5352864da0c *NAMESPACE
+bbb11e352bdc026a0ca65e516c3164d9 *NEWS.md
 0a72dfe30d298673a2c1177d70d2e2ba *R/HYPEtools-package.R
 6eb4c49d2d0eec0c0517557cb758675d *R/class_HypeGeoData.R
 f6b2fa7fc3d77a3b4ec9075d2397e3fc *R/class_HypeMultiVar.R
@@ -26,7 +26,7 @@ b725ae0277dbec3999e46b364ca0c8f5 *R/function_GwRetention.R
 58b727fdfea7e2c30bb0514286866a62 *R/function_HeadwaterSubids.R
 5e82684ae9556a839f186ccabb235657 *R/function_InfoManipulation.R
 b0064dc0d40af186d3b536035e5ce67e *R/function_LakeDataOutlets.R
-db8678ba35a31723ce55d2d4e1e412ef *R/function_MapRegionalSources.R
+56243f6dcf1cbe2980a7f0d9c370f0df *R/function_MapRegionalSources.R
 562f517e08430155e584b3de070d115d *R/function_MergeObs.R
 133afc6debdbb850872a9f1d5e09329b *R/function_MergeXobs.R
 d4929f8971b42b6732a3c65f70257b3b *R/function_OptimisedClasses.R
@@ -39,12 +39,12 @@ a202c7297a827a09fb3389d60da963d4 *R/function_OutletSubids.R
 c9494560ae1dfa3dd578960916f91bc5 *R/function_PlotBasinSummary.R
 99d30d9974a358d66008e6f889760e5f *R/function_PlotDurationCurve.R
 fc14c29bd3a3874ab27b5806f250dc1d *R/function_PlotEvaluationMaps.R
-6574a624600c883f45f0bb96fdd12121 *R/function_PlotMapOutput.R
-97748ea46a762c1046848c0ffa754a65 *R/function_PlotMapPoints.R
+2baf79a3bce13eb65967b75f51036c47 *R/function_PlotMapOutput.R
+f468115617a27ab0f3015f54f791c961 *R/function_PlotMapPoints.R
 da2426e0c5c7aa674c80781f5e1b0ea8 *R/function_PlotParValues.R
 a618e1b36f45078776c8ce9388449922 *R/function_PlotPerformanceByAttribute.R
 c2b5d0d5b4d80302944ee8c155dbcdbc *R/function_PlotSimObsRegime.R
-a6fda9a5b48cc7cad5ce3f67d48efc92 *R/function_PlotSubbasinRouting.R
+e96dc107b4779771cdff9ba7cc60b11e *R/function_PlotSubbasinRouting.R
 8739dfac152f1ff7a149b7f6873a5a3d *R/function_ReadWsOutput.R
 86052967837b3a0de13a36e856a3d1ce *R/function_RescaleSLCClasses.R
 fd5245e6a915366d262600c85e51e2b0 *R/function_RunHYPE.R
@@ -68,8 +68,8 @@ f0bd8ef65a196b929585dbdca4452f49 *R/function_r.R
 a2fbb49c42a0c4b69d6d31071e98b9aa *R/functioncollection_Harmonized.R
 739527e3ba10e9a34db0d87a1274c822 *R/functioncollection_HypeAttrAccess.R
 eb9322bb460ce46c9360ba009838e17f *R/functioncollection_HypeSubidChecks.R
-09d2b67932a2cf584b6c9aaff529415e *R/functioncollection_export.R
-1994921eba284d026661684f075332ae *R/functioncollection_import.R
+6c0ebcc5d814aa6890ea7bc534a8c932 *R/functioncollection_export.R
+d629927d7471992c7511716e021d66aa *R/functioncollection_import.R
 5e3604d32010c55287f16c2a8e69d9ec *R/functioncollection_internal.R
 07e1f52a1d97166b2b4a47a939c588b7 *R/methods_hydroGOF.R
 5d9669f4fc3c770f7893890cdcbaa3db *R/sysdata.rda
@@ -121,7 +121,7 @@ e4791620f25cf4cbc5a353772c51017d *inst/demo_model/results/timeCOUT.txt
 380345cfa8e388efb650f7ab756b399a *inst/doc/basin_characteristics.html
 da6f514efa360ed0ffcc8110d1990814 *inst/doc/basin_network.R
 c61e18309ee4457a5dd2a3058d2eb53a *inst/doc/basin_network.Rmd
-bbb1f8132caae9011cb1b1cb6d354022 *inst/doc/basin_network.html
+7fe83cc39dc2a7f8b37270b1ac7007eb *inst/doc/basin_network.html
 ae825d9b7ad7ed47456ffdc3f86dafaa *inst/doc/import_files.R
 50fbd543135a54d6b51b500645aadcc7 *inst/doc/import_files.Rmd
 b653c5060f684e2222092682f8cdcbad *inst/doc/import_files.html
@@ -130,7 +130,7 @@ b653c5060f684e2222092682f8cdcbad *inst/doc/import_files.html
 5e220e6e38fefab32f6852e78285f19a *inst/doc/modify_par.html
 3fac44c3e92b2a4027683188a7763c3f *inst/doc/plot_map_statistics.R
 4d0d596ba84eaec4c6642c8dd5dbad18 *inst/doc/plot_map_statistics.Rmd
-a15d668fe32b8ed316d54bb2e8262126 *inst/doc/plot_map_statistics.html
+7b8d0650952d24d8dafda2b8d745170e *inst/doc/plot_map_statistics.html
 441c4186b08bfdcf4942828ecb02f133 *inst/visualize_map_output/server.R
 e6b365deffd71acd39dd3068b3e32a9b *inst/visualize_map_output/ui.R
 bff2085f3e42ba68aaeeb64f1489b841 *inst/visualize_map_points/server.R

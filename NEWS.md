@@ -1,6 +1,14 @@
 # HYPEtools NEWS
 
-## HYPEtools 1.6.8
+## HYPEtools 1.6.9
+*Enhancements and bug fixes*
+
+#### Highlights
+* Fix bug in PlotSubbasinRouting() when plotting branches
+* Fix basemaps not displaying when zooming into Leaflet maps
+* Update ReadObs() to handle comment rows and add comment attribute + update WriteObs() to write comment attribute if it exists
+
+## HYPEtools 1.6.8 (2026-09-02)
 *Enhancements and bug fixes*
 
 #### Highlights
